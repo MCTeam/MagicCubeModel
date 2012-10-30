@@ -13,6 +13,7 @@
 @end
 
 @implementation MCViewController
+@synthesize button;
 
 - (void)viewDidLoad
 {
@@ -22,6 +23,7 @@
 
 - (void)viewDidUnload
 {
+    [self setButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -31,4 +33,8 @@
     return YES;
 }
 
+- (void)dealloc {
+    [button release];
+    [super dealloc];
+}
 @end

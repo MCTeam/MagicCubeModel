@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MCViewController : UIViewController
+@property (retain, nonatomic) IBOutlet UIButton *button;
 
 @end
