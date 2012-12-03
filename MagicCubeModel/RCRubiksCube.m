@@ -51,12 +51,6 @@
                     layerCubes[z+y*3] = rubiksCubePtr[layer][y][z];
                 }
             }
-            //refresh pointer
-            for(int index = 0; index < 9; ++index)
-            {
-                struct Point3i value = layerCubes[index].coordinateValue;
-                rubiksCubePtr[value.x][value.y][value.z] = layerCubes[index];
-            }
             break;
         case Y:
             //change data
@@ -67,12 +61,6 @@
                     [rubiksCubePtr[x][layer][z] shiftOnAxis:axis inDirection:direction];
                     layerCubes[z+x*3] = rubiksCubePtr[x][layer][z];
                 }
-            }
-            //refresh pointer
-            for(int index = 0; index < 9; ++index)
-            {
-                struct Point3i value = layerCubes[index].coordinateValue;
-                rubiksCubePtr[value.x][value.y][value.z] = layerCubes[index];
             }
             break;
         case Z:
@@ -85,21 +73,34 @@
                     layerCubes[y+x*3] = rubiksCubePtr[x][y][layer];
                 }
             }
-            //refresh pointer
-            for(int index = 0; index < 9; ++index)
-            {
-                struct Point3i value = layerCubes[index].coordinateValue;
-                rubiksCubePtr[value.x][value.y][value.z] = layerCubes[index];
-            }
             break;
         default:
             break;
     }
+    
+    //refresh pointer
+    for(int index = 0; index < 9; ++index)
+    {
+        struct Point3i value = layerCubes[index].coordinateValue;
+        rubiksCubePtr[value.x+1][value.y+1][value.z+1] = layerCubes[index];
+    }
+    
 }   //rotate operation
 
 - (struct Point3i) coordinateValueOfCubeWithColorCombination : (ColorCombinationType)combination{
     return rubiksCube[combination].coordinateValue;
 }   //get coordinate of cube having the color combination
+
+
+- (RCCube *)cubieAtCoordinateX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z{
+    return rubiksCubePtr[x][y][z];
+}
+
+
+- (RCCube *)cubieAtCoordinatePoint3i:(struct Point3i)point{
+    return rubiksCubePtr[point.x][point.y][point.z];
+}
+
 
 
 @end
