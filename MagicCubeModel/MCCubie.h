@@ -15,7 +15,7 @@ struct Point3i{
     int z;
 };
 
-@interface RCCube : NSObject
+@interface MCCubie : NSObject
 
 @property(nonatomic) struct Point3i coordinateValue;
 @property(nonatomic) int skinNum;
@@ -28,7 +28,7 @@ struct Point3i{
 
 //shift the cube‘s data
 - (void) shiftOnAxis: (AxisType)axis  inDirection: (LayerRotationDirectionType)direction;
-
+    
 //get the faceColor in specified orientation
 - (FaceColorType) faceColorOnDirection: (FaceOrientationType)orientation;
 

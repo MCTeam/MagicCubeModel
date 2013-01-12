@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Global.h"
-#import "RCRubiksCube.h"
+#import "MCMagicCube.h"
 
 @interface MCViewController : UIViewController  <UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -19,7 +19,7 @@
 @property (nonatomic) AxisType currentAxis;
 @property (nonatomic) LayerRotationDirectionType currentDirection;
 @property (nonatomic) int currentLayer;
-@property (retain, nonatomic) RCRubiksCube *rubikCube;
+@property (retain, nonatomic) MCMagicCube *magicCube;
 
 @property (retain, nonatomic) IBOutlet UITextView *backFaceTextView;
 @property (retain, nonatomic) IBOutlet UITextView *upFaceTextView;
@@ -32,7 +32,6 @@
 @property (retain, nonatomic) IBOutlet UIPickerView *layerPicker;
 @property (retain, nonatomic) IBOutlet UIPickerView *directionPicker;
 
-@property (retain, nonatomic) IBOutlet UIButton *rotateButton;
 
 - (IBAction)rotateBtnClicked:(id)sender;
 

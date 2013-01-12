@@ -21,7 +21,7 @@
 @synthesize directionArray;
 
 @synthesize currentAxis, currentDirection, currentLayer;
-@synthesize rubikCube;
+@synthesize magicCube;
 
 @synthesize backFaceTextView;
 @synthesize upFaceTextView;
@@ -32,17 +32,15 @@
 @synthesize axisPicker;
 @synthesize layerPicker;
 @synthesize directionPicker;
-@synthesize rotateButton;
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     axisArray = [[NSArray alloc] initWithObjects:@"x", @"y", @"z", nil];
     layerArray = [[NSArray alloc] initWithObjects:@"0", @"1", @"2", nil];
     directionArray = [[NSArray alloc] initWithObjects:@"CW", @"CCW", nil];
     
-    rubikCube = [[RCRubiksCube alloc] init];
+    magicCube = [MCMagicCube getSharedMagicCube];
     
     currentAxis = X;
     currentDirection = CW;
@@ -57,7 +55,7 @@
     NSMutableString *frontFace = [[NSMutableString alloc] init];
     for (int y = 2; y >= 0; y--) {
         for (int x = 0; x < 3; x++) {
-            [frontFace appendString:[self getStringByFaceColor:[[rubikCube cubieAtCoordinateX:x Y:y Z:2]
+            [frontFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:y Z:2]
                                                                 faceColorOnDirection:Front]]];
         }
         [frontFace appendString:@"\n"];
@@ -70,7 +68,7 @@
     NSMutableString *backFace = [[NSMutableString alloc] init];
     for (int y = 0; y < 3; y++) {
         for (int x = 0; x < 3; x++) {
-            [backFace appendString:[self getStringByFaceColor:[[rubikCube cubieAtCoordinateX:x Y:y Z:0]
+            [backFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:y Z:0]
                                                              faceColorOnDirection:Back]]];
         }
         [backFace appendString:@"\n"];
@@ -83,7 +81,7 @@
     NSMutableString *upFace = [[NSMutableString alloc] init];
     for (int z = 0; z < 3; z++) {
         for (int x = 0; x < 3; x++) {
-            [upFace appendString:[self getStringByFaceColor:[[rubikCube cubieAtCoordinateX:x Y:2 Z:z]
+            [upFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:2 Z:z]
                                                                 faceColorOnDirection:Up]]];
         }
         [upFace appendString:@"\n"];
@@ -96,7 +94,7 @@
     NSMutableString *downFace = [[NSMutableString alloc] init];
     for (int z = 2; z >= 0; z--) {
         for (int x = 0; x < 3; x++) {
-            [downFace appendString:[self getStringByFaceColor:[[rubikCube cubieAtCoordinateX:x Y:0 Z:z]
+            [downFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:0 Z:z]
                                                              faceColorOnDirection:Down]]];
         }
         [downFace appendString:@"\n"];
@@ -109,7 +107,7 @@
     NSMutableString *leftFace = [[NSMutableString alloc] init];
     for (int y = 2; y >= 0; y--) {
         for (int z = 0; z < 3; z++) {
-            [leftFace appendString:[self getStringByFaceColor:[[rubikCube cubieAtCoordinateX:0 Y:y Z:z]
+            [leftFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:0 Y:y Z:z]
                                                                faceColorOnDirection:Left]]];
         }
         [leftFace appendString:@"\n"];
@@ -122,7 +120,7 @@
     NSMutableString *rightFace = [[NSMutableString alloc] init];
     for (int y = 2; y >= 0; y--) {
         for (int z = 2; z >= 0; z--) {
-            [rightFace appendString:[self getStringByFaceColor:[[rubikCube cubieAtCoordinateX:2 Y:y Z:z]
+            [rightFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:2 Y:y Z:z]
                                                                faceColorOnDirection:Right]]];
         }
         [rightFace appendString:@"\n"];
@@ -163,8 +161,7 @@
     [self setDownFaceTextView:nil];
     [self setAxisPicker:nil];
     [self setLayerPicker:nil];
-    [self setDirectionPicker:nil];
-    [self setRotateButton:nil];
+    [self setDirectionPicker:nil]; 
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -184,7 +181,9 @@
     [axisPicker release];
     [layerPicker release];
     [directionPicker release];
-    [rotateButton release];
+    [axisArray release];
+    [layerArray release];
+    [directionArray release];
     [super dealloc];
 }
 
@@ -234,7 +233,7 @@
 
 
 - (IBAction)rotateBtnClicked:(id)sender {
-    [rubikCube rotateOnAxis:currentAxis onLayer:currentLayer inDirection:currentDirection];
+    [magicCube rotateOnAxis:currentAxis onLayer:currentLayer inDirection:currentDirection];
     [self showFaces];
 }
 @end

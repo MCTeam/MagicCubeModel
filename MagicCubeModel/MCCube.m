@@ -6,11 +6,11 @@
 //  Copyright (c) 2012年 Aha. All rights reserved.
 //
 
-#import "RCCube.h"
+#import "MCCubie.h"
 #import <math.h>
 
 
-@implementation RCCube
+@implementation MCCubie
 
 @synthesize coordinateValue;
 @synthesize skinNum;

@@ -6,6 +6,7 @@
 //  Copyright (c) 2012年 Aha. All rights reserved.
 //
 
+#pragma once
 #ifndef RubiksCube_Global_h
 #define RubiksCube_Global_h
 
@@ -58,6 +59,40 @@ typedef enum _ColorCombinationType {
     FLDColors, FDColors, FRDColors, FLColors, FColor     , FRColors, FLUColors, FUColors, FRUColors
 } ColorCombinationType;
 
+//the pattern type
+typedef enum _NodeType {
+    Home,
+    Check,
+    ColorBindOrientation,
+    At,
+    Element,
+    And,
+    Or
+} NodeType;
 
+#define Token_And -1
+#define Token_Or -2
+#define Token_LeftParentheses -3
+#define Token_RightParentheses -4
+#define PLACEHOLDER -10000
+
+//the rull action type
+typedef enum _ActionType {
+    Rotate,
+    MoveTo
+} ActionType;
+
+//the rull action type
+typedef enum _SingmasterNotation {
+    F, Fpai, Ftwo,
+    B, Bpai, Btwo,
+    R, Rpai, Rtwo,
+    L, Lpai, Ltwo,
+    U, Upai, Utwo,
+    D, Dpai, Dtwo,
+    x, y, z
+} SingmasterNotation;
+
+#define ETFF 0  //method 0, 8355
 
 #endif
