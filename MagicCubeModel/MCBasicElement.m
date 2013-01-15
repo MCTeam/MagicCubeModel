@@ -1,15 +1,57 @@
 //
-//  MCPattern.m
+//  MCBasicElement.m
 //  MagicCubeModel
 //
 //  Created by Aha on 12-12-29.
 //  Copyright (c) 2012年 Aha. All rights reserved.
 //
 
-#import "MCPattern.h"
+#import "MCBasicElement.h"
 
 #define END_TOKEN -999
 
+//tree node
+@implementation MCTreeNode
+
+@synthesize children;
+@synthesize type;
+@synthesize value;
+
+-(id)init{
+    if (self = [super init]) {
+        children = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+-(id)initExpNodeWithType:(NodeType)expType{
+    if (self = [self init]) {
+        type = expType;
+    }
+    return self;
+}
+
+-(id)initElementNodeWithValue:(NSInteger)elementValue{
+    if (self = [self init]) {
+        type = Element;
+        value = elementValue;
+    }
+    return self;
+}
+
+
+-(void)dealloc{
+    [children release];
+    [super dealloc];
+}
+
+-(void)addChild:(MCTreeNode *)node{
+    [children addObject:node];
+}
+
+@end
+
+//pattern
 @implementation MCPattern{
     NSInteger token;
     NSEnumerator *enumerator;
@@ -156,6 +198,25 @@
             break;
 	}
 	return [node autorelease];
+}
+
+@end
+
+//state
+@implementation MCState
+
+@synthesize afterState;
+
+- (id)initWithPatternStr:(NSString *)patternStr andAfterState:(NSString *)state{
+    if (self = [self initWithString:patternStr]) {
+        self.afterState = state;
+    }
+    return self;
+}
+
+- (void)dealloc{
+    [afterState release];
+    [super dealloc];
 }
 
 @end

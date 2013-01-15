@@ -10,6 +10,7 @@
 
 @implementation MCInsertPatternController
 @synthesize patternName;
+@synthesize preState;
 @synthesize transferredResult;
 @synthesize nontransferredResult;
 @synthesize elements;
@@ -215,8 +216,8 @@
             [self transfer];
             break;
         case 2:
-            if ([patternName.text compare:@""] != NSOrderedSame) {
-                if (![knowledgeBase insertPattern:patternStr withKey:patternName.text]) {
+            if ([patternName.text compare:@""] != NSOrderedSame && [preState.text compare:@""] != NSOrderedSame) {
+                if (![knowledgeBase insertPattern:patternStr withKey:patternName.text withPreState:preState.text]) {
                     NSLog(@"Insert Failded.");
                 }
                 else{
@@ -224,12 +225,24 @@
                 }
             }
             else{
-                NSLog(@"input pattern name");
+                NSLog(@"input pattern name/after state and pre state.");
             }
-            
             break;
         case 3:
             [[MCPlayHelper getSharedPlayHelper] refreshPatterns];
+            break;
+        case 4:
+            if ([patternName.text compare:@""] != NSOrderedSame && [preState.text compare:@""] != NSOrderedSame) {
+                if (![knowledgeBase insertStateWithPattern:patternStr withPreState:preState.text afterState:patternName.text]) {
+                    NSLog(@"Insert Failded.");
+                }
+                else{
+                    NSLog(@"Insert Successed.");
+                }
+            }
+            else{
+                NSLog(@"input pattern name/after state and pre state.");
+            }
             break;
         default:
             break;
@@ -284,25 +297,32 @@
     [elements release];
     [transferredElements release];
     [patternStr release];
+    [preState release];
     [super dealloc];
 }
 
 - (void)transfer {
-    NSMutableString *result = [[NSMutableString alloc] initWithString:@""];
-    for (NSNumber *obj in transferredElements) {
-        [result appendString:[obj stringValue]];
-        [result appendString:@","];
+    if ([elements count] > 0) {
+        NSMutableString *result = [[NSMutableString alloc] initWithString:@""];
+        for (NSNumber *obj in transferredElements) {
+            [result appendString:[obj stringValue]];
+            [result appendString:@","];
+        }
+        [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSOrderedSame range:NSMakeRange(0, [result length])];
+        [self setPatternStr:[result substringToIndex:([result length]-1)]];
+        [transferredResult setText:patternStr];
+        [result release];
+    } else {
+        [transferredResult setText:@""];
     }
-    [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSOrderedSame range:NSMakeRange(0, [result length])];
-    [self setPatternStr:[result substringToIndex:([result length]-1)]];
-    [transferredResult setText:patternStr];
-    [result release];
+    
 }
 
 - (void)viewDidUnload {
     [self setPatternName:nil];
     [self setTransferredResult:nil];
     [self setNontransferredResult:nil];
+    [self setPreState:nil];
     [super viewDidUnload];
 }
 

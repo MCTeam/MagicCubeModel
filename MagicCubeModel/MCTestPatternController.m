@@ -33,19 +33,22 @@
 
 
 - (IBAction)testBtn:(id)sender {
-    if ([patternName.text compare:@""] != NSOrderedSame) {
-        if ([playHelper applyPatternWihtName:patternName.text]) {
-            NSString * result = [NSString stringWithFormat:@"\n'%@' test sucessful.", patternName.text];
-            [resultTextArea setText:[resultTextArea.text stringByAppendingString:result]];
-        }
-        else{
-            NSString * result = [NSString stringWithFormat:@"\n'%@' test failed.", patternName.text];
-            [resultTextArea setText:[resultTextArea.text stringByAppendingString:result]];
-        }
-    }
-    else{
-        [resultTextArea setText:[resultTextArea.text stringByAppendingString:@"Please input pattern name"]];
-    }
+    [playHelper checkState];
+    NSString * result = [NSString stringWithFormat:@"\n%@", playHelper.state];
+    [resultTextArea setText:[resultTextArea.text stringByAppendingString:result]];
+//    if ([patternName.text compare:@""] != NSOrderedSame) {
+//        if ([playHelper applyPatternWihtName:patternName.text]) {
+//            NSString * result = [NSString stringWithFormat:@"\n'%@' test sucessful.", patternName.text];
+//            [resultTextArea setText:[resultTextArea.text stringByAppendingString:result]];
+//        }
+//        else{
+//            NSString * result = [NSString stringWithFormat:@"\n'%@' test failed.", patternName.text];
+//            [resultTextArea setText:[resultTextArea.text stringByAppendingString:result]];
+//        }
+//    }
+//    else{
+//        [resultTextArea setText:[resultTextArea.text stringByAppendingString:@"Please input pattern name"]];
+//    }
 }
 
 

@@ -14,6 +14,7 @@
 @interface MCInsertPatternController : UIViewController
 
 @property (retain, nonatomic) IBOutlet UITextField *patternName;
+@property (retain, nonatomic) IBOutlet UITextField *preState;
 @property (retain, nonatomic) IBOutlet UILabel *transferredResult;
 @property (retain, nonatomic) IBOutlet UILabel *nontransferredResult;
 @property (retain, nonatomic) NSMutableArray *elements;

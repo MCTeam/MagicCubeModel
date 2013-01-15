@@ -84,15 +84,19 @@ typedef enum _ActionType {
 
 //the rull action type
 typedef enum _SingmasterNotation {
-    F, Fpai, Ftwo,
-    B, Bpai, Btwo,
-    R, Rpai, Rtwo,
-    L, Lpai, Ltwo,
-    U, Upai, Utwo,
-    D, Dpai, Dtwo,
-    x, y, z
+    F, Fi, F2,
+    B, Bi, B2,
+    R, Ri, R2,
+    L, Li, L2,
+    U, Ui, U2,
+    D, Di, D2,
+    x, xi,
+    y, yi,
+    z, zi
 } SingmasterNotation;
 
 #define ETFF 0  //method 0, 8355
+#define START_STATE "Init"
+
 
 #endif

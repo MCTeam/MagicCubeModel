@@ -19,7 +19,7 @@
 @property (retain, nonatomic) NSMutableArray *elements;
 @property (retain, nonatomic) NSMutableArray *transferredElements;
 @property (retain, nonatomic) MCKnowledgeBase *knowledgeBase;
-@property (retain, nonatomic) NSString *patternStr;
+@property (retain, nonatomic) NSString *actionStr;
 
 - (IBAction)pressActionBtn:(id)sender;
 

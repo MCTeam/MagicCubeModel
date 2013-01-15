@@ -31,14 +31,20 @@
         else{
             char *errorMsg;
             //create the pattern table if not exist
-            NSString *createPatternSQL = @"CREATE TABLE IF NOT EXISTS PATTERNS (KEY TEXT NOT NULL UNIQUE, PATTERN TEXT NOT NULL);";
+            NSString *createPatternSQL = @"CREATE TABLE IF NOT EXISTS PATTERNS (PRE_STATE CHAR(20) NOT NULL, KEY CHAR(20) NOT NULL UNIQUE, PATTERN TEXT NOT NULL);";
             if (sqlite3_exec(database, [createPatternSQL UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
                 sqlite3_close(database);
                 NSLog(@"error creating table: %s", errorMsg);
             }
             //create the rule table if not exist
-            NSString *createRuleSQL = @"CREATE TABLE IF NOT EXISTS RULES(MEHOD INTEGER NOT NULL, RULE_IF TEXT NOT NULL, RULE_THEN TEXT NOT NULL);";
+            NSString *createRuleSQL = @"CREATE TABLE IF NOT EXISTS RULES(MEHOD INTEGER NOT NULL, RULE_IF CHAR(20) NOT NULL, RULE_THEN TEXT NOT NULL);";
             if (sqlite3_exec(database, [createRuleSQL UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
+                sqlite3_close(database);
+                NSLog(@"error creating table: %s", errorMsg);
+            }
+            //create the state table if no exist
+            NSString *createStateSQL = @"CREATE TABLE IF NOT EXISTS STATES(PRE_STATE CHAR(20) NOT NULL, PATTERN TEXT NOT NULL, AFTER_STATE CHAR(20) NOT NULL);";
+            if (sqlite3_exec(database, [createStateSQL UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
                 sqlite3_close(database);
                 NSLog(@"error creating table: %s", errorMsg);
             }
@@ -56,7 +62,7 @@
     return [documentsDirectory stringByAppendingPathComponent:KNOWLEDGE_DB_FILE_NAME];
 }
 
-- (BOOL)insertPattern:(NSString *)pattern withKey:(NSString *)key{
+- (BOOL)insertPattern:(NSString *)pattern withKey:(NSString *)key withPreState:(NSString *)state{
     sqlite3 *database;
     if (sqlite3_open([[self knowledgeBaseFilePath] UTF8String], &database) != SQLITE_OK) {
         sqlite3_close(database);
@@ -64,9 +70,10 @@
         return NO;
     }
     else{
-        char *insertPattern = "INSERT OR REPLACE INTO PATTERNS (KEY, PATTERN) VALUES (?, ?);";
+        char *insertPattern = "INSERT OR REPLACE INTO PATTERNS (PRE_STATE, KEY, PATTERN) VALUES (?, ?, ?);";
         sqlite3_stmt *stmt;
         if(sqlite3_prepare_v2(database, insertPattern, -1, &stmt, nil) == SQLITE_OK){
+            sqlite3_bind_text(stmt, 1, [state UTF8String], -1, NULL);
             sqlite3_bind_text(stmt, 1, [key UTF8String], -1, NULL);
             sqlite3_bind_text(stmt, 2, [pattern UTF8String], -1, NULL);
         }
@@ -115,7 +122,37 @@
     return YES;
 }
 
-- (NSMutableDictionary *)getPatterns{
+- (BOOL)insertStateWithPattern:(NSString *)pattern withPreState:(NSString *)preState afterState:(NSString *)afterState{
+    sqlite3 *database;
+    if (sqlite3_open([[self knowledgeBaseFilePath] UTF8String], &database) != SQLITE_OK) {
+        sqlite3_close(database);
+        NSLog(@"Failed to open database.");
+        return NO;
+    }
+    else{
+        char *insertRule = "INSERT OR REPLACE INTO STATES (PRE_STATE, PATTERN, AFTER_STATE) VALUES (?, ?, ?);";
+        sqlite3_stmt *stmt;
+        if(sqlite3_prepare_v2(database, insertRule, -1, &stmt, nil) == SQLITE_OK){
+            sqlite3_bind_text(stmt, 1, [preState UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt, 2, [pattern UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt, 3, [afterState UTF8String], -1, NULL);
+        }
+        else{
+            NSLog(@"Failed to prepare insert stmt.");
+            return NO;
+        }
+        if (sqlite3_step(stmt) != SQLITE_DONE) {
+            NSLog(@"Failed to insert pattern.");
+            return NO;
+        }
+        
+        sqlite3_finalize(stmt);
+    }
+    sqlite3_close(database);
+    return YES;
+}
+
+- (NSMutableDictionary *)getPatternsWithPreState:(NSString *)state{
     sqlite3 *database;
     if (sqlite3_open([[self knowledgeBaseFilePath] UTF8String], &database) != SQLITE_OK) {
         sqlite3_close(database);
@@ -124,7 +161,7 @@
     }
     else{
         NSMutableDictionary *patterns = [NSMutableDictionary dictionaryWithCapacity:PATTERN_NUM];
-        NSString *patternQuery = @"SELECT KEY, PATTERN FROM PATTERNS";
+        NSString *patternQuery = [NSString stringWithFormat:@"SELECT KEY, PATTERN FROM PATTERNS WHERE PRE_STATE=%@", state];
         sqlite3_stmt *stmt;
         if (sqlite3_prepare_v2(database, [patternQuery UTF8String], -1, &stmt, nil) == SQLITE_OK) {
             while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -143,5 +180,43 @@
         return patterns;
     }
 }
+
+- (NSMutableDictionary *)getStates{
+    sqlite3 *database;
+    if (sqlite3_open([[self knowledgeBaseFilePath] UTF8String], &database) != SQLITE_OK) {
+        sqlite3_close(database);
+        NSLog(@"Failed to open database.");
+        return nil;
+    }
+    else{
+        NSMutableDictionary *states = [NSMutableDictionary dictionaryWithCapacity:PATTERN_NUM];
+        NSString *stateQuery = @"SELECT PRE_STATE, PATTERN, AFTER_STATE FROM STATES";
+        sqlite3_stmt *stmt;
+        if (sqlite3_prepare_v2(database, [stateQuery UTF8String], -1, &stmt, nil) == SQLITE_OK) {
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                char *preState = (char *)sqlite3_column_text(stmt, 0);
+                char *pattern = (char *)sqlite3_column_text(stmt, 1);
+                char *afterState = (char *)sqlite3_column_text(stmt, 2);
+                
+                
+                NSString *preStateStr = [[NSString alloc] initWithUTF8String:preState];
+                NSString *patternStr = [[NSString alloc] initWithUTF8String:pattern];
+                NSString *afterStateStr = [[NSString alloc] initWithUTF8String:afterState];
+                MCState *mcState = [[MCState alloc] initWithPatternStr:patternStr andAfterState:afterStateStr];
+                [states setObject:mcState forKey:preStateStr];
+                [preStateStr release];
+                [patternStr release];
+                [afterStateStr release];
+                [mcState release];
+            }
+        }
+        return states;
+    }
+}
+
+- (NSMutableDictionary *)getRules{
+    return nil;
+}
+
 
 @end

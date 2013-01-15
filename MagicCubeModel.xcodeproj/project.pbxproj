@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E02CCC401694055B005B597E /* MCTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CCC3F1694055B005B597E /* MCTreeNode.m */; };
 		E0B0FB7F168EC97900DBBF49 /* MCPlayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */; };
-		E0B0FB83168EDC7200DBBF49 /* MCPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB82168EDC7200DBBF49 /* MCPattern.m */; };
+		E0B0FB83168EDC7200DBBF49 /* MCBasicElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB82168EDC7200DBBF49 /* MCBasicElement.m */; };
 		E0E737DF1694651600E48BD0 /* MCTestPatternController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E737DE1694651600E48BD0 /* MCTestPatternController.m */; };
 		E0E75E83169567130002AF38 /* MCInsertRuleContorller.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E75E82169567130002AF38 /* MCInsertRuleContorller.m */; };
 		E0EB17281690972A00B5A827 /* MCInsertPatternController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EB17271690972A00B5A827 /* MCInsertPatternController.m */; };
@@ -43,12 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E02CCC3E1694055B005B597E /* MCTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTreeNode.h; sourceTree = "<group>"; };
-		E02CCC3F1694055B005B597E /* MCTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTreeNode.m; sourceTree = "<group>"; };
 		E0B0FB7D168EC97800DBBF49 /* MCPlayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPlayHelper.h; sourceTree = "<group>"; };
 		E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCPlayHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E0B0FB81168EDC7200DBBF49 /* MCPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPattern.h; sourceTree = "<group>"; };
-		E0B0FB82168EDC7200DBBF49 /* MCPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCPattern.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E0B0FB81168EDC7200DBBF49 /* MCBasicElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBasicElement.h; sourceTree = "<group>"; };
+		E0B0FB82168EDC7200DBBF49 /* MCBasicElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCBasicElement.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E0E737DD1694651600E48BD0 /* MCTestPatternController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTestPatternController.h; sourceTree = "<group>"; };
 		E0E737DE1694651600E48BD0 /* MCTestPatternController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTestPatternController.m; sourceTree = "<group>"; };
 		E0E75E81169567130002AF38 /* MCInsertRuleContorller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCInsertRuleContorller.h; sourceTree = "<group>"; };
@@ -202,10 +199,8 @@
 				E0F6BDF4168E8AC300D857BC /* MCKnowledgeBase.m */,
 				E0B0FB7D168EC97800DBBF49 /* MCPlayHelper.h */,
 				E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */,
-				E0B0FB81168EDC7200DBBF49 /* MCPattern.h */,
-				E0B0FB82168EDC7200DBBF49 /* MCPattern.m */,
-				E02CCC3E1694055B005B597E /* MCTreeNode.h */,
-				E02CCC3F1694055B005B597E /* MCTreeNode.m */,
+				E0B0FB81168EDC7200DBBF49 /* MCBasicElement.h */,
+				E0B0FB82168EDC7200DBBF49 /* MCBasicElement.m */,
 			);
 			name = MCPlayHelper;
 			sourceTree = "<group>";
@@ -325,9 +320,8 @@
 				E0EC9798161583B100EBFE79 /* MCMagicCube.m in Sources */,
 				E0F6BDF5168E8AC300D857BC /* MCKnowledgeBase.m in Sources */,
 				E0B0FB7F168EC97900DBBF49 /* MCPlayHelper.m in Sources */,
-				E0B0FB83168EDC7200DBBF49 /* MCPattern.m in Sources */,
+				E0B0FB83168EDC7200DBBF49 /* MCBasicElement.m in Sources */,
 				E0EB17281690972A00B5A827 /* MCInsertPatternController.m in Sources */,
-				E02CCC401694055B005B597E /* MCTreeNode.m in Sources */,
 				E0E737DF1694651600E48BD0 /* MCTestPatternController.m in Sources */,
 				E0E75E83169567130002AF38 /* MCInsertRuleContorller.m in Sources */,
 			);

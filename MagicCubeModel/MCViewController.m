@@ -56,7 +56,7 @@
     for (int y = 2; y >= 0; y--) {
         for (int x = 0; x < 3; x++) {
             [frontFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:y Z:2]
-                                                                faceColorOnDirection:Front]]];
+                                                                faceColorInOrientation:Front]]];
         }
         [frontFace appendString:@"\n"];
     }
@@ -69,7 +69,7 @@
     for (int y = 0; y < 3; y++) {
         for (int x = 0; x < 3; x++) {
             [backFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:y Z:0]
-                                                             faceColorOnDirection:Back]]];
+                                                             faceColorInOrientation:Back]]];
         }
         [backFace appendString:@"\n"];
     }
@@ -82,7 +82,7 @@
     for (int z = 0; z < 3; z++) {
         for (int x = 0; x < 3; x++) {
             [upFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:2 Z:z]
-                                                                faceColorOnDirection:Up]]];
+                                                                faceColorInOrientation:Up]]];
         }
         [upFace appendString:@"\n"];
     }
@@ -95,7 +95,7 @@
     for (int z = 2; z >= 0; z--) {
         for (int x = 0; x < 3; x++) {
             [downFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:0 Z:z]
-                                                             faceColorOnDirection:Down]]];
+                                                             faceColorInOrientation:Down]]];
         }
         [downFace appendString:@"\n"];
     }
@@ -108,7 +108,7 @@
     for (int y = 2; y >= 0; y--) {
         for (int z = 0; z < 3; z++) {
             [leftFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:0 Y:y Z:z]
-                                                               faceColorOnDirection:Left]]];
+                                                               faceColorInOrientation:Left]]];
         }
         [leftFace appendString:@"\n"];
     }
@@ -121,7 +121,7 @@
     for (int y = 2; y >= 0; y--) {
         for (int z = 2; z >= 0; z--) {
             [rightFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:2 Y:y Z:z]
-                                                               faceColorOnDirection:Right]]];
+                                                               faceColorInOrientation:Right]]];
         }
         [rightFace appendString:@"\n"];
     }

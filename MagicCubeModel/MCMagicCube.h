@@ -11,10 +11,11 @@
 
 @interface MCMagicCube : NSObject
 
+
 + (MCMagicCube *)getSharedMagicCube;
 
-//rotate operation
-- (void) rotateOnAxis : (AxisType)axis onLayer: (int)layer inDirection: (LayerRotationDirectionType)direction;
+//rotate operation with axis, layer, direction
+- (void)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction;
 
 //get coordinate of cube having the colors combination
 - (struct Point3i)coordinateValueOfCubieWithColorCombination:(ColorCombinationType)combination;
@@ -22,9 +23,14 @@
 //get the cubie having the colors combination
 - (MCCubie *)cubieWithColorCombination:(ColorCombinationType)combination;
 
-//..............
 //get the cube in the specified position
 - (MCCubie *)cubieAtCoordinateX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z;
 - (MCCubie *)cubieAtCoordinatePoint3i:(struct Point3i)point;
+
+//rotate with Singmaster Notation
+- (void)rotateWithSingmasterNotation:(SingmasterNotation)notation;
+
+- (FaceOrientationType)magicCubeFaceInOrientation:(FaceOrientationType)orientation;
+
 
 @end

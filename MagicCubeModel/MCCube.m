@@ -278,7 +278,7 @@
     }
 }   //shift the cube‘s data
 
-- (FaceColorType) faceColorOnDirection: (FaceOrientationType)orientation{
+- (FaceColorType) faceColorInOrientation: (FaceOrientationType)orientation{
     int i;
     for (i = 0; i < skinNum; i++) {
         if (orientation == orientations[i]) {
@@ -287,5 +287,17 @@
     }
     return NoColor;
 }   //get the faceColor in specified orientation
+
+//return wheather the face color on the specified orientation is the specified color
+- (BOOL)isFaceColor:(FaceColorType)color inOrientation:(FaceOrientationType)orientation{
+    int i;
+    for (i = 0; i < skinNum; i++) {
+        if (orientation == orientations[i]) {
+            return faceColors[i] == color;
+        }
+    }
+    return NO;
+}
+
 
 @end

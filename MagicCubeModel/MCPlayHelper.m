@@ -13,7 +13,10 @@
 
 @synthesize magicCube;
 @synthesize patterns;
+@synthesize rules;
+@synthesize states;
 @synthesize lockedCubies;
+@synthesize state;
 
 + (MCPlayHelper *)getSharedPlayHelper{
     static MCPlayHelper *playHelper;
@@ -27,10 +30,17 @@
 
 - (id)init{
     if (self = [super init]) {
-        patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatterns]];
-        [patterns retain];
         magicCube = [MCMagicCube getSharedMagicCube];
         lockedCubies = [[NSDictionary alloc] init];
+        state = [NSString stringWithUTF8String:START_STATE];
+        [state retain];
+        
+        patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
+        rules = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getRules]];
+        states = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getStates]];
+        [patterns retain];
+        [states retain];
+        [rules retain];
     }
     return self;
 }
@@ -38,6 +48,9 @@
 - (void)dealloc{
     [lockedCubies release];
     [patterns release];
+    [rules release];
+    [states release];
+    [state release];
     [self setMagicCube:nil];
     [super dealloc];
 }
@@ -51,7 +64,7 @@
         MCCubie *targetCubie = [magicCube cubieWithColorCombination:identity];
         BOOL isHome = YES;
         for (int i = 0; i < targetCubie.skinNum; i++) {
-            switch (targetCubie.orientations[i]) {
+            switch ([magicCube magicCubeFaceInOrientation:targetCubie.orientations[i]]) {
                 case Up:
                     if (targetCubie.faceColors[i] != UpColor) {
                         isHome = NO;
@@ -123,7 +136,7 @@
                                 targetCubie = elementNode.value;
                                 elementNode = [subPattern.children objectAtIndex:1];
                                 NSInteger targetPosition = elementNode.value;
-                                struct Point3i coorValue = [magicCube cubieWithColorCombination:targetCubie].coordinateValue;
+                                struct Point3i coorValue = [magicCube coordinateValueOfCubieWithColorCombination:targetCubie];
                                 if (coorValue.x + coorValue.y*3 + coorValue.z * 9 + 13 != targetPosition) {
                                     return NO;
                                 }
@@ -137,9 +150,7 @@
                                 elementNode = [subPattern.children objectAtIndex:1];
                                 NSInteger targetColor = elementNode.value;
                                 MCCubie *cubie = [magicCube cubieWithColorCombination:targetCubie];
-                                if ([cubie faceColorOnDirection:targetOrientation] != targetColor) {
-                                    return NO;
-                                }
+                                return [cubie isFaceColor:targetColor inOrientation:targetOrientation];
                             }
                             break;
                         default:
@@ -153,11 +164,11 @@
         case Or:
             return [self orPatternApply:root];
         default:
+            return NO;
             break;
     }
     return YES;
 }
-
 
 -(BOOL)andPatternApply:(MCTreeNode *)root{
     for (MCTreeNode *node in root.children) {
@@ -167,7 +178,6 @@
     }
     return YES;
 }
-
 
 -(BOOL)orPatternApply:(MCTreeNode *)root{
     for (MCTreeNode *node in root.children) {
@@ -181,8 +191,15 @@
 
 - (void)refreshPatterns{
     [patterns release];
-    patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatterns]];
+    patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
     [patterns retain];
+}
+
+- (void)checkState{
+    self.state = [NSString stringWithUTF8String:START_STATE];
+    for (MCState *tmpState = [states objectForKey:self.state]; tmpState != nil && [self patternApply:[tmpState root]]; tmpState = [states objectForKey:self.state]) {
+        self.state = tmpState.afterState;
+    }
 }
 
 @end

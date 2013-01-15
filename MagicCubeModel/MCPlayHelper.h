@@ -10,13 +10,16 @@
 #import "MCMagicCube.h"
 #import "MCKnowledgeBase.h"
 #import "Global.h"
-#import "MCPattern.h"
+#import "MCBasicElement.h"
 
 @interface MCPlayHelper : NSObject
 
 @property (nonatomic, retain)MCMagicCube *magicCube;
 @property (nonatomic, retain)NSDictionary *patterns;
+@property (nonatomic, retain)NSDictionary *rules;
+@property (nonatomic, retain)NSDictionary *states;
 @property (nonatomic, retain)NSDictionary *lockedCubies;
+@property (nonatomic, retain)NSString *state;
 
 + (MCPlayHelper *)getSharedPlayHelper;
 
@@ -27,5 +30,7 @@
 - (BOOL)applyPatternWihtName:(NSString *)name;
 
 - (void)refreshPatterns;
+
+- (void)checkState;
 
 @end

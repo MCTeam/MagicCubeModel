@@ -15,7 +15,7 @@
 @synthesize elements;
 @synthesize transferredElements;
 @synthesize knowledgeBase;
-@synthesize patternStr;
+@synthesize actionStr;
 
 - (void)dealloc {
     [patternName release];
@@ -23,7 +23,7 @@
     [transferredResultActions release];
     [elements release];
     [transferredElements release];
-    [patternStr release];
+    [actionStr release];
     [super dealloc];
 }
 
@@ -245,17 +245,17 @@
             [self transfer];
             break;
         case 2:
-//            if ([patternName.text compare:@""] != NSOrderedSame) {
-//                if (![knowledgeBase insertPattern:patternStr withKey:patternName.text]) {
-//                    NSLog(@"Insert Failded.");
-//                }
-//                else{
-//                    NSLog(@"Insert Successed.");
-//                }
-//            }
-//            else{
-//                NSLog(@"input pattern name");
-//            }
+            if ([patternName.text compare:@""] != NSOrderedSame) {
+                if (![knowledgeBase insertRullOfMethod:ETFF ifContent:patternName.text thenContent:actionStr]) {
+                    NSLog(@"Insert Failded.");
+                }
+                else{
+                    NSLog(@"Insert Successed.");
+                }
+            }
+            else{
+                NSLog(@"input pattern name");
+            }
             
             break;
         case 3:
@@ -329,8 +329,8 @@
         [result appendString:@","];
     }
     [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSOrderedSame range:NSMakeRange(0, [result length])];
-    [self setPatternStr:[result substringToIndex:([result length]-1)]];
-    [transferredResultActions setText:patternStr];
+    [self setActionStr:[result substringToIndex:([result length]-1)]];
+    [transferredResultActions setText:actionStr];
     [result release];
 }
 

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
-#include "MCPattern.h"
+#include "MCBasicElement.h"
 
 #define KNOWLEDGE_DB_FILE_NAME @"KnowledgeBase.sqlite3"
 #define PATTERN_NUM 30
@@ -19,12 +19,16 @@
 
 - (NSString *)knowledgeBaseFilePath;
 
-- (BOOL)insertPattern:(NSString *)pattern withKey:(NSString *)key;
+- (BOOL)insertPattern:(NSString *)pattern withKey:(NSString *)key withPreState:(NSString *)state;
 
 - (BOOL)insertRullOfMethod:(NSInteger)method ifContent:(NSString *)ifContent thenContent:(NSString *)thenContent;
 
-- (NSMutableDictionary *)getPatterns;
+- (BOOL)insertStateWithPattern:(NSString *)pattern withPreState:(NSString *)preState afterState:(NSString *)afterState;
 
+- (NSMutableDictionary *)getPatternsWithPreState:(NSString *)state;
 
+- (NSMutableDictionary *)getStates;
+
+- (NSMutableDictionary *)getRules;
 
 @end

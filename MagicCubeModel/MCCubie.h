@@ -30,7 +30,10 @@ struct Point3i{
 - (void) shiftOnAxis: (AxisType)axis  inDirection: (LayerRotationDirectionType)direction;
     
 //get the faceColor in specified orientation
-- (FaceColorType) faceColorOnDirection: (FaceOrientationType)orientation;
+- (FaceColorType) faceColorInOrientation: (FaceOrientationType)orientation;
+
+//return wheather the face color on the specified orientation is the specified color
+- (BOOL)isFaceColor:(FaceColorType)color inOrientation:(FaceOrientationType)orientation;
 
 
 @end
