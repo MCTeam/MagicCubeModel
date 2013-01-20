@@ -35,4 +35,6 @@
 
 - (IBAction)rotateBtnClicked:(id)sender;
 
+- (IBAction)testBtn:(id)sender;
+
 @end

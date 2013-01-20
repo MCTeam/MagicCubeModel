@@ -9,19 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "Global.h"
 
-struct Point3i{
-    int x;
-    int y;
-    int z;
-};
-
 @interface MCCubie : NSObject
 
-@property(nonatomic) struct Point3i coordinateValue;
-@property(nonatomic) int skinNum;
-@property(nonatomic) CubieType type;
-@property(nonatomic) FaceColorType *faceColors;
-@property(nonatomic) FaceOrientationType *orientations;
+@property(nonatomic)struct Point3i coordinateValue;
+@property(nonatomic)int skinNum;
+@property(nonatomic)CubieType type;
+@property(nonatomic)ColorCombinationType identity;
+@property(nonatomic)FaceColorType *faceColors;
+@property(nonatomic)FaceOrientationType *orientations;
 
 //initial the cube's data by coordinate value
 - (id) initWithCoordinateValue : (struct Point3i)value;

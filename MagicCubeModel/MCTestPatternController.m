@@ -33,9 +33,26 @@
 
 
 - (IBAction)testBtn:(id)sender {
-    [playHelper checkState];
-    NSString * result = [NSString stringWithFormat:@"\n%@", playHelper.state];
-    [resultTextArea setText:[resultTextArea.text stringByAppendingString:result]];
+    UIButton *button = sender;
+    switch (button.tag) {
+        case 0:
+            srand(clock());
+            for (int i = 0; i < 40; i++) {
+                SingmasterNotation rotate = rand()%27;
+                [[MCMagicCube getSharedMagicCube] rotateWithSingmasterNotation:rotate];
+            }
+            break;
+        case 1:
+            [playHelper applyRules];
+            break;
+        default:
+            break;
+    }
+    
+//    [playHelper checkState];
+//    NSString * result = [NSString stringWithFormat:@"\n%@", playHelper.state];
+//    [resultTextArea setText:[resultTextArea.text stringByAppendingString:result]];
+    
 //    if ([patternName.text compare:@""] != NSOrderedSame) {
 //        if ([playHelper applyPatternWihtName:patternName.text]) {
 //            NSString * result = [NSString stringWithFormat:@"\n'%@' test sucessful.", patternName.text];

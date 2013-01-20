@@ -15,7 +15,7 @@
 @synthesize patterns;
 @synthesize rules;
 @synthesize states;
-@synthesize lockedCubies;
+@synthesize lockedCubie;
 @synthesize state;
 
 + (MCPlayHelper *)getSharedPlayHelper{
@@ -30,23 +30,18 @@
 
 - (id)init{
     if (self = [super init]) {
-        magicCube = [MCMagicCube getSharedMagicCube];
-        lockedCubies = [[NSDictionary alloc] init];
-        state = [NSString stringWithUTF8String:START_STATE];
-        [state retain];
+        self.magicCube = [MCMagicCube getSharedMagicCube];
+        self.state = [NSString stringWithUTF8String:START_STATE];
         
-        patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
-        rules = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getRules]];
-        states = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getStates]];
-        [patterns retain];
-        [states retain];
-        [rules retain];
+        self.patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
+        self.rules = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getRulesOfMethod:ETFF withState:state]];
+        self.states = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getStatesOfMethod:ETFF]];
     }
     return self;
 }
 
 - (void)dealloc{
-    [lockedCubies release];
+    [lockedCubie release];
     [patterns release];
     [rules release];
     [states release];
@@ -107,7 +102,7 @@
 - (BOOL)applyPatternWihtName:(NSString *)name{
     MCPattern *pattern = [patterns objectForKey:name];
     if (pattern != nil) {
-        return [self patternApply:pattern.root];
+        return [self treeNodesApply:pattern.root];
     }
     else{
         NSLog(@"the pattern name is wrong");
@@ -115,92 +110,446 @@
     }
 }
 
--(BOOL)patternApply:(MCTreeNode *)root{
+
+#define NO_LOCKED_CUBIE -1
+- (NSInteger)treeNodesApply:(MCTreeNode *)root{
     switch (root.type) {
-        case Home:
-            for (MCTreeNode *child in root.children) {
-                if (![self isCubieAtHomeWithIdentity:(ColorCombinationType)child.value]) {
-                    return NO;
-                }
+        case ExpNode:
+        {
+            switch (root.value) {
+                case And:
+                    return [self andNodeApply:root];
+                case Or:
+                    return [self orNodeApply:root];
+                case Sequence:
+                    return [self sequenceNodeApply:root];
+                default:
+                    break;
             }
+        }
             break;
-        case Check:
-            {
-                NSInteger targetCubie;
-                for (MCTreeNode *subPattern in root.children) {
-                    switch (subPattern.type) {
+        case PatternNode:
+        {
+            switch (root.value) {
+                case Home:
+                {
+                    ColorCombinationType value;
+                    for (MCTreeNode *child in root.children) {
+                        value = [self treeNodesApply:child];
+                        if (value == NO_LOCKED_CUBIE) {
+                            return NO;
+                        }
+                        if (![self isCubieAtHomeWithIdentity:value]) {
+                            return NO;
+                        }
+                    }
+                }
+                    break;
+                case Check:
+                {
+                    NSInteger targetCubie;
+                    for (MCTreeNode *subPattern in root.children) {
+                        switch (subPattern.value) {
                             case At:
                             {
-                                MCTreeNode *elementNode;
-                                elementNode = [subPattern.children objectAtIndex:0];
-                                targetCubie = elementNode.value;
-                                elementNode = [subPattern.children objectAtIndex:1];
-                                NSInteger targetPosition = elementNode.value;
+                                targetCubie = [self treeNodesApply:[subPattern.children objectAtIndex:0]];
+                                ColorCombinationType targetPosition = [self treeNodesApply:[subPattern.children objectAtIndex:1]];
                                 struct Point3i coorValue = [magicCube coordinateValueOfCubieWithColorCombination:targetCubie];
                                 if (coorValue.x + coorValue.y*3 + coorValue.z * 9 + 13 != targetPosition) {
                                     return NO;
                                 }
                             }
-                            break;
-                        case ColorBindOrientation:
+                                break;
+                            case ColorBindOrientation:
                             {
-                                MCTreeNode *elementNode;
-                                elementNode = [subPattern.children objectAtIndex:0];
-                                NSInteger targetOrientation = elementNode.value;
-                                elementNode = [subPattern.children objectAtIndex:1];
-                                NSInteger targetColor = elementNode.value;
+                                FaceOrientationType targetOrientation = [self treeNodesApply:[subPattern.children objectAtIndex:0]];
+                                FaceColorType targetColor = [self treeNodesApply:[subPattern.children objectAtIndex:1]];
                                 MCCubie *cubie = [magicCube cubieWithColorCombination:targetCubie];
                                 return [cubie isFaceColor:targetColor inOrientation:targetOrientation];
                             }
-                            break;
-                        default:
-                            break;
+                            case NotAt:
+                            {
+                                targetCubie = [self treeNodesApply:[subPattern.children objectAtIndex:0]];
+                                ColorCombinationType targetPosition = [self treeNodesApply:[subPattern.children objectAtIndex:1]];
+                                struct Point3i coorValue = [magicCube coordinateValueOfCubieWithColorCombination:targetCubie];
+                                if (coorValue.x + coorValue.y*3 + coorValue.z * 9 + 13 == targetPosition) {
+                                    return NO;
+                                }
+                            }
+                                break;
+                            default:
+                                return NO;
+                        }
                     }
                 }
+                    break;
+                case CubiedBeLocked:
+                    return lockedCubie != nil;
+                case NoCubieBeLocked:
+                    return lockedCubie == nil;
+                default:
+                    return NO;
+            }
+        }
+            break;
+        case ActionNode:
+        {
+            switch (root.value) {
+                case Rotate:
+                    for (MCTreeNode *child in root.children) {
+                        [magicCube rotateWithSingmasterNotation:(SingmasterNotation)child.value];
+                    }
+                    break;
+                case FaceToOrientation:
+                {
+                    MCTreeNode *elementNode;
+                    elementNode = [root.children objectAtIndex:0];
+                    ColorCombinationType targetCombination = elementNode.value;
+                    struct Point3i targetCoor = [magicCube coordinateValueOfCubieWithColorCombination:targetCombination];
+                    elementNode = [root.children objectAtIndex:1];
+                    FaceOrientationType targetOrientation = elementNode.value;
+                    [magicCube rotateWithSingmasterNotation:[self getPathToMakeCenterCubieAtPosition:targetCoor inOrientation:targetOrientation]];
+                }
+                    break;
+                case LockCubie:
+                {
+                    MCTreeNode *elementNode = [root.children objectAtIndex:0];
+                    self.lockedCubie = [magicCube cubieWithColorCombination:[self treeNodesApply:elementNode]];
+                }
+                    break;
+                case UnlockCubie:
+                    self.lockedCubie = nil;
+                    break;
+                default:
+                    return NO;
+            }
+        }
+            break;
+        case InformationNode:
+            switch (root.value) {
+                case getCombination:
+                {
+                    int x=1, y=1, z=1;
+                    for (MCTreeNode *child in root.children) {
+                        switch ([magicCube magicCubeFaceInOrientation:child.value]) {
+                            case Up:
+                                y = 2;
+                                break;
+                            case Down:
+                                y = 0;
+                                break;
+                            case Left:
+                                x = 0;
+                                break;
+                            case Right:
+                                x = 2;
+                                break;
+                            case Front:
+                                z = 2;
+                                break;
+                            case Back:
+                                z = 0;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    return x+y*3+z*9;
+                }
+                case getFaceColorFromOrientation:
+                {
+                    FaceColorType color;
+                    MCTreeNode *child = [root.children objectAtIndex:0];
+                    switch ([magicCube magicCubeFaceInOrientation:child.value]) {
+                        case Up:
+                            color = UpColor;
+                            break;
+                        case Down:
+                            color = DownColor;
+                            break;
+                        case Left:
+                            color = LeftColor;
+                            break;
+                        case Right:
+                            color = RightColor;
+                            break;
+                        case Front:
+                            color = FrontColor;
+                            break;
+                        case Back:
+                            color = BackColor;
+                            break;
+                        default:
+                            color = NoColor;
+                            break;
+                    }
+                    return color;
+                }
+                case LockedCubie:
+                    if (lockedCubie == nil) {
+                        return -1;
+                    }
+                    else{
+                        return lockedCubie.identity;
+                    }
+                default:
+                    break;
             }
             break;
-        case And:
-            return [self andPatternApply:root];
-        case Or:
-            return [self orPatternApply:root];
+        case ElementNode:
+            return root.value;
         default:
             return NO;
-            break;
     }
     return YES;
 }
 
--(BOOL)andPatternApply:(MCTreeNode *)root{
+- (BOOL)andNodeApply:(MCTreeNode *)root{
     for (MCTreeNode *node in root.children) {
-        if (![self patternApply:node]) {
+        if (![self treeNodesApply:node]) {
             return NO;
         }
     }
     return YES;
 }
 
--(BOOL)orPatternApply:(MCTreeNode *)root{
+- (BOOL)orNodeApply:(MCTreeNode *)root{
     for (MCTreeNode *node in root.children) {
-        if ([self patternApply:node]) {
+        if ([self treeNodesApply:node]) {
             return YES;
         }
     }
     return NO;
 }
 
+- (BOOL)sequenceNodeApply:(MCTreeNode *)root{
+    for (MCTreeNode *node in root.children) {
+        [self treeNodesApply:node];
+    }
+    return YES;
+}
 
-- (void)refreshPatterns{
-    [patterns release];
-    patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
-    [patterns retain];
+- (void)applyRules{
+    NSString *key;
+    NSArray *keys = [rules allKeys];
+    int count = [rules count];
+    for (int i = 0; i < count; i++)
+    {
+        key = [keys objectAtIndex:i];
+        if ([self applyPatternWihtName:key]) {
+            [self treeNodesApply:[[rules objectForKey:key] root]];
+        }
+    }
+}
+
+- (void)refresh{
+    self.states = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getStatesOfMethod:ETFF]];
+    self.patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
+    self.rules = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getRulesOfMethod:ETFF withState:state]];
 }
 
 - (void)checkState{
-    self.state = [NSString stringWithUTF8String:START_STATE];
-    for (MCState *tmpState = [states objectForKey:self.state]; tmpState != nil && [self patternApply:[tmpState root]]; tmpState = [states objectForKey:self.state]) {
-        self.state = tmpState.afterState;
+    NSString *goStr = [NSString stringWithUTF8String:START_STATE];
+    for (MCState *tmpState = [states objectForKey:goStr]; tmpState != nil && [self treeNodesApply:[tmpState root]]; tmpState = [states objectForKey:goStr]) {
+        goStr = tmpState.afterState;
+    }
+    if ([goStr compare:state] != NSOrderedSame) {
+        self.state = goStr;
+        [self refresh];
     }
 }
+
+- (SingmasterNotation)getPathToMakeCenterCubieAtPosition:(struct Point3i)coordinate inOrientation:(FaceOrientationType)orientation{
+    SingmasterNotation result;
+    switch (orientation) {
+        case Up:
+            switch (coordinate.y) {
+                case 1:
+                    result = SingmasterNotation_DoNothing;
+                    break;
+                case 0:
+                    switch (coordinate.x*2+coordinate.z) {
+                        case 1:
+                            result = x;
+                            break;
+                        case -1:
+                            result = xi;
+                            break;
+                        case 2:
+                            result = zi;
+                            break;
+                        case -2:
+                            result = z;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case -1:
+                    result = x2;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case Down:
+            switch (coordinate.y) {
+                case -1:
+                    result = SingmasterNotation_DoNothing;
+                    break;
+                case 0:
+                    switch (coordinate.x*2+coordinate.z) {
+                        case 1:
+                            result = xi;
+                            break;
+                        case -1:
+                            result = x;
+                            break;
+                        case 2:
+                            result = z;
+                            break;
+                        case -2:
+                            result = zi;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 1:
+                    result = x2;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case Left:
+            switch (coordinate.x) {
+                case -1:
+                    result = SingmasterNotation_DoNothing;
+                    break;
+                case 0:
+                    switch (coordinate.y*2+coordinate.z) {
+                        case 1:
+                            result = y;
+                            break;
+                        case -1:
+                            result = yi;
+                            break;
+                        case 2:
+                            result = zi;
+                            break;
+                        case -2:
+                            result = z;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 1:
+                    result = y2;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case Right:
+            switch (coordinate.x) {
+                case 1:
+                    result = SingmasterNotation_DoNothing;
+                    break;
+                case 0:
+                    switch (coordinate.y*2+coordinate.z) {
+                        case 1:
+                            result = yi;
+                            break;
+                        case -1:
+                            result = y;
+                            break;
+                        case 2:
+                            result = z;
+                            break;
+                        case -2:
+                            result = zi;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case -1:
+                    result = y2;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case Front:
+            switch (coordinate.z) {
+                case 1:
+                    result = SingmasterNotation_DoNothing;
+                    break;
+                case 0:
+                    switch (coordinate.x*2+coordinate.y) {
+                        case 1:
+                            result = xi;
+                            break;
+                        case -1:
+                            result = x;
+                            break;
+                        case 2:
+                            result = y;
+                            break;
+                        case -2:
+                            result = yi;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case -1:
+                    result = x2;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case Back:
+            switch (coordinate.z) {
+                case -1:
+                    result = SingmasterNotation_DoNothing;
+                    break;
+                case 0:
+                    switch (coordinate.x*2+coordinate.y) {
+                        case 1:
+                            result = x;
+                            break;
+                        case -1:
+                            result = xi;
+                            break;
+                        case 2:
+                            result = yi;
+                            break;
+                        case -2:
+                            result = y;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 1:
+                    result = x2;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            result = SingmasterNotation_DoNothing;
+            break;
+    }
+    return result;
+}
+
+
 
 @end
 

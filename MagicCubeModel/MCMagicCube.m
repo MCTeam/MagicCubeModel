@@ -24,7 +24,7 @@
     }
 }
 
-- (id) init{
+- (id)init{
     if (self = [super init]) {
         for (int z = 0; z < 3; z++) {
             for (int y = 0; y < 3; y++) {
@@ -45,14 +45,14 @@
     return self;
 }   //initial the rubik's cube
 
-- (void) dealloc{
+- (void)dealloc{
     for (int i = 0; i < 27; i++) {
         [magicCubiesList[i] release];
     }
     [super dealloc];
 }
 
-- (void) rotateOnAxis : (AxisType)axis onLayer: (int)layer inDirection: (LayerRotationDirectionType)direction{
+- (void)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction{
     MCCubie *layerCubes[9];
     switch (axis) {
         case X:
@@ -152,24 +152,7 @@
                 break;
         }
     }
-    
 }   //rotate operation
-
-- (struct Point3i) coordinateValueOfCubieWithColorCombination : (ColorCombinationType)combination{
-    return magicCubiesList[combination].coordinateValue;
-}   //get coordinate of cube having the color combination
-
-- (MCCubie *) cubieWithColorCombination : (ColorCombinationType)combination{
-    return magicCubiesList[combination];
-}
-
-- (MCCubie *)cubieAtCoordinateX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z{
-    return magicCubies3D[x][y][z];
-}
-
-- (MCCubie *)cubieAtCoordinatePoint3i:(struct Point3i)point{
-    return magicCubies3D[point.x][point.y][point.z];
-}
 
 - (void)rotateWithSingmasterNotation:(SingmasterNotation)notation{
     switch (notation) {
@@ -243,6 +226,14 @@
             [self rotateOnAxis:X onLayer:1 inDirection:CCW];
             [self rotateOnAxis:X onLayer:2 inDirection:CCW];
             break;
+        case x2:
+            [self rotateOnAxis:X onLayer:0 inDirection:CW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CW];
+            [self rotateOnAxis:X onLayer:2 inDirection:CW];
+            [self rotateOnAxis:X onLayer:0 inDirection:CW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CW];
+            [self rotateOnAxis:X onLayer:2 inDirection:CW];
+            break;
         case y:
             [self rotateOnAxis:Y onLayer:0 inDirection:CW];
             [self rotateOnAxis:Y onLayer:1 inDirection:CW];
@@ -252,6 +243,14 @@
             [self rotateOnAxis:Y onLayer:0 inDirection:CCW];
             [self rotateOnAxis:Y onLayer:1 inDirection:CCW];
             [self rotateOnAxis:Y onLayer:2 inDirection:CCW];
+            break;
+        case y2:
+            [self rotateOnAxis:Y onLayer:0 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:2 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:0 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:2 inDirection:CW];
             break;
         case z:
             [self rotateOnAxis:Z onLayer:0 inDirection:CW];
@@ -263,9 +262,33 @@
             [self rotateOnAxis:Z onLayer:1 inDirection:CCW];
             [self rotateOnAxis:Z onLayer:2 inDirection:CCW];
             break;
+        case z2:
+            [self rotateOnAxis:Z onLayer:0 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:2 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:0 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:2 inDirection:CW];
+            break;
         default:
             break;
     }
+}
+
+- (struct Point3i)coordinateValueOfCubieWithColorCombination:(ColorCombinationType)combination{
+    return magicCubiesList[combination].coordinateValue;
+}   //get coordinate of cube having the color combination
+
+- (MCCubie *)cubieWithColorCombination:(ColorCombinationType)combination{
+    return magicCubiesList[combination];
+}
+
+- (MCCubie *)cubieAtCoordinateX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z{
+    return magicCubies3D[x][y][z];
+}
+
+- (MCCubie *)cubieAtCoordinatePoint3i:(struct Point3i)point{
+    return magicCubies3D[point.x][point.y][point.z];
 }
 
 - (FaceOrientationType)magicCubeFaceInOrientation:(FaceOrientationType)orientation{

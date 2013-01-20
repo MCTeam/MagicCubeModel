@@ -32,6 +32,8 @@
 
 - (IBAction)pressTypeBtn:(id)sender;
 
+- (IBAction)pressInforBtn:(id)sender;
+
 - (IBAction)pressFuncBtn:(id)sender;
 
 - (IBAction)pressPartitionBtn:(id)sender;

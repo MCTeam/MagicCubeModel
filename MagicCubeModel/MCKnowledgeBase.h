@@ -17,18 +17,25 @@
 
 + (MCKnowledgeBase *)getSharedKnowledgeBase;
 
+//return the path of the DB file
 - (NSString *)knowledgeBaseFilePath;
 
+//insert the pattern
 - (BOOL)insertPattern:(NSString *)pattern withKey:(NSString *)key withPreState:(NSString *)state;
 
-- (BOOL)insertRullOfMethod:(NSInteger)method ifContent:(NSString *)ifContent thenContent:(NSString *)thenContent;
+//insert the rule
+- (BOOL)insertRullOfMethod:(NSInteger)method withState:(NSString *)state ifContent:(NSString *)ifContent thenContent:(NSString *)thenContent;
 
-- (BOOL)insertStateWithPattern:(NSString *)pattern withPreState:(NSString *)preState afterState:(NSString *)afterState;
+//insert the state
+- (BOOL)insertStateOfMethod:(NSInteger)method withPattern:(NSString *)pattern preState:(NSString *)preState afterState:(NSString *)afterState;
 
+//get the pattern dictionary based on state
 - (NSMutableDictionary *)getPatternsWithPreState:(NSString *)state;
 
-- (NSMutableDictionary *)getStates;
+//get the states based on method
+- (NSMutableDictionary *)getStatesOfMethod:(NSInteger)method;
 
-- (NSMutableDictionary *)getRules;
+//get the rules based on method and state
+- (NSMutableDictionary *)getRulesOfMethod:(NSInteger)method withState:(NSString *)state;
 
 @end

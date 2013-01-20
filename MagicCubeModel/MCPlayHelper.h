@@ -18,7 +18,7 @@
 @property (nonatomic, retain)NSDictionary *patterns;
 @property (nonatomic, retain)NSDictionary *rules;
 @property (nonatomic, retain)NSDictionary *states;
-@property (nonatomic, retain)NSDictionary *lockedCubies;
+@property (nonatomic, retain)MCCubie *lockedCubie;
 @property (nonatomic, retain)NSString *state;
 
 + (MCPlayHelper *)getSharedPlayHelper;
@@ -29,8 +29,10 @@
 //apply the pattern and return result
 - (BOOL)applyPatternWihtName:(NSString *)name;
 
-- (void)refreshPatterns;
+- (void)refresh;
 
 - (void)checkState;
+
+- (void)applyRules;
 
 @end

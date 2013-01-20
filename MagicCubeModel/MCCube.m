@@ -15,6 +15,7 @@
 @synthesize coordinateValue;
 @synthesize skinNum;
 @synthesize type;
+@synthesize identity;
 @synthesize faceColors;
 @synthesize orientations;
 
@@ -90,6 +91,8 @@
                 break;
         }
     }
+    //assign the identity
+    identity = coordinateValue.x + coordinateValue.y*3 + coordinateValue.z*9 + 13;
     return self;
 }   //initial the cube's data by coordinate value
 

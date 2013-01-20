@@ -14,6 +14,7 @@
 @interface MCInsertRuleContorller : UIViewController
 
 @property (retain, nonatomic) IBOutlet UITextField *patternName;
+@property (retain, nonatomic) IBOutlet UITextField *preStateName;
 @property (retain, nonatomic) IBOutlet UILabel *resultActions;
 @property (retain, nonatomic) IBOutlet UILabel *transferredResultActions;
 @property (retain, nonatomic) NSMutableArray *elements;
@@ -22,6 +23,8 @@
 @property (retain, nonatomic) NSString *actionStr;
 
 - (IBAction)pressActionBtn:(id)sender;
+
+- (IBAction)pressInfoBtn:(id)sender;
 
 - (IBAction)pressNotationBtn:(id)sender;
 

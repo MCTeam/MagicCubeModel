@@ -10,6 +10,12 @@
 #ifndef RubiksCube_Global_h
 #define RubiksCube_Global_h
 
+struct Point3i{
+    int x;
+    int y;
+    int z;
+};
+
 //define the face color type to apart color data from model
 typedef enum _FaceColorType {
     UpColor     = 0,
@@ -61,26 +67,50 @@ typedef enum _ColorCombinationType {
 
 //the pattern type
 typedef enum _NodeType {
+    ExpNode,
+    ElementNode,
+    PatternNode,
+    ActionNode,
+    InformationNode
+} NodeType;
+
+typedef enum _ExpType {
+    And,
+    Or,
+    Sequence
+} ExpType;
+
+//the rull action type
+typedef enum _ActionType {
+    Rotate,
+    FaceToOrientation,
+    LockCubie,
+    UnlockCubie
+} ActionType;
+
+//the getting information type
+typedef enum _InformationType {
+    getCombination,
+    getFaceColorFromOrientation,
+    LockedCubie
+} InformationType;
+
+//the pattern type
+typedef enum _PatternType {
     Home,
     Check,
     ColorBindOrientation,
     At,
-    Element,
-    And,
-    Or
-} NodeType;
+    NotAt,
+    CubiedBeLocked,
+    NoCubieBeLocked
+} PatternTyp;
 
 #define Token_And -1
 #define Token_Or -2
 #define Token_LeftParentheses -3
 #define Token_RightParentheses -4
 #define PLACEHOLDER -10000
-
-//the rull action type
-typedef enum _ActionType {
-    Rotate,
-    MoveTo
-} ActionType;
 
 //the rull action type
 typedef enum _SingmasterNotation {
@@ -90,10 +120,11 @@ typedef enum _SingmasterNotation {
     L, Li, L2,
     U, Ui, U2,
     D, Di, D2,
-    x, xi,
-    y, yi,
-    z, zi
+    x, xi, x2,
+    y, yi, y2,
+    z, zi, z2
 } SingmasterNotation;
+#define SingmasterNotation_DoNothing -1
 
 #define ETFF 0  //method 0, 8355
 #define START_STATE "Init"

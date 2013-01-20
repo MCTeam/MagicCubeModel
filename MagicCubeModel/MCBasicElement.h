@@ -16,9 +16,7 @@
 @property (nonatomic)NodeType type;
 @property (nonatomic)NSInteger value;
 
--(id)initExpNodeWithType:(NodeType)expType;
-
--(id)initElementNodeWithValue:(NSInteger)elementValue;
+-(id)initNodeWithType:(NodeType)type;
 
 -(void)addChild:(MCTreeNode *)node;
 
@@ -41,5 +39,14 @@
 @property(retain, nonatomic)NSString *afterState;
 
 - (id)initWithPatternStr:(NSString *)patternStr andAfterState:(NSString *)state;
+
+@end
+
+//rule
+@interface MCRule : NSObject
+
+@property(retain, nonatomic)MCTreeNode *root;
+
+- (id)initWithString:(NSString *)patternStr;
 
 @end

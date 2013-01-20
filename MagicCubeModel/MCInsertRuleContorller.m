@@ -10,6 +10,7 @@
 
 @implementation MCInsertRuleContorller
 @synthesize patternName;
+@synthesize preStateName;
 @synthesize resultActions;
 @synthesize transferredResultActions;
 @synthesize elements;
@@ -24,6 +25,7 @@
     [elements release];
     [transferredElements release];
     [actionStr release];
+    [preStateName release];
     [super dealloc];
 }
 
@@ -31,6 +33,7 @@
     [self setPatternName:nil];
     [self setResultActions:nil];
     [self setTransferredResultActions:nil];
+    [self setPreStateName:nil];
     [super viewDidUnload];
 }
 
@@ -52,7 +55,13 @@
             tmp = @"Rotate";
             break;
         case 1:
-            tmp = @"MoveTo";
+            tmp = @"FaceToOrientation";
+            break;
+        case 2:
+            tmp = @"LockCubie";
+            break;
+        case 3:
+            tmp = @"UnlockCubie";
             break;
         default:
             break;
@@ -63,6 +72,33 @@
     }
     [elements addObject:@"("];
     [transferredElements addObject:[NSNumber numberWithInteger:Token_LeftParentheses]];
+    [tmp release];
+    [self ouputResult];
+}
+
+- (IBAction)pressInfoBtn:(id)sender {
+    [elements addObject:@"("];
+    [transferredElements addObject:[NSNumber numberWithInteger:Token_LeftParentheses]];
+    
+    NSString *tmp;
+    UIButton *pressedBtn = sender;
+    switch (pressedBtn.tag) {
+        case 0:
+            tmp = @"getCombination";
+            break;
+        case 1:
+            tmp = @"getFaceColorFromOrientation";
+            break;
+        case 2:
+            tmp = @"LockedCubie";
+            break;
+        default:
+            break;
+    }
+    if (tmp != nil) {
+        [elements addObject:tmp];
+        [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
+    }
     [tmp release];
     [self ouputResult];
 }
@@ -112,6 +148,7 @@
             break;
         case 13:
             tmp = @"U'";
+            break;
         case 14:
             tmp = @"U2";
             break;
@@ -128,10 +165,28 @@
             tmp = @"x";
             break;
         case 19:
-            tmp = @"y";
+            tmp = @"x'";
             break;
         case 20:
+            tmp = @"x2";
+            break;
+        case 21:
+            tmp = @"y";
+            break;
+        case 22:
+            tmp = @"y'";
+            break;
+        case 23:
+            tmp = @"y2";
+            break;
+        case 24:
             tmp = @"z";
+            break;
+        case 25:
+            tmp = @"z'";
+            break;
+        case 26:
+            tmp = @"z2";
             break;
         default:
             break;
@@ -246,7 +301,7 @@
             break;
         case 2:
             if ([patternName.text compare:@""] != NSOrderedSame) {
-                if (![knowledgeBase insertRullOfMethod:ETFF ifContent:patternName.text thenContent:actionStr]) {
+                if (![knowledgeBase insertRullOfMethod:ETFF withState:preStateName.text ifContent:patternName.text thenContent:actionStr]) {
                     NSLog(@"Insert Failded.");
                 }
                 else{
@@ -259,7 +314,7 @@
             
             break;
         case 3:
-            [[MCPlayHelper getSharedPlayHelper] refreshPatterns];
+            [[MCPlayHelper getSharedPlayHelper] refresh];
             break;
         default:
             break;

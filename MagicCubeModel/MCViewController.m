@@ -7,6 +7,7 @@
 //
 
 #import "MCViewController.h"
+#import "MCPlayHelper.h"
 
 @interface MCViewController ()
 
@@ -233,7 +234,23 @@
 
 
 - (IBAction)rotateBtnClicked:(id)sender {
-    [magicCube rotateOnAxis:currentAxis onLayer:currentLayer inDirection:currentDirection];
-    [self showFaces];
+    switch ([sender tag]) {
+        case 0:
+            [magicCube rotateOnAxis:currentAxis onLayer:currentLayer inDirection:currentDirection];
+            [self showFaces];
+            break;
+        case 1:
+            [[MCPlayHelper getSharedPlayHelper] checkState];
+            break;
+        case 2:
+            [self showFaces];
+            break;
+        default:
+            break;
+    }
+}
+
+- (IBAction)testBtn:(id)sender {
+    [[MCPlayHelper getSharedPlayHelper] applyRules];
 }
 @end

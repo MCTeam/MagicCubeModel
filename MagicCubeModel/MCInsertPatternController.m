@@ -191,6 +191,44 @@
         case 3:
             tmp = @"At";
             break;
+        case 4:
+            tmp = @"NotAt";
+            break;
+        case 5:
+            tmp = @"CubiedBeLocked";
+            break;
+        case 6:
+            tmp = @"NoCubieBeLocked";
+            break;
+        default:
+            break;
+    }
+    if (tmp != nil) {
+        [elements addObject:tmp];
+        [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
+        [elements addObject:@"("];
+        [transferredElements addObject:[NSNumber numberWithInteger:Token_LeftParentheses]];
+    }
+    [tmp release];
+    [self ouputResult];
+}
+
+- (IBAction)pressInforBtn:(id)sender {
+    [elements addObject:@"("];
+    [transferredElements addObject:[NSNumber numberWithInteger:Token_LeftParentheses]];
+    
+    NSString *tmp;
+    UIButton *pressedBtn = sender;
+    switch (pressedBtn.tag) {
+        case 0:
+            tmp = @"getCombination";
+            break;
+        case 1:
+            tmp = @"getFaceColorFromOrientation";
+            break;
+        case 2:
+            tmp = @"LockedCubie";
+            break;
         default:
             break;
     }
@@ -198,8 +236,6 @@
         [elements addObject:tmp];
         [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
     }
-    [elements addObject:@"("];
-    [transferredElements addObject:[NSNumber numberWithInteger:Token_LeftParentheses]];
     [tmp release];
     [self ouputResult];
 }
@@ -229,11 +265,11 @@
             }
             break;
         case 3:
-            [[MCPlayHelper getSharedPlayHelper] refreshPatterns];
+            [[MCPlayHelper getSharedPlayHelper] refresh];
             break;
         case 4:
             if ([patternName.text compare:@""] != NSOrderedSame && [preState.text compare:@""] != NSOrderedSame) {
-                if (![knowledgeBase insertStateWithPattern:patternStr withPreState:preState.text afterState:patternName.text]) {
+                if (![knowledgeBase insertStateOfMethod:ETFF withPattern:patternStr preState:preState.text afterState:patternName.text]) {
                     NSLog(@"Insert Failded.");
                 }
                 else{
