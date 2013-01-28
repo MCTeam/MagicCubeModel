@@ -10,6 +10,9 @@
 #ifndef RubiksCube_Global_h
 #define RubiksCube_Global_h
 
+//the knowledge db name
+#define KNOWLEDGE_DB_FILE_NAME @"KnowledgeBase.sqlite3"
+
 struct Point3i{
     int x;
     int y;
@@ -77,7 +80,8 @@ typedef enum _NodeType {
 typedef enum _ExpType {
     And,
     Or,
-    Sequence
+    Sequence,
+    Not
 } ExpType;
 
 //the rull action type
@@ -110,6 +114,7 @@ typedef enum _PatternType {
 #define Token_Or -2
 #define Token_LeftParentheses -3
 #define Token_RightParentheses -4
+#define Token_Not -5
 #define PLACEHOLDER -10000
 
 //the rull action type

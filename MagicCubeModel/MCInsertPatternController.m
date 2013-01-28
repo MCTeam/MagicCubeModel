@@ -318,6 +318,10 @@
             tmp = @",";
             [transferredElements addObject:[NSNumber numberWithInteger:PLACEHOLDER]];
             break;
+        case 5:
+            tmp = @"!";
+            [transferredElements addObject:[NSNumber numberWithInteger:Token_Not]];
+            break;
         default:
             break;
     }

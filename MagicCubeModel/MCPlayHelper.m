@@ -123,6 +123,8 @@
                     return [self orNodeApply:root];
                 case Sequence:
                     return [self sequenceNodeApply:root];
+                case Not:
+                    return [self notNodeApply:root];
                 default:
                     break;
             }
@@ -329,10 +331,15 @@
     return YES;
 }
 
+- (BOOL)notNodeApply:(MCTreeNode *)root{
+    return ![self treeNodesApply:[root.children objectAtIndex:0]];
+}
+
 - (void)applyRules{
     NSString *key;
     NSArray *keys = [rules allKeys];
     int count = [rules count];
+    
     for (int i = 0; i < count; i++)
     {
         key = [keys objectAtIndex:i];
@@ -340,6 +347,9 @@
             [self treeNodesApply:[[rules objectForKey:key] root]];
         }
     }
+    [self checkState];
+    
+    NSLog(@"%@", state);
 }
 
 - (void)refresh{

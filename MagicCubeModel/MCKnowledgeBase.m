@@ -54,11 +54,7 @@
 }
 
 - (NSString *)knowledgeBaseFilePath{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                         NSUserDomainMask,
-                                                         YES);
-    
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory  = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     return [documentsDirectory stringByAppendingPathComponent:KNOWLEDGE_DB_FILE_NAME];
 }
 

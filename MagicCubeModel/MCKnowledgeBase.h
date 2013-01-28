@@ -10,7 +10,6 @@
 #import <sqlite3.h>
 #include "MCBasicElement.h"
 
-#define KNOWLEDGE_DB_FILE_NAME @"KnowledgeBase.sqlite3"
 #define PATTERN_NUM 30
 
 @interface MCKnowledgeBase : NSObject

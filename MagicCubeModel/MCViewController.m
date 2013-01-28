@@ -234,23 +234,38 @@
 
 
 - (IBAction)rotateBtnClicked:(id)sender {
+    [magicCube rotateOnAxis:currentAxis onLayer:currentLayer inDirection:currentDirection];
+    [self showFaces];
+}
+
+- (IBAction)testBtn:(id)sender {
     switch ([sender tag]) {
         case 0:
-            [magicCube rotateOnAxis:currentAxis onLayer:currentLayer inDirection:currentDirection];
-            [self showFaces];
+            srand(clock());
+            for (int i = 0; i < 40; i++) {
+                SingmasterNotation rotate = rand()%27;
+                [[MCMagicCube getSharedMagicCube] rotateWithSingmasterNotation:rotate];
+            }
             break;
         case 1:
-            [[MCPlayHelper getSharedPlayHelper] checkState];
+            [[MCPlayHelper getSharedPlayHelper] applyRules];
             break;
         case 2:
-            [self showFaces];
+        {
+            NSString *document  = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+            NSString *newFile = [document stringByAppendingPathComponent:KNOWLEDGE_DB_FILE_NAME];
+            NSString *oldFile = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:KNOWLEDGE_DB_FILE_NAME];
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            if ([fileManager fileExistsAtPath:newFile]) {
+                [fileManager removeItemAtPath:newFile error:nil];
+            }
+            [fileManager copyItemAtPath:oldFile toPath:newFile error:nil];
+        }
             break;
         default:
             break;
     }
-}
-
-- (IBAction)testBtn:(id)sender {
-    [[MCPlayHelper getSharedPlayHelper] applyRules];
+    
+    [self showFaces];
 }
 @end

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E0940AF716B23155002BEBAA /* Icon_max.png in Resources */ = {isa = PBXBuildFile; fileRef = E0940AF616B23155002BEBAA /* Icon_max.png */; };
+		E0940AFA16B23158002BEBAA /* Icon_min.png in Resources */ = {isa = PBXBuildFile; fileRef = E0940AF916B23158002BEBAA /* Icon_min.png */; };
+		E0940B0216B23491002BEBAA /* KnowledgeBase.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = E0940B0116B23491002BEBAA /* KnowledgeBase.sqlite3 */; };
 		E0B0FB7F168EC97900DBBF49 /* MCPlayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */; };
 		E0B0FB83168EDC7200DBBF49 /* MCBasicElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB82168EDC7200DBBF49 /* MCBasicElement.m */; };
 		E0E737DF1694651600E48BD0 /* MCTestPatternController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E737DE1694651600E48BD0 /* MCTestPatternController.m */; };
@@ -42,6 +45,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E0940AF616B23155002BEBAA /* Icon_max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_max.png; path = ../Icon_max.png; sourceTree = "<group>"; };
+		E0940AF916B23158002BEBAA /* Icon_min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_min.png; path = ../Icon_min.png; sourceTree = "<group>"; };
+		E0940B0116B23491002BEBAA /* KnowledgeBase.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = KnowledgeBase.sqlite3; sourceTree = "<group>"; };
 		E0B0FB7D168EC97800DBBF49 /* MCPlayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPlayHelper.h; sourceTree = "<group>"; };
 		E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCPlayHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E0B0FB81168EDC7200DBBF49 /* MCBasicElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBasicElement.h; sourceTree = "<group>"; };
@@ -106,6 +112,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E0940AFF16B23442002BEBAA /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				E0940AF916B23158002BEBAA /* Icon_min.png */,
+				E0940AF616B23155002BEBAA /* Icon_max.png */,
+				E0940B0116B23491002BEBAA /* KnowledgeBase.sqlite3 */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
 		E0EC974E1615836A00EBFE79 = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +156,7 @@
 		E0EC97631615836A00EBFE79 /* MagicCubeModel */ = {
 			isa = PBXGroup;
 			children = (
+				E0940AFF16B23442002BEBAA /* Resource */,
 				E0F6BDF1168E898800D857BC /* MCPlayHelper */,
 				E0EC976C1615836A00EBFE79 /* MCAppDelegate.h */,
 				E0EC976D1615836A00EBFE79 /* MCAppDelegate.m */,
@@ -215,6 +232,7 @@
 				E0EC97551615836A00EBFE79 /* Sources */,
 				E0EC97561615836A00EBFE79 /* Frameworks */,
 				E0EC97571615836A00EBFE79 /* Resources */,
+				E0472BE916B2270E005DCA21 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -279,6 +297,9 @@
 			files = (
 				E0EC97681615836A00EBFE79 /* InfoPlist.strings in Resources */,
 				E0EC97711615836A00EBFE79 /* MainStoryboard.storyboard in Resources */,
+				E0940AF716B23155002BEBAA /* Icon_max.png in Resources */,
+				E0940AFA16B23158002BEBAA /* Icon_min.png in Resources */,
+				E0940B0216B23491002BEBAA /* KnowledgeBase.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +314,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		E0472BE916B2270E005DCA21 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nif [ \"${PLATFORM_NAME}\" == \"iphoneos\" ] || [ \"${PLATFORM_NAME}\" == \"ipados\" ]; then\n/Applications/Xcode.app/Contents/Developer/iphoneentitlements/gen_entitlements.py \"my.company.${PROJECT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\";\ncodesign -f -s \"iPhone Developer\" --entitlements \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\nfi";
+		};
 		E0EC97781615836A00EBFE79 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

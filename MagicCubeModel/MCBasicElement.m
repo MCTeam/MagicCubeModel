@@ -223,11 +223,17 @@
             [self getToken];
             [self getToken];
             break;
-        case Token_LeftParentheses :
+        case Token_LeftParentheses:
             [self getToken];
             node = [self parseBoolExp];
             [self getToken];
             return node;
+            break;
+        case Token_Not:
+            node = [[MCTreeNode alloc] initNodeWithType:ExpNode];
+            node.value = Not;
+            [self getToken];
+            [node addChild:[self parseBoolExp]];
             break;
         default:
             NSLog(@"unexpected token.");
@@ -368,9 +374,10 @@
     while ((childNode = [self parseItem]) != nil) {
         [node addChild:childNode];
     }
-    
     return [node autorelease];
 }
+
+
 
 - (MCTreeNode *)parseItem{
     MCTreeNode * node;
