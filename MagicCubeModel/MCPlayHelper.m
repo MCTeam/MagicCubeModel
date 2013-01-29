@@ -350,6 +350,12 @@
     [self checkState];
     
     NSLog(@"%@", state);
+    if (lockedCubie != nil) {
+        NSLog(@"%@", @"BeLocked");
+    }
+    else{
+        NSLog(@"%@", @"NotBeLocked");
+    }
 }
 
 - (void)refresh{
@@ -366,6 +372,7 @@
     if ([goStr compare:state] != NSOrderedSame) {
         self.state = goStr;
         [self refresh];
+        self.lockedCubie = nil;
     }
 }
 
