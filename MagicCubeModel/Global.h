@@ -107,7 +107,6 @@ typedef enum _PatternType {
     At,
     NotAt,
     CubiedBeLocked,
-    NoCubieBeLocked
 } PatternTyp;
 
 #define Token_And -1

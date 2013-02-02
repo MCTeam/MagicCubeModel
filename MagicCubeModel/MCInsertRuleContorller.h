@@ -17,6 +17,7 @@
 @property (retain, nonatomic) IBOutlet UITextField *preStateName;
 @property (retain, nonatomic) IBOutlet UILabel *resultActions;
 @property (retain, nonatomic) IBOutlet UILabel *transferredResultActions;
+@property (retain, nonatomic) IBOutlet UISwitch *fnSwitcher;
 @property (retain, nonatomic) NSMutableArray *elements;
 @property (retain, nonatomic) NSMutableArray *transferredElements;
 @property (retain, nonatomic) MCKnowledgeBase *knowledgeBase;

@@ -214,13 +214,13 @@
             node.value = CubiedBeLocked;
             [self getToken];
             [self getToken];
-            [self getToken];
-            break;
-        case NoCubieBeLocked:
-            node = [[MCTreeNode alloc] initNodeWithType:PatternNode];
-            node.value = NoCubieBeLocked;
-            [self getToken];
-            [self getToken];
+            if (token != Token_RightParentheses) {
+                MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                tmp.value = token;
+                [node addChild:tmp];
+                [tmp release];
+                [self getToken];
+            }
             [self getToken];
             break;
         case Token_LeftParentheses:
@@ -274,6 +274,15 @@
         case LockedCubie:
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
             node.value = LockedCubie;
+            [self getToken];
+            [self getToken];
+            if (token != Token_RightParentheses) {
+                MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                tmp.value = token;
+                [node addChild:tmp];
+                [tmp release];
+                [self getToken];
+            }
             [self getToken];
             break;
         default:
@@ -377,8 +386,6 @@
     return [node autorelease];
 }
 
-
-
 - (MCTreeNode *)parseItem{
     MCTreeNode * node;
 	switch (token) {
@@ -431,6 +438,13 @@
                 [tmp release];
                 [self getToken];
             }
+            if (token != Token_RightParentheses) {
+                MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                tmp.value = token;
+                [node addChild:tmp];
+                [tmp release];
+                [self getToken];
+            }
             [self getToken];
             break;
         case UnlockCubie:
@@ -438,6 +452,13 @@
             node.value = UnlockCubie;
             [self getToken];
             [self getToken];
+            if (token != Token_RightParentheses) {
+                MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                tmp.value = token;
+                [node addChild:tmp];
+                [tmp release];
+                [self getToken];
+            }
             [self getToken];
             break;
         case Token_LeftParentheses :
@@ -488,6 +509,15 @@
         case LockedCubie:
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
             node.value = LockedCubie;
+            [self getToken];
+            [self getToken];
+            if (token != Token_RightParentheses) {
+                MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                tmp.value = token;
+                [node addChild:tmp];
+                [tmp release];
+                [self getToken];
+            }
             [self getToken];
             break;
         default:

@@ -12,13 +12,14 @@
 #import "Global.h"
 #import "MCBasicElement.h"
 
+#define CubieCouldBeLockMaxNum 26
+
 @interface MCPlayHelper : NSObject
 
 @property (nonatomic, retain)MCMagicCube *magicCube;
 @property (nonatomic, retain)NSDictionary *patterns;
 @property (nonatomic, retain)NSDictionary *rules;
 @property (nonatomic, retain)NSDictionary *states;
-@property (nonatomic, retain)MCCubie *lockedCubie;
 @property (nonatomic, retain)NSString *state;
 
 + (MCPlayHelper *)getSharedPlayHelper;

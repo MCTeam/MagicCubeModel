@@ -15,6 +15,7 @@
 
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     playHelper = [MCPlayHelper getSharedPlayHelper];
 }
 

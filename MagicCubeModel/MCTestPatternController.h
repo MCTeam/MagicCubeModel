@@ -10,7 +10,7 @@
 #import "MCKnowledgeBase.h"
 #import "MCPlayHelper.h"
 
-@interface MCTestPatternController : UIViewController
+@interface MCTestPatternController : UIViewController 
 
 
 @property (retain, nonatomic) MCPlayHelper *playHelper;

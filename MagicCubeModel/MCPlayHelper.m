@@ -9,13 +9,14 @@
 #import "MCPlayHelper.h"
 
 
-@implementation MCPlayHelper
+@implementation MCPlayHelper{
+    MCCubie* lockedCubies[CubieCouldBeLockMaxNum];
+}
 
 @synthesize magicCube;
 @synthesize patterns;
 @synthesize rules;
 @synthesize states;
-@synthesize lockedCubie;
 @synthesize state;
 
 + (MCPlayHelper *)getSharedPlayHelper{
@@ -30,6 +31,11 @@
 
 - (id)init{
     if (self = [super init]) {
+        //locked cubie list
+        for (int i = 0; i < CubieCouldBeLockMaxNum; i++) {
+            lockedCubies[0] = nil;
+        }
+        
         self.magicCube = [MCMagicCube getSharedMagicCube];
         self.state = [NSString stringWithUTF8String:START_STATE];
         
@@ -41,7 +47,6 @@
 }
 
 - (void)dealloc{
-    [lockedCubie release];
     [patterns release];
     [rules release];
     [states release];
@@ -186,9 +191,13 @@
                 }
                     break;
                 case CubiedBeLocked:
-                    return lockedCubie != nil;
-                case NoCubieBeLocked:
-                    return lockedCubie == nil;
+                {
+                    int index = 0;
+                    if ([root.children count] != 0) {
+                        index = [(MCTreeNode *)[root.children objectAtIndex:0] value];
+                    }
+                    return lockedCubies[index] != nil;
+                }
                 default:
                     return NO;
             }
@@ -216,11 +225,21 @@
                 case LockCubie:
                 {
                     MCTreeNode *elementNode = [root.children objectAtIndex:0];
-                    self.lockedCubie = [magicCube cubieWithColorCombination:[self treeNodesApply:elementNode]];
+                    int index = 0;
+                    if ([root.children count] != 1) {
+                        index = [(MCTreeNode *)[root.children objectAtIndex:1] value];
+                    }
+                    lockedCubies[index] = [magicCube cubieWithColorCombination:[self treeNodesApply:elementNode]];
                 }
                     break;
                 case UnlockCubie:
-                    self.lockedCubie = nil;
+                {
+                    int index = 0;
+                    if ([root.children count] != 0) {
+                        index = [(MCTreeNode *)[root.children objectAtIndex:0] value];
+                    }
+                    lockedCubies[index] = nil;
+                }
                     break;
                 default:
                     return NO;
@@ -288,12 +307,18 @@
                     return color;
                 }
                 case LockedCubie:
-                    if (lockedCubie == nil) {
+                {
+                    int index = 0;
+                    if ([root.children count] != 0) {
+                        index = [(MCTreeNode *)[root.children objectAtIndex:0] value];
+                    }
+                    if (lockedCubies[index] == nil) {
                         return -1;
                     }
                     else{
-                        return lockedCubie.identity;
+                        return lockedCubies[index].identity;
                     }
+                }
                 default:
                     break;
             }
@@ -350,7 +375,7 @@
     [self checkState];
     
     NSLog(@"%@", state);
-    if (lockedCubie != nil) {
+    if (lockedCubies[0] != nil) {
         NSLog(@"%@", @"BeLocked");
     }
     else{
@@ -372,7 +397,9 @@
     if ([goStr compare:state] != NSOrderedSame) {
         self.state = goStr;
         [self refresh];
-        self.lockedCubie = nil;
+        for (int i = 0; i < CubieCouldBeLockMaxNum; i++) {
+            lockedCubies[0] = nil;
+        }
     }
 }
 

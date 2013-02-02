@@ -13,6 +13,7 @@
 @synthesize preStateName;
 @synthesize resultActions;
 @synthesize transferredResultActions;
+@synthesize fnSwitcher;
 @synthesize elements;
 @synthesize transferredElements;
 @synthesize knowledgeBase;
@@ -26,6 +27,7 @@
     [transferredElements release];
     [actionStr release];
     [preStateName release];
+    [fnSwitcher release];
     [super dealloc];
 }
 
@@ -34,6 +36,7 @@
     [self setResultActions:nil];
     [self setTransferredResultActions:nil];
     [self setPreStateName:nil];
+    [self setFnSwitcher:nil];
     [super viewDidUnload];
 }
 
@@ -45,6 +48,8 @@
         transferredElements = [[NSMutableArray alloc] initWithCapacity:100];
     }
     knowledgeBase = [MCKnowledgeBase getSharedKnowledgeBase];
+    //reset the switcher
+    [self.fnSwitcher setOn:NO];
 }
 
 - (IBAction)pressActionBtn:(id)sender {
@@ -200,87 +205,91 @@
 - (IBAction)pressIdentityBtn:(id)sender {
     NSString *tmp;
     UIButton *pressedBtn = sender;
-    switch (pressedBtn.tag) {
-        case 0:
-            tmp = @"BLD";
-            break;
-        case 1:
-            tmp = @"BD";
-            break;
-        case 2:
-            tmp = @"BRD";
-            break;
-        case 3:
-            tmp = @"BL";
-            break;
-        case 4:
-            tmp = @"B";
-            break;
-        case 5:
-            tmp = @"BR";
-            break;
-        case 6:
-            tmp = @"BLU";
-            break;
-        case 7:
-            tmp = @"BU";
-            break;
-        case 8:
-            tmp = @"BRU";
-            break;
-        case 9:
-            tmp = @"LD";
-            break;
-        case 10:
-            tmp = @"D";
-            break;
-        case 11:
-            tmp = @"RD";
-            break;
-        case 12:
-            tmp = @"L";
-            break;
-        case 14:
-            tmp = @"R";
-            break;
-        case 15:
-            tmp = @"LU";
-            break;
-        case 16:
-            tmp = @"U";
-            break;
-        case 17:
-            tmp = @"RU";
-            break;
-        case 18:
-            tmp = @"FLD";
-            break;
-        case 19:
-            tmp = @"FD";
-            break;
-        case 20:
-            tmp = @"FRD";
-            break;
-        case 21:
-            tmp = @"FL";
-            break;
-        case 22:
-            tmp = @"F";
-            break;
-        case 23:
-            tmp = @"FR";
-            break;
-        case 24:
-            tmp = @"FLU";
-            break;
-        case 25:
-            tmp = @"FU";
-            break;
-        case 26:
-            tmp = @"FRU";
-            break;
-        default:
-            break;
+    if ([self.fnSwitcher isOn]) {
+        tmp = [[NSString alloc] initWithFormat:@"%d", pressedBtn.tag];
+    } else {
+        switch (pressedBtn.tag) {
+            case 0:
+                tmp = @"BLD";
+                break;
+            case 1:
+                tmp = @"BD";
+                break;
+            case 2:
+                tmp = @"BRD";
+                break;
+            case 3:
+                tmp = @"BL";
+                break;
+            case 4:
+                tmp = @"B";
+                break;
+            case 5:
+                tmp = @"BR";
+                break;
+            case 6:
+                tmp = @"BLU";
+                break;
+            case 7:
+                tmp = @"BU";
+                break;
+            case 8:
+                tmp = @"BRU";
+                break;
+            case 9:
+                tmp = @"LD";
+                break;
+            case 10:
+                tmp = @"D";
+                break;
+            case 11:
+                tmp = @"RD";
+                break;
+            case 12:
+                tmp = @"L";
+                break;
+            case 14:
+                tmp = @"R";
+                break;
+            case 15:
+                tmp = @"LU";
+                break;
+            case 16:
+                tmp = @"U";
+                break;
+            case 17:
+                tmp = @"RU";
+                break;
+            case 18:
+                tmp = @"FLD";
+                break;
+            case 19:
+                tmp = @"FD";
+                break;
+            case 20:
+                tmp = @"FRD";
+                break;
+            case 21:
+                tmp = @"FL";
+                break;
+            case 22:
+                tmp = @"F";
+                break;
+            case 23:
+                tmp = @"FR";
+                break;
+            case 24:
+                tmp = @"FLU";
+                break;
+            case 25:
+                tmp = @"FU";
+                break;
+            case 26:
+                tmp = @"FRU";
+                break;
+            default:
+                break;
+        }
     }
     [elements addObject:tmp];
     [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
