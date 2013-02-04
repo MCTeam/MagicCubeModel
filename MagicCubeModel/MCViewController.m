@@ -152,8 +152,7 @@
     return @"nil";
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload{
     [self setBackFaceTextView:nil];
     [self setUpFaceTextView:nil];
     [self setLeftFaceTextView:nil];
@@ -165,11 +164,6 @@
     [self setDirectionPicker:nil]; 
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
 }
 
 - (void)dealloc {
@@ -246,6 +240,9 @@
                 SingmasterNotation rotate = rand()%27;
                 [[MCMagicCube getSharedMagicCube] rotateWithSingmasterNotation:rotate];
             }
+            [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:YES];
+            [[MCPlayHelper getSharedPlayHelper] checkState];
+            [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:NO];
             break;
         case 1:
             [[MCPlayHelper getSharedPlayHelper] applyRules];

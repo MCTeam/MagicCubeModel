@@ -233,7 +233,7 @@
             node = [[MCTreeNode alloc] initNodeWithType:ExpNode];
             node.value = Not;
             [self getToken];
-            [node addChild:[self parseBoolExp]];
+            [node addChild:[self parseBfactor]];
             break;
         default:
             NSLog(@"unexpected token.");

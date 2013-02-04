@@ -270,6 +270,90 @@
             [self rotateOnAxis:Z onLayer:1 inDirection:CW];
             [self rotateOnAxis:Z onLayer:2 inDirection:CW];
             break;
+        case f:
+            [self rotateOnAxis:Z onLayer:2 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CW];
+            break;
+        case fi:
+            [self rotateOnAxis:Z onLayer:2 inDirection:CCW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CCW];
+            break;
+        case f2:
+            [self rotateOnAxis:Z onLayer:2 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:2 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CW];
+            break;
+        case b:
+            [self rotateOnAxis:Z onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CCW];
+            break;
+        case bi:
+            [self rotateOnAxis:Z onLayer:0 inDirection:CW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CW];
+            break;
+        case b2:
+            [self rotateOnAxis:Z onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:Z onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CCW];
+            [self rotateOnAxis:Z onLayer:1 inDirection:CCW];
+            break;
+        case r:
+            [self rotateOnAxis:X onLayer:2 inDirection:CW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CW];
+            break;
+        case ri:
+            [self rotateOnAxis:X onLayer:2 inDirection:CCW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CCW];
+            break;
+        case r2:
+            [self rotateOnAxis:X onLayer:2 inDirection:CW];
+            [self rotateOnAxis:X onLayer:2 inDirection:CW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CW];
+            break;
+        case l:
+            [self rotateOnAxis:X onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CCW];
+            break;
+        case li:
+            [self rotateOnAxis:X onLayer:0 inDirection:CW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CW];
+            break;
+        case l2:
+            [self rotateOnAxis:X onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:X onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CCW];
+            [self rotateOnAxis:X onLayer:1 inDirection:CCW];
+            break;
+        case u:
+            [self rotateOnAxis:Y onLayer:2 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CW];
+            break;
+        case ui:
+            [self rotateOnAxis:Y onLayer:2 inDirection:CCW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CCW];
+            break;
+        case u2:
+            [self rotateOnAxis:Y onLayer:2 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:2 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CW];
+            break;
+        case d:
+            [self rotateOnAxis:Y onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CCW];
+            break;
+        case di:
+            [self rotateOnAxis:Y onLayer:0 inDirection:CW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CCW];
+            break;
+        case d2:
+            [self rotateOnAxis:Y onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:Y onLayer:0 inDirection:CCW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CCW];
+            [self rotateOnAxis:Y onLayer:1 inDirection:CCW];
+            break;
         default:
             break;
     }

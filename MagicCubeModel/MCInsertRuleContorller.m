@@ -113,58 +113,130 @@
     UIButton *pressedBtn = sender;
     switch (pressedBtn.tag) {
         case 0:
-            tmp = @"F";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"f";
+            } else {
+                tmp = @"F";
+            }
             break;
         case 1:
-            tmp = @"F'";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"f'";
+            } else {
+                tmp = @"F'";
+            }
             break;
         case 2:
-            tmp = @"F2";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"f2";
+            } else {
+                tmp = @"F2";
+            }
             break;
         case 3:
-            tmp = @"B";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"b";
+            } else {
+                tmp = @"B";
+            }
             break;
         case 4:
-            tmp = @"B'";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"b'";
+            } else {
+                tmp = @"B'";
+            }
             break;
         case 5:
-            tmp = @"B2";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"b2";
+            } else {
+                tmp = @"B2";
+            }
             break;
         case 6:
-            tmp = @"R";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"r";
+            } else {
+                tmp = @"R";
+            }
             break;
         case 7:
-            tmp = @"R'";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"r'";
+            } else {
+                tmp = @"R'";
+            }
             break;
         case 8:
-            tmp = @"R2";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"r2";
+            } else {
+                tmp = @"R2";
+            }
             break;
         case 9:
-            tmp = @"L";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"l";
+            } else {
+                tmp = @"L";
+            }
             break;
         case 10:
-            tmp = @"L'";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"l'";
+            } else {
+                tmp = @"L'";
+            }
             break;
         case 11:
-            tmp = @"L2";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"l2";
+            } else {
+                tmp = @"L2";
+            }
             break;
         case 12:
-            tmp = @"U";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"u";
+            } else {
+                tmp = @"U";
+            }
             break;
         case 13:
-            tmp = @"U'";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"u'";
+            } else {
+                tmp = @"U'";
+            }
             break;
         case 14:
-            tmp = @"U2";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"u2";
+            } else {
+                tmp = @"U2";
+            }
             break;
         case 15:
-            tmp = @"D";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"d";
+            } else {
+                tmp = @"D";
+            }
             break;
         case 16:
-            tmp = @"D'";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"d'";
+            } else {
+                tmp = @"D'";
+            }
             break;
         case 17:
-            tmp = @"D2";
+            if ([self.fnSwitcher isOn]) {
+                tmp = @"d2";
+            } else {
+                tmp = @"D2";
+            }
             break;
         case 18:
             tmp = @"x";
@@ -197,7 +269,11 @@
             break;
     }
     [elements addObject:tmp];
-    [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
+    if ([self.fnSwitcher isOn]) {
+        [transferredElements addObject:[NSNumber numberWithInteger:(pressedBtn.tag+27)]];
+    } else {
+        [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
+    }
     [tmp release];
     [self ouputResult];
 }
@@ -387,15 +463,19 @@
 }
 
 - (void)transfer {
-    NSMutableString *result = [[NSMutableString alloc] initWithString:@""];
-    for (NSNumber *obj in transferredElements) {
-        [result appendString:[obj stringValue]];
-        [result appendString:@","];
+    if ([elements count] > 0) {
+        NSMutableString *result = [[NSMutableString alloc] initWithString:@""];
+        for (NSNumber *obj in transferredElements) {
+            [result appendString:[obj stringValue]];
+            [result appendString:@","];
+        }
+        [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSOrderedSame range:NSMakeRange(0, [result length])];
+        [self setActionStr:[result substringToIndex:([result length]-1)]];
+        [transferredResultActions setText:actionStr];
+        [result release];
+    } else {
+        [transferredResultActions setText:@""];
     }
-    [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSOrderedSame range:NSMakeRange(0, [result length])];
-    [self setActionStr:[result substringToIndex:([result length]-1)]];
-    [transferredResultActions setText:actionStr];
-    [result release];
 }
 
 - (void)ouputResult{

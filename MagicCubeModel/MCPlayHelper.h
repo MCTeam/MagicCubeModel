@@ -36,4 +36,6 @@
 
 - (void)applyRules;
 
+- (void)setCheckStateFromInit:(BOOL)is;
+
 @end

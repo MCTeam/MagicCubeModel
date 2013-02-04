@@ -11,6 +11,7 @@
 
 @implementation MCPlayHelper{
     MCCubie* lockedCubies[CubieCouldBeLockMaxNum];
+    BOOL isCheckStateFromInit;
 }
 
 @synthesize magicCube;
@@ -31,6 +32,8 @@
 
 - (id)init{
     if (self = [super init]) {
+        //defaultedly, not check state state frome init
+        isCheckStateFromInit = NO;
         //locked cubie list
         for (int i = 0; i < CubieCouldBeLockMaxNum; i++) {
             lockedCubies[0] = nil;
@@ -370,6 +373,7 @@
         key = [keys objectAtIndex:i];
         if ([self applyPatternWihtName:key]) {
             [self treeNodesApply:[[rules objectForKey:key] root]];
+            break;
         }
     }
     [self checkState];
@@ -390,16 +394,24 @@
 }
 
 - (void)checkState{
-    NSString *goStr = [NSString stringWithUTF8String:START_STATE];
+    NSString *goStr;
+    //to check from init or not
+    if (isCheckStateFromInit) {
+        goStr = [NSString stringWithUTF8String:START_STATE];
+        for (int i = 0; i < CubieCouldBeLockMaxNum; i++) {
+            lockedCubies[i] = nil;
+        }
+    }
+    else{
+        goStr = state;
+    }
+    //check state
     for (MCState *tmpState = [states objectForKey:goStr]; tmpState != nil && [self treeNodesApply:[tmpState root]]; tmpState = [states objectForKey:goStr]) {
         goStr = tmpState.afterState;
     }
     if ([goStr compare:state] != NSOrderedSame) {
         self.state = goStr;
         [self refresh];
-        for (int i = 0; i < CubieCouldBeLockMaxNum; i++) {
-            lockedCubies[0] = nil;
-        }
     }
 }
 
@@ -550,7 +562,7 @@
                     }
                     break;
                 case -1:
-                    result = x2;
+                    result = y2;
                     break;
                 default:
                     break;
@@ -580,7 +592,7 @@
                     }
                     break;
                 case 1:
-                    result = x2;
+                    result = y2;
                     break;
                 default:
                     break;
@@ -593,7 +605,9 @@
     return result;
 }
 
-
+- (void)setCheckStateFromInit:(BOOL)is{
+    isCheckStateFromInit = is;
+}
 
 @end
 

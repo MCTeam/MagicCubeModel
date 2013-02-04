@@ -126,7 +126,13 @@ typedef enum _SingmasterNotation {
     D, Di, D2,
     x, xi, x2,
     y, yi, y2,
-    z, zi, z2
+    z, zi, z2,
+    f, fi, f2,
+    b, bi, b2,
+    r, ri, r2,
+    l, li, l2,
+    u, ui, u2,
+    d, di, d2
 } SingmasterNotation;
 #define SingmasterNotation_DoNothing -1
 
