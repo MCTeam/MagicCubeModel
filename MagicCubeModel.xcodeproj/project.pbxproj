@@ -7,9 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E0940AF716B23155002BEBAA /* Icon_max.png in Resources */ = {isa = PBXBuildFile; fileRef = E0940AF616B23155002BEBAA /* Icon_max.png */; };
-		E0940AFA16B23158002BEBAA /* Icon_min.png in Resources */ = {isa = PBXBuildFile; fileRef = E0940AF916B23158002BEBAA /* Icon_min.png */; };
-		E0940B0216B23491002BEBAA /* KnowledgeBase.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = E0940B0116B23491002BEBAA /* KnowledgeBase.sqlite3 */; };
+		E00F55CF16CA896C005FA455 /* Down_CrossToEInETFF规则(20130202更新).docx in Resources */ = {isa = PBXBuildFile; fileRef = E00F55C716CA896C005FA455 /* Down_CrossToEInETFF规则(20130202更新).docx */; };
+		E00F55D016CA896C005FA455 /* EInETFFToTInETFF规则(20130212更新).docx in Resources */ = {isa = PBXBuildFile; fileRef = E00F55C816CA896C005FA455 /* EInETFFToTInETFF规则(20130212更新).docx */; };
+		E00F55D116CA896C005FA455 /* FirstFInETFFToSecondFInETFF规则.docx in Resources */ = {isa = PBXBuildFile; fileRef = E00F55C916CA896C005FA455 /* FirstFInETFFToSecondFInETFF规则.docx */; };
+		E00F55D216CA896C005FA455 /* InitToDown_Cross规则(20130202更新).docx in Resources */ = {isa = PBXBuildFile; fileRef = E00F55CA16CA896C005FA455 /* InitToDown_Cross规则(20130202更新).docx */; };
+		E00F55D316CA896C005FA455 /* ReadMe!.docx in Resources */ = {isa = PBXBuildFile; fileRef = E00F55CB16CA896C005FA455 /* ReadMe!.docx */; };
+		E00F55D416CA896C005FA455 /* State List(20130206更新).docx in Resources */ = {isa = PBXBuildFile; fileRef = E00F55CC16CA896C005FA455 /* State List(20130206更新).docx */; };
+		E00F55D516CA896C005FA455 /* TInETFFToFirstFInETFF规则.docx in Resources */ = {isa = PBXBuildFile; fileRef = E00F55CD16CA896C005FA455 /* TInETFFToFirstFInETFF规则.docx */; };
+		E00F55D616CA896C005FA455 /* 规则输入说明文档(20130210更新).docx in Resources */ = {isa = PBXBuildFile; fileRef = E00F55CE16CA896C005FA455 /* 规则输入说明文档(20130210更新).docx */; };
+		E00F55E016CA89C9005FA455 /* Icon_max.png in Resources */ = {isa = PBXBuildFile; fileRef = E00F55DD16CA89C9005FA455 /* Icon_max.png */; };
+		E00F55E116CA89C9005FA455 /* Icon_min.png in Resources */ = {isa = PBXBuildFile; fileRef = E00F55DE16CA89C9005FA455 /* Icon_min.png */; };
+		E00F55E216CA89C9005FA455 /* KnowledgeBase.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = E00F55DF16CA89C9005FA455 /* KnowledgeBase.sqlite3 */; };
 		E0B0FB7F168EC97900DBBF49 /* MCPlayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */; };
 		E0B0FB83168EDC7200DBBF49 /* MCBasicElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB82168EDC7200DBBF49 /* MCBasicElement.m */; };
 		E0E737DF1694651600E48BD0 /* MCTestPatternController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E737DE1694651600E48BD0 /* MCTestPatternController.m */; };
@@ -45,9 +53,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E0940AF616B23155002BEBAA /* Icon_max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_max.png; path = ../Icon_max.png; sourceTree = "<group>"; };
-		E0940AF916B23158002BEBAA /* Icon_min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_min.png; path = ../Icon_min.png; sourceTree = "<group>"; };
-		E0940B0116B23491002BEBAA /* KnowledgeBase.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = KnowledgeBase.sqlite3; sourceTree = "<group>"; };
+		E00F55C716CA896C005FA455 /* Down_CrossToEInETFF规则(20130202更新).docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Down_CrossToEInETFF规则(20130202更新).docx"; path = "Document/Down_CrossToEInETFF规则(20130202更新).docx"; sourceTree = "<group>"; };
+		E00F55C816CA896C005FA455 /* EInETFFToTInETFF规则(20130212更新).docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EInETFFToTInETFF规则(20130212更新).docx"; path = "Document/EInETFFToTInETFF规则(20130212更新).docx"; sourceTree = "<group>"; };
+		E00F55C916CA896C005FA455 /* FirstFInETFFToSecondFInETFF规则.docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FirstFInETFFToSecondFInETFF规则.docx"; path = "Document/FirstFInETFFToSecondFInETFF规则.docx"; sourceTree = "<group>"; };
+		E00F55CA16CA896C005FA455 /* InitToDown_Cross规则(20130202更新).docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "InitToDown_Cross规则(20130202更新).docx"; path = "Document/InitToDown_Cross规则(20130202更新).docx"; sourceTree = "<group>"; };
+		E00F55CB16CA896C005FA455 /* ReadMe!.docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReadMe!.docx"; path = "Document/ReadMe!.docx"; sourceTree = "<group>"; };
+		E00F55CC16CA896C005FA455 /* State List(20130206更新).docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "State List(20130206更新).docx"; path = "Document/State List(20130206更新).docx"; sourceTree = "<group>"; };
+		E00F55CD16CA896C005FA455 /* TInETFFToFirstFInETFF规则.docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TInETFFToFirstFInETFF规则.docx"; path = "Document/TInETFFToFirstFInETFF规则.docx"; sourceTree = "<group>"; };
+		E00F55CE16CA896C005FA455 /* 规则输入说明文档(20130210更新).docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "规则输入说明文档(20130210更新).docx"; path = "Document/规则输入说明文档(20130210更新).docx"; sourceTree = "<group>"; };
+		E00F55DD16CA89C9005FA455 /* Icon_max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_max.png; sourceTree = "<group>"; };
+		E00F55DE16CA89C9005FA455 /* Icon_min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_min.png; sourceTree = "<group>"; };
+		E00F55DF16CA89C9005FA455 /* KnowledgeBase.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = KnowledgeBase.sqlite3; sourceTree = "<group>"; };
 		E0B0FB7D168EC97800DBBF49 /* MCPlayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPlayHelper.h; sourceTree = "<group>"; };
 		E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCPlayHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E0B0FB81168EDC7200DBBF49 /* MCBasicElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBasicElement.h; sourceTree = "<group>"; };
@@ -112,12 +128,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E00F55C416CA86AB005FA455 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				E00F55C716CA896C005FA455 /* Down_CrossToEInETFF规则(20130202更新).docx */,
+				E00F55C816CA896C005FA455 /* EInETFFToTInETFF规则(20130212更新).docx */,
+				E00F55C916CA896C005FA455 /* FirstFInETFFToSecondFInETFF规则.docx */,
+				E00F55CA16CA896C005FA455 /* InitToDown_Cross规则(20130202更新).docx */,
+				E00F55CB16CA896C005FA455 /* ReadMe!.docx */,
+				E00F55CC16CA896C005FA455 /* State List(20130206更新).docx */,
+				E00F55CD16CA896C005FA455 /* TInETFFToFirstFInETFF规则.docx */,
+				E00F55CE16CA896C005FA455 /* 规则输入说明文档(20130210更新).docx */,
+			);
+			name = Document;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		E0940AFF16B23442002BEBAA /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				E0940AF916B23158002BEBAA /* Icon_min.png */,
-				E0940AF616B23155002BEBAA /* Icon_max.png */,
-				E0940B0116B23491002BEBAA /* KnowledgeBase.sqlite3 */,
+				E00F55DD16CA89C9005FA455 /* Icon_max.png */,
+				E00F55DE16CA89C9005FA455 /* Icon_min.png */,
+				E00F55DF16CA89C9005FA455 /* KnowledgeBase.sqlite3 */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -156,6 +188,7 @@
 		E0EC97631615836A00EBFE79 /* MagicCubeModel */ = {
 			isa = PBXGroup;
 			children = (
+				E00F55C416CA86AB005FA455 /* Document */,
 				E0940AFF16B23442002BEBAA /* Resource */,
 				E0F6BDF1168E898800D857BC /* MCPlayHelper */,
 				E0EC976C1615836A00EBFE79 /* MCAppDelegate.h */,
@@ -297,9 +330,17 @@
 			files = (
 				E0EC97681615836A00EBFE79 /* InfoPlist.strings in Resources */,
 				E0EC97711615836A00EBFE79 /* MainStoryboard.storyboard in Resources */,
-				E0940AF716B23155002BEBAA /* Icon_max.png in Resources */,
-				E0940AFA16B23158002BEBAA /* Icon_min.png in Resources */,
-				E0940B0216B23491002BEBAA /* KnowledgeBase.sqlite3 in Resources */,
+				E00F55CF16CA896C005FA455 /* Down_CrossToEInETFF规则(20130202更新).docx in Resources */,
+				E00F55D016CA896C005FA455 /* EInETFFToTInETFF规则(20130212更新).docx in Resources */,
+				E00F55D116CA896C005FA455 /* FirstFInETFFToSecondFInETFF规则.docx in Resources */,
+				E00F55D216CA896C005FA455 /* InitToDown_Cross规则(20130202更新).docx in Resources */,
+				E00F55D316CA896C005FA455 /* ReadMe!.docx in Resources */,
+				E00F55D416CA896C005FA455 /* State List(20130206更新).docx in Resources */,
+				E00F55D516CA896C005FA455 /* TInETFFToFirstFInETFF规则.docx in Resources */,
+				E00F55D616CA896C005FA455 /* 规则输入说明文档(20130210更新).docx in Resources */,
+				E00F55E016CA89C9005FA455 /* Icon_max.png in Resources */,
+				E00F55E116CA89C9005FA455 /* Icon_min.png in Resources */,
+				E00F55E216CA89C9005FA455 /* KnowledgeBase.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
