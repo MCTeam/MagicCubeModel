@@ -94,9 +94,10 @@ typedef enum _ActionType {
 
 //the getting information type
 typedef enum _InformationType {
-    getCombination,
-    getFaceColorFromOrientation,
-    LockedCubie
+    getCombinationFromOrientation = 0,
+    getFaceColorFromOrientation = 1,
+    LockedCubie = 2,
+    getCombinationFromColor = 3
 } InformationType;
 
 //the pattern type

@@ -172,9 +172,15 @@
                                 break;
                             case ColorBindOrientation:
                             {
+                                MCCubie *cubie = nil;
                                 FaceOrientationType targetOrientation = [self treeNodesApply:[subPattern.children objectAtIndex:0]];
                                 FaceColorType targetColor = [self treeNodesApply:[subPattern.children objectAtIndex:1]];
-                                MCCubie *cubie = [magicCube cubieWithColorCombination:targetCubie];
+                                if ([subPattern.children count] > 2) {
+                                    NSInteger position = [(MCTreeNode *)[subPattern.children objectAtIndex:2] value];
+                                    cubie = [magicCube cubieAtCoordinateX:(position%3-1) Y:(position%9/3-1) Z:(position/9-1)];
+                                } else {
+                                    cubie = [magicCube cubieWithColorCombination:targetCubie];
+                                }
                                 return [cubie isFaceColor:targetColor inOrientation:targetOrientation];
                             }
                             case NotAt:
@@ -232,7 +238,13 @@
                     if ([root.children count] != 1) {
                         index = [(MCTreeNode *)[root.children objectAtIndex:1] value];
                     }
-                    lockedCubies[index] = [magicCube cubieWithColorCombination:[self treeNodesApply:elementNode]];
+                    int identity = [self treeNodesApply:elementNode];
+                    if (identity == -1) {
+                        lockedCubies[index] = nil;
+                    }
+                    else{
+                        lockedCubies[index] = [magicCube cubieWithColorCombination:identity];
+                    }
                 }
                     break;
                 case UnlockCubie:
@@ -251,7 +263,7 @@
             break;
         case InformationNode:
             switch (root.value) {
-                case getCombination:
+                case getCombinationFromOrientation:
                 {
                     int x=1, y=1, z=1;
                     for (MCTreeNode *child in root.children) {
@@ -280,32 +292,68 @@
                     }
                     return x+y*3+z*9;
                 }
+                case getCombinationFromColor:
+                {
+                    int x=1, y=1, z=1;
+                    for (MCTreeNode *child in root.children) {
+                        switch ((FaceColorType)[self treeNodesApply:child]) {
+                            case UpColor:
+                                y = 2;
+                                break;
+                            case DownColor:
+                                y = 0;
+                                break;
+                            case LeftColor:
+                                x = 0;
+                                break;
+                            case RightColor:
+                                x = 2;
+                                break;
+                            case FrontColor:
+                                z = 2;
+                                break;
+                            case BackColor:
+                                z = 0;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    return x+y*3+z*9;
+                }
                 case getFaceColorFromOrientation:
                 {
                     FaceColorType color;
-                    MCTreeNode *child = [root.children objectAtIndex:0];
-                    switch ([magicCube magicCubeFaceInOrientation:child.value]) {
-                        case Up:
-                            color = UpColor;
-                            break;
-                        case Down:
-                            color = DownColor;
-                            break;
-                        case Left:
-                            color = LeftColor;
-                            break;
-                        case Right:
-                            color = RightColor;
-                            break;
-                        case Front:
-                            color = FrontColor;
-                            break;
-                        case Back:
-                            color = BackColor;
-                            break;
-                        default:
-                            color = NoColor;
-                            break;
+                    FaceOrientationType orientation = [(MCTreeNode *)[root.children objectAtIndex:0] value];
+                    if ([root.children count] == 1) {
+                        switch ([magicCube magicCubeFaceInOrientation:orientation]) {
+                            case Up:
+                                color = UpColor;
+                                break;
+                            case Down:
+                                color = DownColor;
+                                break;
+                            case Left:
+                                color = LeftColor;
+                                break;
+                            case Right:
+                                color = RightColor;
+                                break;
+                            case Front:
+                                color = FrontColor;
+                                break;
+                            case Back:
+                                color = BackColor;
+                                break;
+                            default:
+                                color = NoColor;
+                                break;
+                        }
+                    }
+                    else{
+                        int value = [(MCTreeNode *)[root.children objectAtIndex:1] value];
+                        struct Point3i coordinate = {value%3-1, value%9/3-1, value/9-1};
+                        color = [[magicCube cubieAtCoordinatePoint3i:coordinate] faceColorInOrientation:orientation];
                     }
                     return color;
                 }
@@ -373,18 +421,13 @@
         key = [keys objectAtIndex:i];
         if ([self applyPatternWihtName:key]) {
             [self treeNodesApply:[[rules objectForKey:key] root]];
+            NSLog(@"%@", key);
             break;
         }
     }
     [self checkState];
     
     NSLog(@"%@", state);
-    if (lockedCubies[0] != nil) {
-        NSLog(@"%@", @"BeLocked");
-    }
-    else{
-        NSLog(@"%@", @"NotBeLocked");
-    }
 }
 
 - (void)refresh{
@@ -411,12 +454,16 @@
     }
     if ([goStr compare:state] != NSOrderedSame) {
         self.state = goStr;
+        lockedCubies[0] = nil;
+        for (int i = 4; i < CubieCouldBeLockMaxNum; i++) {
+            lockedCubies[i] = nil;
+        }
         [self refresh];
     }
 }
 
 - (SingmasterNotation)getPathToMakeCenterCubieAtPosition:(struct Point3i)coordinate inOrientation:(FaceOrientationType)orientation{
-    SingmasterNotation result;
+    SingmasterNotation result = SingmasterNotation_DoNothing;
     switch (orientation) {
         case Up:
             switch (coordinate.y) {

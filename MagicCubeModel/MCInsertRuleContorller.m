@@ -53,7 +53,7 @@
 }
 
 - (IBAction)pressActionBtn:(id)sender {
-    NSString *tmp;
+    NSString *tmp = nil;
     UIButton *pressedBtn = sender;
     switch (pressedBtn.tag) {
         case 0:
@@ -85,17 +85,20 @@
     [elements addObject:@"("];
     [transferredElements addObject:[NSNumber numberWithInteger:Token_LeftParentheses]];
     
-    NSString *tmp;
+    NSString *tmp = nil;
     UIButton *pressedBtn = sender;
     switch (pressedBtn.tag) {
         case 0:
-            tmp = @"getCombination";
+            tmp = @"getCombinationFromOrientation";
             break;
         case 1:
             tmp = @"getFaceColorFromOrientation";
             break;
         case 2:
             tmp = @"LockedCubie";
+            break;
+        case 3:
+            tmp = @"getCombinationFromColor";
             break;
         default:
             break;
@@ -109,7 +112,7 @@
 }
 
 - (IBAction)pressNotationBtn:(id)sender {
-    NSString *tmp;
+    NSString *tmp = nil;
     UIButton *pressedBtn = sender;
     switch (pressedBtn.tag) {
         case 0:
@@ -279,7 +282,7 @@
 }
 
 - (IBAction)pressIdentityBtn:(id)sender {
-    NSString *tmp;
+    NSString *tmp = nil;
     UIButton *pressedBtn = sender;
     if ([self.fnSwitcher isOn]) {
         tmp = [[NSString alloc] initWithFormat:@"%d", pressedBtn.tag];
@@ -407,7 +410,7 @@
 }
 
 - (IBAction)pressPartitionBtn:(id)sender {
-    NSString *tmp;
+    NSString *tmp = nil;
     UIButton *pressedBtn = sender;
     switch (pressedBtn.tag) {
         case 2:
@@ -431,7 +434,7 @@
 }
 
 - (IBAction)pressOrientationBtn:(id)sender {
-    NSString *tmp;
+    NSString *tmp = nil;
     UIButton *pressedBtn = sender;
     switch (pressedBtn.tag) {
         case 0:
@@ -469,7 +472,7 @@
             [result appendString:[obj stringValue]];
             [result appendString:@","];
         }
-        [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSOrderedSame range:NSMakeRange(0, [result length])];
+        [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [result length])];
         [self setActionStr:[result substringToIndex:([result length]-1)]];
         [transferredResultActions setText:actionStr];
         [result release];

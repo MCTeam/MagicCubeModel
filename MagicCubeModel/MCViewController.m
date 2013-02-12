@@ -54,9 +54,9 @@
     //show the rubik cube face
     //front face
     NSMutableString *frontFace = [[NSMutableString alloc] init];
-    for (int y = 2; y >= 0; y--) {
-        for (int x = 0; x < 3; x++) {
-            [frontFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:y Z:2]
+    for (int y = 1; y >= -1; y--) {
+        for (int x = -1; x < 2; x++) {
+            [frontFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:y Z:1]
                                                                 faceColorInOrientation:Front]]];
         }
         [frontFace appendString:@"\n"];
@@ -67,9 +67,9 @@
     
     //back face
     NSMutableString *backFace = [[NSMutableString alloc] init];
-    for (int y = 0; y < 3; y++) {
-        for (int x = 0; x < 3; x++) {
-            [backFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:y Z:0]
+    for (int y = -1; y < 2; y++) {
+        for (int x = -1; x < 2; x++) {
+            [backFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:y Z:-1]
                                                              faceColorInOrientation:Back]]];
         }
         [backFace appendString:@"\n"];
@@ -80,9 +80,9 @@
     
     //up face
     NSMutableString *upFace = [[NSMutableString alloc] init];
-    for (int z = 0; z < 3; z++) {
-        for (int x = 0; x < 3; x++) {
-            [upFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:2 Z:z]
+    for (int z = -1; z < 2; z++) {
+        for (int x = -1; x < 2; x++) {
+            [upFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:1 Z:z]
                                                                 faceColorInOrientation:Up]]];
         }
         [upFace appendString:@"\n"];
@@ -93,9 +93,9 @@
     
     //down face
     NSMutableString *downFace = [[NSMutableString alloc] init];
-    for (int z = 2; z >= 0; z--) {
-        for (int x = 0; x < 3; x++) {
-            [downFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:0 Z:z]
+    for (int z = 1; z >= -1; z--) {
+        for (int x = -1; x < 2; x++) {
+            [downFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:x Y:-1 Z:z]
                                                              faceColorInOrientation:Down]]];
         }
         [downFace appendString:@"\n"];
@@ -106,9 +106,9 @@
     
     //left face
     NSMutableString *leftFace = [[NSMutableString alloc] init];
-    for (int y = 2; y >= 0; y--) {
-        for (int z = 0; z < 3; z++) {
-            [leftFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:0 Y:y Z:z]
+    for (int y = 1; y >= -1; y--) {
+        for (int z = -1; z < 2; z++) {
+            [leftFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:-1 Y:y Z:z]
                                                                faceColorInOrientation:Left]]];
         }
         [leftFace appendString:@"\n"];
@@ -119,9 +119,9 @@
     
     //right face
     NSMutableString *rightFace = [[NSMutableString alloc] init];
-    for (int y = 2; y >= 0; y--) {
-        for (int z = 2; z >= 0; z--) {
-            [rightFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:2 Y:y Z:z]
+    for (int y = 1; y >= -1; y--) {
+        for (int z = 1; z >= -1; z--) {
+            [rightFace appendString:[self getStringByFaceColor:[[magicCube cubieAtCoordinateX:1 Y:y Z:z]
                                                                faceColorInOrientation:Right]]];
         }
         [rightFace appendString:@"\n"];

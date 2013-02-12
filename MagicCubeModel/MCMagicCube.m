@@ -368,11 +368,11 @@
 }
 
 - (MCCubie *)cubieAtCoordinateX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z{
-    return magicCubies3D[x][y][z];
+    return magicCubies3D[x+1][y+1][z+1];
 }
 
 - (MCCubie *)cubieAtCoordinatePoint3i:(struct Point3i)point{
-    return magicCubies3D[point.x][point.y][point.z];
+    return magicCubies3D[point.x+1][point.y+1][point.z+1];
 }
 
 - (FaceOrientationType)magicCubeFaceInOrientation:(FaceOrientationType)orientation{

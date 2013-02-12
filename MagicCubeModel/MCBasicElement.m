@@ -176,12 +176,12 @@
             node.value = Check;
             [self getToken];
             for ([self getToken]; token >= 0;) {
-                MCTreeNode *child;
+                MCTreeNode *child = nil;
                 MCTreeNode *childElement;
                 switch (token) {
                     case At:
-                    case ColorBindOrientation:
                     case NotAt:
+                    {
                         child = [[MCTreeNode alloc] initNodeWithType:PatternNode];
                         child.value = token;
                         [self getToken];
@@ -200,6 +200,37 @@
                             [child addChild:childElement];
                         }
                         [self getToken];
+                    }
+                        break;
+                    case ColorBindOrientation:
+                    {
+                        child = [[MCTreeNode alloc] initNodeWithType:PatternNode];
+                        child.value = token;
+                        [self getToken];
+                        int i = 0;
+                        for ([self getToken]; i < 2; i++) {
+                            if (token == Token_LeftParentheses) {
+                                [self getToken];
+                                childElement = [self parseInformationItem];
+                                [self getToken];
+                            } else {
+                                childElement = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                                childElement.value = token;
+                                [self getToken];
+                                [childElement autorelease];
+                            }
+                            [child addChild:childElement];
+                        }
+                        //if there is the third parameter
+                        if (token != Token_RightParentheses) {
+                            MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                            tmp.value = token;
+                            [child addChild:tmp];
+                            [tmp release];
+                            [self getToken];
+                        }
+                        [self getToken];
+                    }
                         break;
                     default:
                         break;
@@ -245,11 +276,11 @@
 }
 
 - (MCTreeNode *)parseInformationItem{
-    MCTreeNode * node;
+    MCTreeNode * node = nil;
 	switch (token) {
-        case getCombination:
+        case getCombinationFromOrientation:
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
-            node.value = getCombination;
+            node.value = getCombinationFromOrientation;
             [self getToken];
             for ([self getToken]; token >= 0; [self getToken]) {
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
@@ -259,7 +290,29 @@
             }
             [self getToken];
             break;
+        case getCombinationFromColor:
+        {
+            node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
+            node.value = getCombinationFromColor;
+            [self getToken];
+            for ([self getToken]; token != Token_RightParentheses;) {
+                if (token == Token_LeftParentheses) {
+                    [self getToken];
+                    [node addChild:[self parseInformationItem]];
+                    [self getToken];
+                } else {
+                    MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                    tmp.value = token;
+                    [node addChild:tmp];
+                    [tmp release];
+                    [self getToken];
+                }
+            }
+            [self getToken];
+        }
+            break;
         case getFaceColorFromOrientation:
+        {
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
             node.value = getFaceColorFromOrientation;
             [self getToken];
@@ -269,7 +322,15 @@
             [node addChild:tmp];
             [tmp release];
             [self getToken];
+            if (token != Token_RightParentheses) {
+                MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                tmp.value = token;
+                [node addChild:tmp];
+                [tmp release];
+                [self getToken];
+            }
             [self getToken];
+        }
             break;
         case LockedCubie:
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
@@ -479,12 +540,13 @@
 	return [node autorelease];
 }
 
+
 - (MCTreeNode *)parseInformationItem{
-    MCTreeNode * node;
+    MCTreeNode * node = nil;
 	switch (token) {
-        case getCombination:
+        case getCombinationFromOrientation:
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
-            node.value = getCombination;
+            node.value = getCombinationFromOrientation;
             [self getToken];
             for ([self getToken]; token >= 0; [self getToken]) {
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
@@ -494,7 +556,28 @@
             }
             [self getToken];
             break;
+        case getCombinationFromColor:
+        {
+            node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
+            node.value = getCombinationFromColor;
+            [self getToken];
+            for ([self getToken]; token != Token_RightParentheses; [self getToken]) {
+                if (token == Token_LeftParentheses) {
+                    [self getToken];
+                    [node addChild:[self parseInformationItem]];
+                    [self getToken];
+                } else {
+                    MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                    tmp.value = token;
+                    [node addChild:tmp];
+                    [tmp release];
+                }
+            }
+            [self getToken];
+        }
+            break;
         case getFaceColorFromOrientation:
+        {
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
             node.value = getFaceColorFromOrientation;
             [self getToken];
@@ -504,7 +587,15 @@
             [node addChild:tmp];
             [tmp release];
             [self getToken];
+            if (token != Token_RightParentheses) {
+                MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+                tmp.value = token;
+                [node addChild:tmp];
+                [tmp release];
+                [self getToken];
+            }
             [self getToken];
+        }
             break;
         case LockedCubie:
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
