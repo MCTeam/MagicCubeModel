@@ -38,4 +38,5 @@
 
 - (void)setCheckStateFromInit:(BOOL)is;
 
+- (void)refreshMagicCube;
 @end

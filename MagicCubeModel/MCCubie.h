@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Global.h"
 
-@interface MCCubie : NSObject
+@interface MCCubie : NSObject<NSCoding>
 
 @property(nonatomic)struct Point3i coordinateValue;
 @property(nonatomic)int skinNum;
@@ -19,16 +19,21 @@
 @property(nonatomic)FaceOrientationType *orientations;
 
 //initial the cube's data by coordinate value
-- (id) initWithCoordinateValue : (struct Point3i)value;
+- (id) initRightCubeWithCoordinate : (struct Point3i)value;
+
+//re-initiate the cube
+- (id)redefinedWithCoordinate:(struct Point3i)value orderedColors:(NSArray *)colors orderedOrientations:(NSArray *)orientations;
 
 //shift the cube‘s data
 - (void) shiftOnAxis: (AxisType)axis  inDirection: (LayerRotationDirectionType)direction;
-    
+
 //get the faceColor in specified orientation
 - (FaceColorType) faceColorInOrientation: (FaceOrientationType)orientation;
 
 //return wheather the face color on the specified orientation is the specified color
 - (BOOL)isFaceColor:(FaceColorType)color inOrientation:(FaceOrientationType)orientation;
 
+//return state
+- (NSDictionary *)getCuibeState;
 
 @end

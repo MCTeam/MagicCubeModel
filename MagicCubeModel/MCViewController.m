@@ -9,11 +9,6 @@
 #import "MCViewController.h"
 #import "MCPlayHelper.h"
 
-@interface MCViewController ()
-
-
-@end
-
 @implementation MCViewController
 
 
@@ -225,13 +220,13 @@
     }
 }
 
-
-
+//rotate the model and how to rotate is decided by three picker
 - (IBAction)rotateBtnClicked:(id)sender {
     [magicCube rotateOnAxis:currentAxis onLayer:currentLayer inDirection:currentDirection];
     [self showFaces];
 }
 
+//each time it's clicked, apply rules once
 - (IBAction)testBtn:(id)sender {
     switch ([sender tag]) {
         case 0:
@@ -265,4 +260,36 @@
     
     [self showFaces];
 }
+
+- (IBAction)newMagicCube:(id)sender {
+    [magicCube init];
+    //
+    [[MCPlayHelper getSharedPlayHelper] refreshMagicCube];
+    [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:YES];
+    [[MCPlayHelper getSharedPlayHelper] checkState];
+    [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:NO];
+    [self showFaces];
+}
+
+//
+- (IBAction)saveState:(id)sender {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *fileName = [path stringByAppendingPathComponent:TmpMagicCubeData];
+    [NSKeyedArchiver archiveRootObject:magicCube toFile:fileName];
+}
+
+- (IBAction)loadState:(id)sender {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *fileName = [path stringByAppendingPathComponent:TmpMagicCubeData];
+    [MCMagicCube setSharedMagicCube:[NSKeyedUnarchiver unarchiveObjectWithFile:fileName]];
+    magicCube = [MCMagicCube getSharedMagicCube];
+    //
+    [[MCPlayHelper getSharedPlayHelper] refreshMagicCube];
+    [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:YES];
+    [[MCPlayHelper getSharedPlayHelper] checkState];
+    [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:NO];
+    [self showFaces];
+}
+
+
 @end

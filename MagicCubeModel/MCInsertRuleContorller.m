@@ -18,6 +18,7 @@
 @synthesize transferredElements;
 @synthesize knowledgeBase;
 @synthesize actionStr;
+@synthesize testRule;
 
 - (void)dealloc {
     [patternName release];
@@ -37,10 +38,12 @@
     [self setTransferredResultActions:nil];
     [self setPreStateName:nil];
     [self setFnSwitcher:nil];
+    [self setTestRule:nil];
     [super viewDidUnload];
 }
 
 - (void)viewDidLoad{
+    [super viewDidLoad];
     if (elements == nil) {
         elements = [[NSMutableArray alloc] initWithCapacity:100];
     }
@@ -474,7 +477,14 @@
         }
         [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [result length])];
         [self setActionStr:[result substringToIndex:([result length]-1)]];
-        [transferredResultActions setText:actionStr];
+        //detect error
+        testRule = [[MCRule alloc] initWithString:actionStr];
+        if ([testRule errorFlag]) {
+            [self ouputResult];
+        } else {
+            [transferredResultActions setText:actionStr];
+            [self setTestRule:nil];
+        }
         [result release];
     } else {
         [transferredResultActions setText:@""];

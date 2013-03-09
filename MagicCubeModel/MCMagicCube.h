@@ -9,10 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "MCCubie.h"
 
-@interface MCMagicCube : NSObject
+@interface MCMagicCube : NSObject <NSCoding>
 
+@property (retain, nonatomic) NSDictionary *tagsMappingToColors;
 
+//get the shared magic cube object
 + (MCMagicCube *)getSharedMagicCube;
+
+//set the shared magic cube object
++ (void)setSharedMagicCube:(MCMagicCube *)mc;
 
 //rotate operation with axis, layer, direction
 - (void)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction;
@@ -31,6 +36,9 @@
 - (void)rotateWithSingmasterNotation:(SingmasterNotation)notation;
 
 - (FaceOrientationType)magicCubeFaceInOrientation:(FaceOrientationType)orientation;
+
+//get the whole state info
+- (NSArray *)getState;
 
 
 @end

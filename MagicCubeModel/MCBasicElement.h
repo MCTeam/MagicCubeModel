@@ -27,7 +27,8 @@
 @interface MCPattern : NSObject
 
 @property(retain, nonatomic)MCTreeNode *root;
-
+@property(nonatomic)BOOL errorFlag;
+@property(nonatomic)NSInteger errorPosition;
 
 - (id)initWithString:(NSString *)patternStr;
 
@@ -46,6 +47,8 @@
 @interface MCRule : NSObject
 
 @property(retain, nonatomic)MCTreeNode *root;
+@property(nonatomic)BOOL errorFlag;
+@property(nonatomic)NSInteger errorPosition;
 
 - (id)initWithString:(NSString *)patternStr;
 

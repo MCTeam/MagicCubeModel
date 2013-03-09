@@ -37,4 +37,10 @@
 
 - (IBAction)testBtn:(id)sender;
 
+- (IBAction)newMagicCube:(id)sender;
+
+- (IBAction)saveState:(id)sender;
+
+- (IBAction)loadState:(id)sender;
+
 @end

@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "MCKnowledgeBase.h"
 #import "MCPlayHelper.h"
+#import "CircleMenuController.h"
 
-@interface MCTestPatternController : UIViewController 
+@interface MCRestoreModelController : CircleMenuController
 
 
 @property (retain, nonatomic) MCPlayHelper *playHelper;
-@property (retain, nonatomic) IBOutlet UITextField *patternName;
-@property (retain, nonatomic) IBOutlet UITextView *resultTextArea;
 
-- (IBAction)testBtn:(id)sender;
+- (IBAction)selectOne:(id)sender;
+
 
 @end

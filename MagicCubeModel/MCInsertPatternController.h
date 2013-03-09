@@ -22,6 +22,7 @@
 @property (retain, nonatomic) NSMutableArray *transferredElements;
 @property (retain, nonatomic) MCKnowledgeBase *knowledgeBase;
 @property (retain, nonatomic) NSString *patternStr;
+@property (retain, nonatomic) MCPattern *testPattern;
 
 
 

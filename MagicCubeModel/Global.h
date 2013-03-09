@@ -32,19 +32,20 @@ typedef enum _FaceColorType {
 
 //define the orientation of face
 typedef enum _FaceOrientationType {
-    Up      = 0,
-    Down    = 1,
-    Front   = 2,
-    Back    = 3,
-    Left    = 4,
-    Right   = 5
+    Up,
+    Down,
+    Front,
+    Back,
+    Left,
+    Right
 } FaceOrientationType;
 
 //three types of cubies
 typedef enum _CubieType {
-    CentralCubie    = 0,
-    EdgeCubie       = 1,
-    CornerCubie     = 2
+    NoType,
+    CentralCubie,
+    EdgeCubie,
+    CornerCubie
 } CubieType;
 
 //define the rotation direction, clockwise and anticlockwise
@@ -138,7 +139,21 @@ typedef enum _SingmasterNotation {
 #define SingmasterNotation_DoNothing -1
 
 #define ETFF 0  //method 0, 8355
-#define START_STATE "Init"
+#define START_STATE @"Init"
+#define TmpMagicCubeData @"tmpMagicCube"
+
+
+//--------------------------------------------------------------------------------------------
+//tmp variables
+typedef enum _FaceColor{
+    Yellow,
+    White,
+    Red,
+    Orange,
+    Blue,
+    Green
+} FaceColor;
+//--------------------------------------------------------------------------------------------
 
 
 #endif

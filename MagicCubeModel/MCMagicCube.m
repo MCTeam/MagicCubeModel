@@ -8,20 +8,31 @@
 
 #import "MCMagicCube.h"
 
+#define kSingleCubieKeyFormat @"Cubie%d"
+#define kSingleOrientationToMagicCubeFaceKeyFormat @"OrientationToFace%d"
+
 @implementation MCMagicCube{
     MCCubie *magicCubies3D[3][3][3];
     MCCubie *magicCubiesList[27];
     NSInteger orientationToMagicCubeFace[6];
 }
 
+static MCMagicCube *magicCube;
+
 + (MCMagicCube *)getSharedMagicCube{
-    static MCMagicCube *magicCube;
+    
     @synchronized(self)
     {
         if (!magicCube)
             magicCube = [[MCMagicCube alloc] init];
         return magicCube;
     }
+}
+
++ (void)setSharedMagicCube:(MCMagicCube *)mc{
+    [mc retain];
+    [magicCube release];
+    magicCube = mc;
 }
 
 - (id)init{
@@ -31,8 +42,14 @@
                 for (int x = 0; x < 3; x++) {
                     if (x != 1 || y != 1 || z != 1) {
                         struct Point3i coordinateValue = {.x = x-1, .y = y-1, .z = z-1};
-                        magicCubies3D[x][y][z] = [[MCCubie alloc] initWithCoordinateValue:coordinateValue];
+                        BOOL isReatin = NO;
+                        if (magicCubies3D[x][y][z] == nil) {
+                            magicCubies3D[x][y][z] = [MCCubie alloc];
+                            isReatin = YES;
+                        }
+                        [magicCubies3D[x][y][z] initRightCubeWithCoordinate:coordinateValue];
                         magicCubiesList[x+y*3+z*9] = magicCubies3D[x][y][z];
+                        if (isReatin) [magicCubiesList[x+y*3+z*9] retain];
                     }
                 }
             }
@@ -47,6 +64,8 @@
 
 - (void)dealloc{
     for (int i = 0; i < 27; i++) {
+        //release twice
+        [magicCubiesList[i] release];
         [magicCubiesList[i] release];
     }
     [super dealloc];
@@ -377,6 +396,62 @@
 
 - (FaceOrientationType)magicCubeFaceInOrientation:(FaceOrientationType)orientation{
     return orientationToMagicCubeFace[orientation];
+}
+
+//encode the object
+- (void)encodeWithCoder:(NSCoder *)aCoder{
+    for (int z = 0; z < 3; z++) {
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                if (x != 1 || y != 1 || z != 1) {
+                    [aCoder encodeObject:magicCubies3D[x][y][z] forKey:[NSString stringWithFormat:kSingleCubieKeyFormat, x+3*y+9*z]];
+                }
+            }
+        }
+    }
+    for (int i  = 0; i < 6; i++) {
+        [aCoder encodeInteger:orientationToMagicCubeFace[i] forKey:[NSString stringWithFormat:kSingleOrientationToMagicCubeFaceKeyFormat, i]];
+    }
+}
+
+//decode the object
+- (id)initWithCoder:(NSCoder *)aDecoder{
+    if (self = [super init]) {
+        for (int z = 0; z < 3; z++) {
+            for (int y = 0; y < 3; y++) {
+                for (int x = 0; x < 3; x++) {
+                    if (x != 1 || y != 1 || z != 1) {
+                        //get the cubie object
+                        magicCubies3D[x][y][z] = [aDecoder decodeObjectForKey:[NSString stringWithFormat:kSingleCubieKeyFormat, x+3*y+9*z]];
+                        [magicCubies3D[x][y][z] retain];
+                        //set the right pointer
+                        NSInteger listIndex = magicCubies3D[x][y][z].identity;
+                        magicCubiesList[listIndex] = magicCubies3D[x][y][z];
+                        [magicCubiesList[listIndex] retain];
+                    }
+                }
+            }
+        }
+        for (int i  = 0; i < 6; i++) {
+            orientationToMagicCubeFace[i] = [aDecoder decodeIntegerForKey:[NSString stringWithFormat:kSingleOrientationToMagicCubeFaceKeyFormat, i]];
+        }
+    }
+    return self;
+}
+
+
+- (NSArray *)getState{
+    NSMutableArray *states = [NSMutableArray arrayWithCapacity:26];
+    for (int z = 0; z < 3; z++) {
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                if (x != 1 || y != 1 || z != 1) {
+                    [states addObject:[magicCubies3D[x][y][z] getCuibeState]];
+                }
+            }
+        }
+    }
+    return states;
 }
 
 @end

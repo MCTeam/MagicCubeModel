@@ -39,8 +39,8 @@
             lockedCubies[0] = nil;
         }
         
-        self.magicCube = [MCMagicCube getSharedMagicCube];
-        self.state = [NSString stringWithUTF8String:START_STATE];
+        magicCube = [MCMagicCube getSharedMagicCube];
+        self.state = START_STATE;
         
         self.patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
         self.rules = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getRulesOfMethod:ETFF withState:state]];
@@ -412,6 +412,7 @@
 }
 
 - (void)applyRules{
+    if (magicCube == nil) magicCube = [MCMagicCube getSharedMagicCube];
     NSString *key;
     NSArray *keys = [rules allKeys];
     int count = [rules count];
@@ -440,7 +441,7 @@
     NSString *goStr;
     //to check from init or not
     if (isCheckStateFromInit) {
-        goStr = [NSString stringWithUTF8String:START_STATE];
+        goStr = START_STATE;
         for (int i = 0; i < CubieCouldBeLockMaxNum; i++) {
             lockedCubies[i] = nil;
         }
@@ -654,6 +655,10 @@
 
 - (void)setCheckStateFromInit:(BOOL)is{
     isCheckStateFromInit = is;
+}
+
+- (void)refreshMagicCube{
+    magicCube = [MCMagicCube getSharedMagicCube];
 }
 
 @end

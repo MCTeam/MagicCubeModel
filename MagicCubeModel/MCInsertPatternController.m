@@ -18,7 +18,7 @@
 @synthesize transferredElements;
 @synthesize knowledgeBase;
 @synthesize patternStr;
-
+@synthesize testPattern;
 
 
 - (IBAction)pressIdentityBtn:(id)sender {
@@ -292,8 +292,28 @@
 
 - (void)ouputResult{
     NSMutableString *result = [[NSMutableString alloc] initWithString:@""];
-    for (NSString *obj in elements) {
-        [result appendString:obj];
+    if (testPattern != nil && [testPattern errorFlag]) {
+        int position = [testPattern errorPosition];
+        int i;
+        for (i = 0; i < position; i++) {
+            if ([(NSNumber *)[transferredElements objectAtIndex:i] integerValue] == PLACEHOLDER) {
+                position++;
+            }
+            [result appendString:[elements objectAtIndex:i]];
+        }
+        [result appendString:@"[Error occurrs here:"];
+        [result appendString:[elements objectAtIndex:i]];
+        [result appendString:@"]"];
+        for (i++; i < [elements count]; i++) {
+            [result appendString:[elements objectAtIndex:i]];
+        }
+        [self setTestPattern:nil];
+        [nontransferredResult setTextColor:[UIColor redColor]];
+    } else {
+        for (NSString *obj in elements) {
+            [result appendString:obj];
+        }
+        [nontransferredResult setTextColor:[UIColor blackColor]];
     }
     [nontransferredResult setText:result];
     [result release];
@@ -356,7 +376,14 @@
         }
         [result replaceOccurrencesOfString:[NSString stringWithFormat:@",%d",PLACEHOLDER] withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [result length])];
         [self setPatternStr:[result substringToIndex:([result length]-1)]];
-        [transferredResult setText:patternStr];
+        //detect error
+        testPattern = [[MCPattern alloc] initWithString:patternStr];
+        if ([testPattern errorFlag]) {
+            [self ouputResult];
+        } else {
+            [transferredResult setText:patternStr];
+            [self setTestPattern:nil];
+        }
         [result release];
     } else {
         [transferredResult setText:@""];
@@ -370,6 +397,7 @@
     [self setNontransferredResult:nil];
     [self setPreState:nil];
     [self setFnSwitcher:nil];
+    [self setTestPattern:nil];
     [super viewDidUnload];
 }
 
