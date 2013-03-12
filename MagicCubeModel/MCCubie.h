@@ -33,7 +33,10 @@
 //return wheather the face color on the specified orientation is the specified color
 - (BOOL)isFaceColor:(FaceColorType)color inOrientation:(FaceOrientationType)orientation;
 
-//return state
-- (NSDictionary *)getCuibeState;
+//return state in the "format" axis-orientation
+- (NSDictionary *)getCubieOrientationOfAxis;
+
+//return state in the "format" orientation-facecolor
+- (NSDictionary *)getCubieColorOfEveryOrientation;
 
 @end

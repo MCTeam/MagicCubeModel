@@ -175,6 +175,7 @@
                 [mcPattern release];
             }
         }
+        sqlite3_finalize(stmt);
         sqlite3_close(database);
         return patterns;
     }
@@ -209,6 +210,7 @@
                 [mcState release];
             }
         }
+        sqlite3_finalize(stmt);
         sqlite3_close(database);
         return states;
     }
@@ -239,6 +241,7 @@
                 [mcRule release];
             }
         }
+        sqlite3_finalize(stmt);
         sqlite3_close(database);
         return rules;
     }

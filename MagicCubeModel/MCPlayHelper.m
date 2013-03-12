@@ -426,8 +426,8 @@
             break;
         }
     }
-    [self checkState];
     
+    [self checkState];
     NSLog(@"%@", state);
 }
 

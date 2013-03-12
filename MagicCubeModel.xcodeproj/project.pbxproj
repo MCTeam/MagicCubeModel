@@ -18,15 +18,16 @@
 		E00F55E016CA89C9005FA455 /* Icon_max.png in Resources */ = {isa = PBXBuildFile; fileRef = E00F55DD16CA89C9005FA455 /* Icon_max.png */; };
 		E00F55E116CA89C9005FA455 /* Icon_min.png in Resources */ = {isa = PBXBuildFile; fileRef = E00F55DE16CA89C9005FA455 /* Icon_min.png */; };
 		E00F55E216CA89C9005FA455 /* KnowledgeBase.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = E00F55DF16CA89C9005FA455 /* KnowledgeBase.sqlite3 */; };
-		E04221BC16E492E8003602F8 /* Color05.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B416E492E8003602F8 /* Color05.png */; };
-		E04221BD16E492E8003602F8 /* Color04.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B516E492E8003602F8 /* Color04.png */; };
-		E04221BE16E492E8003602F8 /* Color01.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B616E492E8003602F8 /* Color01.png */; };
-		E04221BF16E492E8003602F8 /* Color02.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B716E492E8003602F8 /* Color02.png */; };
-		E04221C016E492E8003602F8 /* Color00.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B816E492E8003602F8 /* Color00.png */; };
+		E04108B316EF4290002118E7 /* MCTransformUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E04108B216EF4290002118E7 /* MCTransformUtil.m */; };
+		E04221BC16E492E8003602F8 /* Color06.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B416E492E8003602F8 /* Color06.png */; };
+		E04221BD16E492E8003602F8 /* Color05.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B516E492E8003602F8 /* Color05.png */; };
+		E04221BE16E492E8003602F8 /* Color02.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B616E492E8003602F8 /* Color02.png */; };
+		E04221BF16E492E8003602F8 /* Color03.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B716E492E8003602F8 /* Color03.png */; };
+		E04221C016E492E8003602F8 /* Color01.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B816E492E8003602F8 /* Color01.png */; };
 		E04221C216E492E8003602F8 /* DefaultButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221BA16E492E8003602F8 /* DefaultButton.png */; };
 		E04221C316E492E8003602F8 /* DefaultButtonBg.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221BB16E492E8003602F8 /* DefaultButtonBg.png */; };
 		E04221C716E49490003602F8 /* CircleMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = E04221C616E49490003602F8 /* CircleMenuController.m */; };
-		E070AF6C16E4CAE9004BEB2E /* Color03.png in Resources */ = {isa = PBXBuildFile; fileRef = E070AF6B16E4CAE9004BEB2E /* Color03.png */; };
+		E070AF6C16E4CAE9004BEB2E /* Color04.png in Resources */ = {isa = PBXBuildFile; fileRef = E070AF6B16E4CAE9004BEB2E /* Color04.png */; };
 		E0B0FB7F168EC97900DBBF49 /* MCPlayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */; };
 		E0B0FB83168EDC7200DBBF49 /* MCBasicElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB82168EDC7200DBBF49 /* MCBasicElement.m */; };
 		E0E737DF1694651600E48BD0 /* MCRestoreModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E737DE1694651600E48BD0 /* MCRestoreModelController.m */; };
@@ -73,17 +74,19 @@
 		E00F55DD16CA89C9005FA455 /* Icon_max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_max.png; sourceTree = "<group>"; };
 		E00F55DE16CA89C9005FA455 /* Icon_min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_min.png; sourceTree = "<group>"; };
 		E00F55DF16CA89C9005FA455 /* KnowledgeBase.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = KnowledgeBase.sqlite3; sourceTree = "<group>"; };
-		E04221B416E492E8003602F8 /* Color05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color05.png; sourceTree = "<group>"; };
-		E04221B516E492E8003602F8 /* Color04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color04.png; sourceTree = "<group>"; };
-		E04221B616E492E8003602F8 /* Color01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color01.png; sourceTree = "<group>"; };
-		E04221B716E492E8003602F8 /* Color02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color02.png; sourceTree = "<group>"; };
-		E04221B816E492E8003602F8 /* Color00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color00.png; sourceTree = "<group>"; };
+		E04108B116EF4290002118E7 /* MCTransformUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTransformUtil.h; sourceTree = "<group>"; };
+		E04108B216EF4290002118E7 /* MCTransformUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTransformUtil.m; sourceTree = "<group>"; };
+		E04221B416E492E8003602F8 /* Color06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color06.png; sourceTree = "<group>"; };
+		E04221B516E492E8003602F8 /* Color05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color05.png; sourceTree = "<group>"; };
+		E04221B616E492E8003602F8 /* Color02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color02.png; sourceTree = "<group>"; };
+		E04221B716E492E8003602F8 /* Color03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color03.png; sourceTree = "<group>"; };
+		E04221B816E492E8003602F8 /* Color01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color01.png; sourceTree = "<group>"; };
 		E04221BA16E492E8003602F8 /* DefaultButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultButton.png; sourceTree = "<group>"; };
 		E04221BB16E492E8003602F8 /* DefaultButtonBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultButtonBg.png; sourceTree = "<group>"; };
 		E04221C516E49490003602F8 /* CircleMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleMenuController.h; sourceTree = "<group>"; };
 		E04221C616E49490003602F8 /* CircleMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleMenuController.m; sourceTree = "<group>"; };
 		E04221C816E494F3003602F8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		E070AF6B16E4CAE9004BEB2E /* Color03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color03.png; sourceTree = "<group>"; };
+		E070AF6B16E4CAE9004BEB2E /* Color04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color04.png; sourceTree = "<group>"; };
 		E0B0FB7D168EC97800DBBF49 /* MCPlayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPlayHelper.h; sourceTree = "<group>"; };
 		E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCPlayHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E0B0FB81168EDC7200DBBF49 /* MCBasicElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBasicElement.h; sourceTree = "<group>"; };
@@ -164,15 +167,24 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		E04108B016EF4209002118E7 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				E04108B116EF4290002118E7 /* MCTransformUtil.h */,
+				E04108B216EF4290002118E7 /* MCTransformUtil.m */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
 		E04221B316E4928F003602F8 /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				E04221B416E492E8003602F8 /* Color05.png */,
-				E04221B516E492E8003602F8 /* Color04.png */,
-				E04221B616E492E8003602F8 /* Color01.png */,
-				E04221B716E492E8003602F8 /* Color02.png */,
-				E04221B816E492E8003602F8 /* Color00.png */,
-				E070AF6B16E4CAE9004BEB2E /* Color03.png */,
+				E04221B416E492E8003602F8 /* Color06.png */,
+				E04221B516E492E8003602F8 /* Color05.png */,
+				E04221B616E492E8003602F8 /* Color02.png */,
+				E04221B716E492E8003602F8 /* Color03.png */,
+				E04221B816E492E8003602F8 /* Color01.png */,
+				E070AF6B16E4CAE9004BEB2E /* Color04.png */,
 				E04221BA16E492E8003602F8 /* DefaultButton.png */,
 				E04221BB16E492E8003602F8 /* DefaultButtonBg.png */,
 			);
@@ -234,10 +246,11 @@
 		E0EC97631615836A00EBFE79 /* MagicCubeModel */ = {
 			isa = PBXGroup;
 			children = (
-				E04221C416E4946D003602F8 /* PopUpView */,
 				E00F55C416CA86AB005FA455 /* Document */,
 				E0940AFF16B23442002BEBAA /* Resource */,
 				E0F6BDF1168E898800D857BC /* MCPlayHelper */,
+				E04108B016EF4209002118E7 /* Util */,
+				E04221C416E4946D003602F8 /* PopUpView */,
 				E0EC976C1615836A00EBFE79 /* MCAppDelegate.h */,
 				E0EC976D1615836A00EBFE79 /* MCAppDelegate.m */,
 				E0EC976F1615836A00EBFE79 /* MainStoryboard.storyboard */,
@@ -388,14 +401,14 @@
 				E00F55E016CA89C9005FA455 /* Icon_max.png in Resources */,
 				E00F55E116CA89C9005FA455 /* Icon_min.png in Resources */,
 				E00F55E216CA89C9005FA455 /* KnowledgeBase.sqlite3 in Resources */,
-				E04221BC16E492E8003602F8 /* Color05.png in Resources */,
-				E04221BD16E492E8003602F8 /* Color04.png in Resources */,
-				E04221BE16E492E8003602F8 /* Color01.png in Resources */,
-				E04221BF16E492E8003602F8 /* Color02.png in Resources */,
-				E04221C016E492E8003602F8 /* Color00.png in Resources */,
+				E04221BC16E492E8003602F8 /* Color06.png in Resources */,
+				E04221BD16E492E8003602F8 /* Color05.png in Resources */,
+				E04221BE16E492E8003602F8 /* Color02.png in Resources */,
+				E04221BF16E492E8003602F8 /* Color03.png in Resources */,
+				E04221C016E492E8003602F8 /* Color01.png in Resources */,
 				E04221C216E492E8003602F8 /* DefaultButton.png in Resources */,
 				E04221C316E492E8003602F8 /* DefaultButtonBg.png in Resources */,
-				E070AF6C16E4CAE9004BEB2E /* Color03.png in Resources */,
+				E070AF6C16E4CAE9004BEB2E /* Color04.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +468,7 @@
 				E0E737DF1694651600E48BD0 /* MCRestoreModelController.m in Sources */,
 				E0E75E83169567130002AF38 /* MCInsertRuleContorller.m in Sources */,
 				E04221C716E49490003602F8 /* CircleMenuController.m in Sources */,
+				E04108B316EF4290002118E7 /* MCTransformUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

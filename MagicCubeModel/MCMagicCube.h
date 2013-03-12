@@ -37,8 +37,9 @@
 
 - (FaceOrientationType)magicCubeFaceInOrientation:(FaceOrientationType)orientation;
 
-//get the whole state info
-- (NSArray *)getState;
+//get the state of cubies
+//every state in the "format" axis-orientation
+- (NSArray *)getAxisStatesOfAllCubie;
 
 
 @end

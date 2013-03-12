@@ -8,6 +8,7 @@
 
 #import "MCCubie.h"
 #import <math.h>
+#import "MCTransformUtil.h"
 
 #define kCoordinateXKey @"CoordinateX"
 #define kCoordinateYKey @"CoordinateY"
@@ -412,13 +413,43 @@
 }
 
 
-- (NSDictionary *)getCuibeState;{
+- (NSDictionary *)getCubieColorOfEveryOrientation{
     NSMutableDictionary *state = [NSMutableDictionary dictionaryWithCapacity:6];
     for (int i = 0; i < 6; i++) {
         [state setObject:[NSNumber numberWithInteger:NoColor] forKey:[NSNumber numberWithInteger:i]];
     }
     for (int i = 0; i < skinNum; i++) {
         [state setObject:[NSNumber numberWithInteger:faceColors[i]] forKey:[NSNumber numberWithInteger:orientations[i]]];
+    }
+    return [NSDictionary dictionaryWithDictionary:state];
+}
+
+- (NSDictionary *)getCubieOrientationOfAxis{
+    NSMutableDictionary *state = [NSMutableDictionary dictionaryWithCapacity:3];
+    for (int i = 0; i < skinNum; i++) {
+        switch (faceColors[i]) {
+            case UpColor:
+                [state setObject:[NSNumber numberWithInteger:orientations[i]] forKey:[NSNumber numberWithInteger:Y]];
+                break;
+            case DownColor:
+                [state setObject:[NSNumber numberWithInteger:[MCTransformUtil getContraryOrientation:orientations[i]]] forKey:[NSNumber numberWithInteger:Y]];
+                break;
+            case FrontColor:
+                [state setObject:[NSNumber numberWithInteger:orientations[i]] forKey:[NSNumber numberWithInteger:Z]];
+                break;
+            case BackColor:
+                [state setObject:[NSNumber numberWithInteger:[MCTransformUtil getContraryOrientation:orientations[i]]] forKey:[NSNumber numberWithInteger:Z]];
+                break;
+            case LeftColor:
+                [state setObject:[NSNumber numberWithInteger:[MCTransformUtil getContraryOrientation:orientations[i]]] forKey:[NSNumber numberWithInteger:X]];
+                break;
+            case RightColor:
+                [state setObject:[NSNumber numberWithInteger:orientations[i]] forKey:[NSNumber numberWithInteger:X]];
+                break;
+            default:
+                break;
+        }
+        
     }
     return [NSDictionary dictionaryWithDictionary:state];
 }
