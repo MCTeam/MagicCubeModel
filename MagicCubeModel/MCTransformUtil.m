@@ -32,7 +32,7 @@
             result = Left;
             break;
         default:
-            return -1;
+            return WrongOrientation;
     }
     return result;
 }

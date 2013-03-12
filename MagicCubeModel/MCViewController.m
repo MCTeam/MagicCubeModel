@@ -209,13 +209,13 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     switch ([pickerView tag]) {
         case 0:
-            currentAxis = row;
+            currentAxis = (AxisType)row;
             break;
         case 1:
             currentLayer = row;
             break;
         case 2:
-            currentDirection = row;
+            currentDirection = (LayerRotationDirectionType)row;
             break;
     }
 }
@@ -232,7 +232,7 @@
         case 0:
             srand(clock());
             for (int i = 0; i < 40; i++) {
-                SingmasterNotation rotate = rand()%27;
+                SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
                 [[MCMagicCube getSharedMagicCube] rotateWithSingmasterNotation:rotate];
             }
             [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:YES];

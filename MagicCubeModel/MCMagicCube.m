@@ -14,7 +14,7 @@
 @implementation MCMagicCube{
     MCCubie *magicCubies3D[3][3][3];
     MCCubie *magicCubiesList[27];
-    NSInteger orientationToMagicCubeFace[6];
+    FaceOrientationType orientationToMagicCubeFace[6];
 }
 
 static MCMagicCube *magicCube;
@@ -56,7 +56,7 @@ static MCMagicCube *magicCube;
         }
         for (int i  = 0; i < 6; i++) {
             //At the begining, the orientation and the magic cube face orientation is same
-            orientationToMagicCubeFace[i] = i;
+            orientationToMagicCubeFace[i] = (FaceOrientationType)i;
         }
     }
     return self;
@@ -433,7 +433,7 @@ static MCMagicCube *magicCube;
             }
         }
         for (int i  = 0; i < 6; i++) {
-            orientationToMagicCubeFace[i] = [aDecoder decodeIntegerForKey:[NSString stringWithFormat:kSingleOrientationToMagicCubeFaceKeyFormat, i]];
+            orientationToMagicCubeFace[i] = (FaceOrientationType)[aDecoder decodeIntegerForKey:[NSString stringWithFormat:kSingleOrientationToMagicCubeFaceKeyFormat, i]];
         }
     }
     return self;

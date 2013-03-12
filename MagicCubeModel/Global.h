@@ -37,7 +37,8 @@ typedef enum _FaceOrientationType {
     Front,
     Back,
     Left,
-    Right
+    Right,
+    WrongOrientation
 } FaceOrientationType;
 
 //three types of cubies
@@ -134,9 +135,9 @@ typedef enum _SingmasterNotation {
     r, ri, r2,
     l, li, l2,
     u, ui, u2,
-    d, di, d2
+    d, di, d2,
+    SingmasterNotation_DoNothing
 } SingmasterNotation;
-#define SingmasterNotation_DoNothing -1
 
 #define ETFF 0  //method 0, 8355
 #define START_STATE @"Init"

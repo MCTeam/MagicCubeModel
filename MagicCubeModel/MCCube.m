@@ -102,7 +102,7 @@
                 break;
         }
         //assign the identity
-        identity = coordinateValue.x + coordinateValue.y*3 + coordinateValue.z*9 + 13;
+        identity = (ColorCombinationType)(coordinateValue.x + coordinateValue.y*3 + coordinateValue.z*9 + 13);
     }
     return self;
 }   //initial the cube's data by coordinate value
@@ -130,32 +130,34 @@
         //allocate memory for the skin
         self.faceColors = (FaceColorType*)malloc(skinNum * sizeof(FaceColorType));
         self.orientations = (FaceOrientationType*)malloc(skinNum * sizeof(FaceOrientationType));
+        int tmpIdentity = identity;
         for (int i = 0; i < self.skinNum; i++) {
-            self.faceColors[i] = [[colors objectAtIndex:i] integerValue];
-            self.orientations[i] = [[ors objectAtIndex:i] integerValue];
+            self.faceColors[i] = (FaceColorType)[[colors objectAtIndex:i] integerValue];
+            self.orientations[i] = (FaceOrientationType)[[ors objectAtIndex:i] integerValue];
             switch (self.faceColors[i]) {
                 case UpColor:
-                    identity += 3;
+                    tmpIdentity += 3;
                     break;
                 case DownColor:
-                    identity -= 3;
+                    tmpIdentity -= 3;
                     break;
                 case FrontColor:
-                    identity += 9;
+                    tmpIdentity += 9;
                     break;
                 case BackColor:
-                    identity -= 9;
+                    tmpIdentity -= 9;
                     break;
                 case LeftColor:
-                    identity -= 1;
+                    tmpIdentity -= 1;
                     break;
                 case RightColor:
-                    identity += 1;
+                    tmpIdentity += 1;
                     break;
                 default:
                     break;
             }
         }
+        identity = (ColorCombinationType)tmpIdentity;
     }
     return self;
 }
@@ -399,14 +401,14 @@
         coordinateValue.y = [aDecoder decodeIntegerForKey:kCoordinateYKey];
         coordinateValue.z = [aDecoder decodeIntegerForKey:kCoordinateZKey];
         self.skinNum = [aDecoder decodeIntegerForKey:kSkinNumKey];
-        self.type = [aDecoder decodeIntegerForKey:kTypeKey];
-        self.identity = [aDecoder decodeIntegerForKey:kIdentityKey];
+        self.type = (CubieType)[aDecoder decodeIntegerForKey:kTypeKey];
+        self.identity = (ColorCombinationType)[aDecoder decodeIntegerForKey:kIdentityKey];
         //alloc memory
         faceColors = (FaceColorType*)malloc(skinNum * sizeof(FaceColorType));
         orientations = (FaceOrientationType*)malloc(skinNum * sizeof(FaceOrientationType));
         for (int i = 0; i < skinNum; i++) {
-            self.faceColors[i] = [aDecoder decodeIntegerForKey:[NSString stringWithFormat:kSingleColorKeyFormat, i]];
-            self.orientations[i] = [aDecoder decodeIntegerForKey:[NSString stringWithFormat:kSingleOrientationKeyFormat, i]];
+            self.faceColors[i] = (FaceColorType)[aDecoder decodeIntegerForKey:[NSString stringWithFormat:kSingleColorKeyFormat, i]];
+            self.orientations[i] = (FaceOrientationType)[aDecoder decodeIntegerForKey:[NSString stringWithFormat:kSingleOrientationKeyFormat, i]];
         }
     }
     return self;
