@@ -17,22 +17,12 @@
     FaceOrientationType orientationToMagicCubeFace[6];
 }
 
-static MCMagicCube *magicCube;
-
-+ (MCMagicCube *)getSharedMagicCube{
-    
-    @synchronized(self)
-    {
-        if (!magicCube)
-            magicCube = [[MCMagicCube alloc] init];
-        return magicCube;
-    }
++ (MCMagicCube *)magicCube{
+    return [[[MCMagicCube alloc] init] autorelease];
 }
 
-+ (void)setSharedMagicCube:(MCMagicCube *)mc{
-    [mc retain];
-    [magicCube release];
-    magicCube = mc;
++ (MCMagicCube *)unarchiveMagicCubeWithFile:(NSString *)path{
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
 }
 
 - (id)init{
@@ -448,10 +438,30 @@ static MCMagicCube *magicCube;
                 if (x != 1 || y != 1 || z != 1) {
                     [states addObject:[magicCubies3D[x][y][z] getCubieOrientationOfAxis]];
                 }
+                else{
+                    [states addObject:[NSDictionary dictionary]];
+                }
             }
         }
     }
-    return states;
+    return [NSArray arrayWithArray:states];
+}
+
+- (NSArray *)getColorInOrientationsOfAllCubie{
+    NSMutableArray *states = [NSMutableArray arrayWithCapacity:26];
+    for (int z = 0; z < 3; z++) {
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                if (x != 1 || y != 1 || z != 1) {
+                    [states addObject:[magicCubies3D[x][y][z] getCubieOrientationOfAxis]];
+                }
+                else{
+                    [states addObject:[NSDictionary dictionary]];
+                }
+            }
+        }
+    }
+    return [NSArray arrayWithArray:states];
 }
 
 @end

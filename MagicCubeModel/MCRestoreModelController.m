@@ -11,12 +11,10 @@
 @implementation MCRestoreModelController{
     UIButton *clickedButton;
 }
-@synthesize playHelper;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setPlayHelper:[MCPlayHelper getSharedPlayHelper]];
 }
 
 - (void)dealloc {
@@ -25,7 +23,6 @@
 
 
 - (void)viewDidUnload {
-    [self setPlayHelper:nil];
     [super viewDidUnload];
 }
 

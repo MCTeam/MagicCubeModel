@@ -22,7 +22,9 @@
 @property (nonatomic, retain)NSDictionary *states;
 @property (nonatomic, retain)NSString *state;
 
-+ (MCPlayHelper *)getSharedPlayHelper;
++ (MCPlayHelper *)playerHelperWithMagicCube:(MCMagicCube *)mc;
+
+- (id)initWithMagicCube:(MCMagicCube *)mc;
 
 //see whether the target cubie is at home
 - (BOOL)isCubieAtHomeWithIdentity:(ColorCombinationType)identity;
@@ -30,7 +32,7 @@
 //apply the pattern and return result
 - (BOOL)applyPatternWihtName:(NSString *)name;
 
-- (void)refresh;
+- (void)refreshRules;
 
 - (void)checkState;
 
@@ -38,5 +40,4 @@
 
 - (void)setCheckStateFromInit:(BOOL)is;
 
-- (void)refreshMagicCube;
 @end

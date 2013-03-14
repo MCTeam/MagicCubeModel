@@ -18,6 +18,7 @@
 
 @synthesize currentAxis, currentDirection, currentLayer;
 @synthesize magicCube;
+@synthesize playHelper;
 
 @synthesize backFaceTextView;
 @synthesize upFaceTextView;
@@ -32,15 +33,16 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    axisArray = [[NSArray alloc] initWithObjects:@"x", @"y", @"z", nil];
-    layerArray = [[NSArray alloc] initWithObjects:@"0", @"1", @"2", nil];
-    directionArray = [[NSArray alloc] initWithObjects:@"CW", @"CCW", nil];
+    self.axisArray = [[NSArray alloc] initWithObjects:@"x", @"y", @"z", nil];
+    self.layerArray = [[NSArray alloc] initWithObjects:@"0", @"1", @"2", nil];
+    self.directionArray = [[NSArray alloc] initWithObjects:@"CW", @"CCW", nil];
     
-    magicCube = [MCMagicCube getSharedMagicCube];
+    self.magicCube = [MCMagicCube magicCube];
+    self.playHelper = [MCPlayHelper playerHelperWithMagicCube:self.magicCube];
     
-    currentAxis = X;
-    currentDirection = CW;
-    currentLayer = 0;
+    self.currentAxis = X;
+    self.currentDirection = CW;
+    self.currentLayer = 0;
     
     [self showFaces];
 }
@@ -156,7 +158,9 @@
     [self setDownFaceTextView:nil];
     [self setAxisPicker:nil];
     [self setLayerPicker:nil];
-    [self setDirectionPicker:nil]; 
+    [self setDirectionPicker:nil];
+    [self setPlayHelper:nil];
+    [self setMagicCube:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -174,6 +178,8 @@
     [axisArray release];
     [layerArray release];
     [directionArray release];
+    [magicCube release];
+    [playHelper release];
     [super dealloc];
 }
 
@@ -233,14 +239,14 @@
             srand(clock());
             for (int i = 0; i < 40; i++) {
                 SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
-                [[MCMagicCube getSharedMagicCube] rotateWithSingmasterNotation:rotate];
+                [self.magicCube rotateWithSingmasterNotation:rotate];
             }
-            [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:YES];
-            [[MCPlayHelper getSharedPlayHelper] checkState];
-            [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:NO];
+            [playHelper setCheckStateFromInit:YES];
+            [playHelper checkState];
+            [playHelper setCheckStateFromInit:NO];
             break;
         case 1:
-            [[MCPlayHelper getSharedPlayHelper] applyRules];
+            [playHelper applyRules];
             break;
         case 2:
         {
@@ -263,11 +269,10 @@
 
 - (IBAction)newMagicCube:(id)sender {
     [magicCube init];
-    //
-    [[MCPlayHelper getSharedPlayHelper] refreshMagicCube];
-    [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:YES];
-    [[MCPlayHelper getSharedPlayHelper] checkState];
-    [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:NO];
+    //refresh state and rules
+    [playHelper setCheckStateFromInit:YES];
+    [playHelper checkState];
+    [playHelper setCheckStateFromInit:NO];
     [self showFaces];
 }
 
@@ -280,14 +285,11 @@
 
 - (IBAction)loadState:(id)sender {
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *fileName = [path stringByAppendingPathComponent:TmpMagicCubeData];
-    [MCMagicCube setSharedMagicCube:[NSKeyedUnarchiver unarchiveObjectWithFile:fileName]];
-    magicCube = [MCMagicCube getSharedMagicCube];
-    //
-    [[MCPlayHelper getSharedPlayHelper] refreshMagicCube];
-    [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:YES];
-    [[MCPlayHelper getSharedPlayHelper] checkState];
-    [[MCPlayHelper getSharedPlayHelper] setCheckStateFromInit:NO];
+    NSString *filePath = [path stringByAppendingPathComponent:TmpMagicCubeData];
+    //get the archhived magic cube
+    self.magicCube = [MCMagicCube unarchiveMagicCubeWithFile:filePath];
+    //associate magic cube with playhelper
+    [self.playHelper setMagicCube:magicCube];
     [self showFaces];
 }
 

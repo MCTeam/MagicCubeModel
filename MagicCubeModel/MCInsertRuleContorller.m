@@ -400,12 +400,8 @@
                 }
             }
             else{
-                NSLog(@"input pattern name");
+                NSLog(@"Input pattern name frist.");
             }
-            
-            break;
-        case 3:
-            [[MCPlayHelper getSharedPlayHelper] refresh];
             break;
         default:
             break;

@@ -269,9 +269,6 @@
                 NSLog(@"input pattern name/after state and pre state.");
             }
             break;
-        case 3:
-            [[MCPlayHelper getSharedPlayHelper] refresh];
-            break;
         case 4:
             if ([patternName.text compare:@""] != NSOrderedSame && [preState.text compare:@""] != NSOrderedSame) {
                 if (![knowledgeBase insertStateOfMethod:ETFF withPattern:patternStr preState:preState.text afterState:patternName.text]) {

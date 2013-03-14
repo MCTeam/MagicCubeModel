@@ -13,9 +13,6 @@
 
 @interface MCRestoreModelController : CircleMenuController
 
-
-@property (retain, nonatomic) MCPlayHelper *playHelper;
-
 - (IBAction)selectOne:(id)sender;
 
 

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Global.h"
 #import "MCMagicCube.h"
+#import "MCPlayHelper.h"
 
 @interface MCViewController : UIViewController  <UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -19,7 +20,10 @@
 @property (nonatomic) AxisType currentAxis;
 @property (nonatomic) LayerRotationDirectionType currentDirection;
 @property (nonatomic) int currentLayer;
+
+//helper and magci cube
 @property (retain, nonatomic) MCMagicCube *magicCube;
+@property (retain, nonatomic) MCPlayHelper *playHelper;
 
 @property (retain, nonatomic) IBOutlet UITextView *backFaceTextView;
 @property (retain, nonatomic) IBOutlet UITextView *upFaceTextView;

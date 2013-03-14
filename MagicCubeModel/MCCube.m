@@ -415,7 +415,7 @@
 }
 
 
-- (NSDictionary *)getCubieColorOfEveryOrientation{
+- (NSDictionary *)getCubieColorInOrientations{
     NSMutableDictionary *state = [NSMutableDictionary dictionaryWithCapacity:6];
     for (int i = 0; i < 6; i++) {
         [state setObject:[NSNumber numberWithInteger:NoColor] forKey:[NSNumber numberWithInteger:i]];

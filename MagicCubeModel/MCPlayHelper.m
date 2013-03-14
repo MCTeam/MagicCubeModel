@@ -20,17 +20,11 @@
 @synthesize states;
 @synthesize state;
 
-+ (MCPlayHelper *)getSharedPlayHelper{
-    static MCPlayHelper *playHelper;
-    @synchronized(self)
-    {
-        if (!playHelper)
-            playHelper = [[MCPlayHelper alloc] init];
-        return playHelper;
-    }
++ (MCPlayHelper *)playerHelperWithMagicCube:(MCMagicCube *)mc{
+    return [[[MCPlayHelper alloc] initWithMagicCube:mc] autorelease];
 }
 
-- (id)init{
+- (id)initWithMagicCube:(MCMagicCube *)mc{
     if (self = [super init]) {
         //defaultedly, not check state state frome init
         isCheckStateFromInit = NO;
@@ -39,14 +33,33 @@
             lockedCubies[0] = nil;
         }
         
-        magicCube = [MCMagicCube getSharedMagicCube];
+        self.magicCube = mc;
+        //refresh state and rules
         self.state = START_STATE;
-        
         self.patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
         self.rules = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getRulesOfMethod:ETFF withState:state]];
         self.states = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getStatesOfMethod:ETFF]];
+        [self setCheckStateFromInit:YES];
+        [self checkState];
+        [self setCheckStateFromInit:NO];
     }
     return self;
+}
+
+//the magic cube setter has been rewritten
+//once you set the magic cube object, state and rules will be refreshed
+- (void)setMagicCube:(MCMagicCube *)mc{
+    [mc retain];
+    [magicCube release];
+    magicCube = mc;
+    //refresh state and rules
+    self.state = START_STATE;
+    self.patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
+    self.rules = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getRulesOfMethod:ETFF withState:state]];
+    self.states = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getStatesOfMethod:ETFF]];
+    [self setCheckStateFromInit:YES];
+    [self checkState];
+    [self setCheckStateFromInit:NO];
 }
 
 - (void)dealloc{
@@ -415,7 +428,10 @@
 }
 
 - (void)applyRules{
-    if (magicCube == nil) magicCube = [MCMagicCube getSharedMagicCube];
+    if (magicCube == nil){
+        NSLog(@"Set the magic cube before apply rules.");
+        return;
+    }
     NSString *key;
     NSArray *keys = [rules allKeys];
     int count = [rules count];
@@ -434,7 +450,7 @@
     NSLog(@"%@", state);
 }
 
-- (void)refresh{
+- (void)refreshRules{
     self.states = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getStatesOfMethod:ETFF]];
     self.patterns = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:state]];
     self.rules = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getRulesOfMethod:ETFF withState:state]];
@@ -462,7 +478,7 @@
         for (int i = 4; i < CubieCouldBeLockMaxNum; i++) {
             lockedCubies[i] = nil;
         }
-        [self refresh];
+        [self refreshRules];
     }
 }
 
@@ -660,9 +676,6 @@
     isCheckStateFromInit = is;
 }
 
-- (void)refreshMagicCube{
-    magicCube = [MCMagicCube getSharedMagicCube];
-}
 
 @end
 
