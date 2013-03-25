@@ -11,7 +11,7 @@
 
 @interface MCMagicCube : NSObject <NSCoding>
 
-@property (retain, nonatomic) NSDictionary *tagsMappingToColors;
+@property (strong, nonatomic) NSDictionary *tagsMappingToColors;
 
 //get a new magic cube
 + (MCMagicCube *)magicCube;

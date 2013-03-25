@@ -33,10 +33,6 @@
 }
 
 
--(void)dealloc{
-    [children release];
-    [super dealloc];
-}
 
 -(void)addChild:(MCTreeNode *)node{
     [children addObject:node];
@@ -74,27 +70,20 @@
         }
         //release tmp object
         [self tokenRelease];
-        [mutableElements release];
         
     }
     return self;
 }
 
--(void)dealloc{
-    [root release];
-    [super dealloc];
-}
 
 -(void)tokenInit:(NSMutableArray *)array{
     elements = [NSArray arrayWithArray:array];
-    [elements retain];
     enumerator = [elements objectEnumerator];
     errorFlag = NO;
     errorPosition = -1;
 }
 
 -(void)tokenRelease{
-    [elements release];
     elements = nil;
     enumerator = nil;
 }
@@ -137,7 +126,6 @@
 			[self getToken];
 			[orNode addChild:[self parseBterm]];
             node = orNode;
-            [node autorelease];
 		}
     }
     //if error occurred, return node
@@ -170,7 +158,6 @@
             node = [self parseBfactor];
             if (node != nil) [andNode addChild:node];
             node = andNode;
-            [node autorelease];
 		}
     }
     //if error occurred, return node
@@ -202,7 +189,7 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             for (count = 0, [self getToken]; token != Token_RightParentheses; count++) {
                 MCTreeNode *tmp;
@@ -213,13 +200,12 @@
                 } else {
                     if (token == END_TOKEN) {
                         [self errorOccur:@"The home function need right parentheses"];
-                        return [node autorelease];
+                        return node;
                     }
                     else{
                         tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                         tmp.value = token;
                         [self getToken];
-                        [tmp autorelease];
                     }
                 }
                 [node addChild:tmp];
@@ -227,7 +213,7 @@
             //error occurred, home function needs parameter
             if (count == 0) {
                 [self errorOccur:@"There must be at least one parameter transferred into home function."];
-                return [node autorelease];
+                return node;
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
@@ -259,7 +245,7 @@
                         //test if '(' has been lost
                         if (token != Token_LeftParentheses) {
                             [self errorOccur:@"There should be '('"];
-                            return [node autorelease];
+                            return node;
                         }
                         for ([self getToken]; i < 2; i++) {
                             if (token == Token_LeftParentheses) {
@@ -270,14 +256,13 @@
                                 childElement = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                                 childElement.value = token;
                                 [self getToken];
-                                [childElement autorelease];
                             }
                             [child addChild:childElement];
                         }
                         //test if ')' has been lost
                         if (token != Token_RightParentheses) {
                             [self errorOccur:@"There should be ')'"];
-                            return [node autorelease];
+                            return node;
                         }
                         [self getToken];
                     }
@@ -291,7 +276,7 @@
                         //test if '(' has been lost
                         if (token != Token_LeftParentheses) {
                             [self errorOccur:@"There should be '('"];
-                            return [node autorelease];
+                            return node;
                         }
                         for ([self getToken]; i < 2; i++) {
                             if (token == Token_LeftParentheses) {
@@ -302,7 +287,6 @@
                                 childElement = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                                 childElement.value = token;
                                 [self getToken];
-                                [childElement autorelease];
                             }
                             [child addChild:childElement];
                         }
@@ -311,13 +295,12 @@
                             MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                             tmp.value = token;
                             [child addChild:tmp];
-                            [tmp release];
                             [self getToken];
                         }
                         //test if ')' has been lost
                         if (token != Token_RightParentheses) {
                             [self errorOccur:@"There should be ')'"];
-                            return [node autorelease];
+                            return node;
                         }
                         [self getToken];
                     }
@@ -326,7 +309,6 @@
                         break;
                 }
                 [node addChild:child];
-                [child release];
             }
             [self getToken];
             break;
@@ -337,7 +319,7 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             //there has a parameter
@@ -345,13 +327,12 @@
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
                 [self getToken];
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             break;
@@ -361,7 +342,7 @@
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             return node;
@@ -375,7 +356,7 @@
             [self errorOccur:@"unexpected token."];
             return nil;
 	}
-	return [node autorelease];
+	return node;
 }
 
 - (MCTreeNode *)parseInformationItem{
@@ -391,7 +372,7 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             for ([self getToken]; token >= 0; [self getToken]) {
                 if (token == END_TOKEN) {
@@ -401,12 +382,11 @@
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             break;
@@ -418,7 +398,7 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             for ([self getToken]; token != Token_RightParentheses;) {
                 if (token == Token_LeftParentheses) {
@@ -429,14 +409,13 @@
                     MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                     tmp.value = token;
                     [node addChild:tmp];
-                    [tmp release];
                     [self getToken];
                 }
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
         }
@@ -449,25 +428,23 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
             tmp.value = token;
             [node addChild:tmp];
-            [tmp release];
             [self getToken];
             if (token != Token_RightParentheses) {
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
                 [self getToken];
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
         }
@@ -479,20 +456,19 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             if (token != Token_RightParentheses) {
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
                 [self getToken];
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             break;
@@ -500,7 +476,7 @@
             [self errorOccur:@"unexpected token."];
             return nil;
     }
-	return [node autorelease];
+	return node;
 }
 
 @end
@@ -517,10 +493,6 @@
     return self;
 }
 
-- (void)dealloc{
-    [afterState release];
-    [super dealloc];
-}
 
 @end
 
@@ -554,26 +526,19 @@
         }
         //release tmp object
         [self tokenRelease];
-        [mutableElements release];
     }
     return self;
 }
 
-- (void)dealloc{
-    [root release];
-    [super dealloc];
-}
 
 - (void)tokenInit:(NSMutableArray *)array{
     elements = [NSArray arrayWithArray:array];
-    [elements retain];
     enumerator = [elements objectEnumerator];
     errorFlag = NO;
     errorPosition = -1;
 }
 
 - (void)tokenRelease{
-    [elements release];
     elements = nil;
     enumerator = nil;
 }
@@ -612,7 +577,7 @@
         if (errorFlag) break;
         //if no error, continue
     }
-    return [node autorelease];
+    return node;
 }
 
 - (MCTreeNode *)parseItem{
@@ -622,6 +587,7 @@
     MCTreeNode * node = nil;
 	switch (token) {
         case Rotate:
+        {
             node = [[MCTreeNode alloc] initNodeWithType:ActionNode];
             node.value = Rotate;
             [self getToken];
@@ -629,30 +595,30 @@
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
             }
             [self getToken];
             break;
+        }
         case FaceToOrientation:
+        {
             node = [[MCTreeNode alloc] initNodeWithType:ActionNode];
             node.value = token;
             [self getToken];        //delete "FaceTo"|"MoveTo"
             [self getToken];        //delete "("
             //add two elements
-            MCTreeNode *childElement;
-            childElement = [[MCTreeNode alloc] initNodeWithType:ElementNode];
+            MCTreeNode *childElement = [[MCTreeNode alloc] initNodeWithType:ElementNode];
             childElement.value = token;
             [node addChild:childElement];
-            [childElement release];
             [self getToken];        //delete first element
             childElement = [[MCTreeNode alloc] initNodeWithType:ElementNode];
             childElement.value = token;
             [node addChild:childElement];
-            [childElement release];
             [self getToken];        //delete second element
             [self getToken];        //delete ")"
             break;
+        }
         case LockCubie:
+        {
             node = [[MCTreeNode alloc] initNodeWithType:ActionNode];
             node.value = LockCubie;
             [self getToken];
@@ -667,19 +633,19 @@
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
                 [self getToken];
             }
             if (token != Token_RightParentheses) {
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
                 [self getToken];
             }
             [self getToken];
             break;
+        }
         case UnlockCubie:
+        {
             node = [[MCTreeNode alloc] initNodeWithType:ActionNode];
             node.value = UnlockCubie;
             [self getToken];
@@ -688,25 +654,30 @@
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
                 [self getToken];
             }
             [self getToken];
+
             break;
+        }
         case Token_LeftParentheses :
+        {
             [self getToken];
             node = [self parseItem];
             [self getToken];
             return node;
-            break;
+        }
         case END_TOKEN:
+        {
             return nil;
-            break;
+        }
         default:
+        {
             [self errorOccur:@"unexpected token."];
             return nil;
+        }
 	}
-	return [node autorelease];
+	return node;
 }
 
 - (MCTreeNode *)parseInformationItem{
@@ -722,7 +693,7 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             for ([self getToken]; token >= 0; [self getToken]) {
                 if (token == END_TOKEN) {
@@ -732,12 +703,11 @@
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             break;
@@ -749,7 +719,7 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             for ([self getToken]; token != Token_RightParentheses;) {
                 if (token == Token_LeftParentheses) {
@@ -760,14 +730,13 @@
                     MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                     tmp.value = token;
                     [node addChild:tmp];
-                    [tmp release];
                     [self getToken];
                 }
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
         }
@@ -780,25 +749,23 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
             tmp.value = token;
             [node addChild:tmp];
-            [tmp release];
             [self getToken];
             if (token != Token_RightParentheses) {
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
                 [self getToken];
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
         }
@@ -810,20 +777,19 @@
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
                 [self errorOccur:@"There should be '('"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             if (token != Token_RightParentheses) {
                 MCTreeNode *tmp = [[MCTreeNode alloc] initNodeWithType:ElementNode];
                 tmp.value = token;
                 [node addChild:tmp];
-                [tmp release];
                 [self getToken];
             }
             //test if ')' has been lost
             if (token != Token_RightParentheses) {
                 [self errorOccur:@"There should be ')'"];
-                return [node autorelease];
+                return node;
             }
             [self getToken];
             break;
@@ -831,7 +797,7 @@
             [self errorOccur:@"unexpected token."];
             return nil;
     }
-	return [node autorelease];
+	return node;
 }
 
 @end

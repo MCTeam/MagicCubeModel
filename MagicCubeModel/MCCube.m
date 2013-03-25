@@ -108,7 +108,8 @@
 }   //initial the cube's data by coordinate value
 
 - (id)redefinedWithCoordinate:(struct Point3i)value orderedColors:(NSArray *)colors orderedOrientations:(NSArray *)ors{
-    if(self = [self init]){
+    id tmp;
+    if((tmp = [self init])){
         //before initiating, clear data
         [self clearData];
         //detect the skin number and the cube type
@@ -159,13 +160,12 @@
         }
         identity = (ColorCombinationType)tmpIdentity;
     }
-    return self;
+    return tmp;
 }
 
 - (void) dealloc{
     free(faceColors);
     free(orientations);
-    [super dealloc];
 }
 
 - (void) shiftOnAxis : (AxisType)axis inDirection: (LayerRotationDirectionType)direction{

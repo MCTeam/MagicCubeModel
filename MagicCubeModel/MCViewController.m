@@ -60,7 +60,6 @@
     }
     
     [frontFaceTextView setText:frontFace];
-    [frontFace release];
     
     //back face
     NSMutableString *backFace = [[NSMutableString alloc] init];
@@ -73,7 +72,6 @@
     }
     
     [backFaceTextView setText:backFace];
-    [backFace release];
     
     //up face
     NSMutableString *upFace = [[NSMutableString alloc] init];
@@ -86,7 +84,6 @@
     }
     
     [upFaceTextView setText:upFace];
-    [upFace release];
     
     //down face
     NSMutableString *downFace = [[NSMutableString alloc] init];
@@ -99,7 +96,6 @@
     }
     
     [downFaceTextView setText:downFace];
-    [downFace release];
     
     //left face
     NSMutableString *leftFace = [[NSMutableString alloc] init];
@@ -112,7 +108,6 @@
     }
     
     [leftFaceTextView setText:leftFace];
-    [leftFace release];
     
     //right face
     NSMutableString *rightFace = [[NSMutableString alloc] init];
@@ -125,7 +120,6 @@
     }
     
     [rightFaceTextView setText:rightFace];
-    [rightFace release];
     
 }
 
@@ -165,23 +159,6 @@
     // Release any retained subviews of the main view.
 }
 
-- (void)dealloc {
-    [backFaceTextView release];
-    [upFaceTextView release];
-    [leftFaceTextView release];
-    [frontFaceTextView release];
-    [rightFaceTextView release];
-    [downFaceTextView release];
-    [axisPicker release];
-    [layerPicker release];
-    [directionPicker release];
-    [axisArray release];
-    [layerArray release];
-    [directionArray release];
-    [magicCube release];
-    [playHelper release];
-    [super dealloc];
-}
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
@@ -268,7 +245,7 @@
 }
 
 - (IBAction)newMagicCube:(id)sender {
-    [magicCube init];
+    self.magicCube = [magicCube init];
     //refresh state and rules
     [playHelper setCheckStateFromInit:YES];
     [playHelper checkState];

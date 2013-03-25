@@ -13,16 +13,16 @@
 
 @interface MCInsertPatternController : UIViewController
 
-@property (retain, nonatomic) IBOutlet UITextField *patternName;
-@property (retain, nonatomic) IBOutlet UITextField *preState;
-@property (retain, nonatomic) IBOutlet UITextView *transferredResult;
-@property (retain, nonatomic) IBOutlet UISwitch *fnSwitcher;
-@property (retain, nonatomic) IBOutlet UITextView *nontransferredResult;
-@property (retain, nonatomic) NSMutableArray *elements;
-@property (retain, nonatomic) NSMutableArray *transferredElements;
-@property (retain, nonatomic) MCKnowledgeBase *knowledgeBase;
-@property (retain, nonatomic) NSString *patternStr;
-@property (retain, nonatomic) MCPattern *testPattern;
+@property (strong, nonatomic) IBOutlet UITextField *patternName;
+@property (strong, nonatomic) IBOutlet UITextField *preState;
+@property (strong, nonatomic) IBOutlet UITextView *transferredResult;
+@property (strong, nonatomic) IBOutlet UISwitch *fnSwitcher;
+@property (strong, nonatomic) IBOutlet UITextView *nontransferredResult;
+@property (strong, nonatomic) NSMutableArray *elements;
+@property (strong, nonatomic) NSMutableArray *transferredElements;
+@property (strong, nonatomic) MCKnowledgeBase *knowledgeBase;
+@property (strong, nonatomic) NSString *patternStr;
+@property (strong, nonatomic) MCPattern *testPattern;
 
 
 

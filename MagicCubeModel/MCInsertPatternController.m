@@ -112,7 +112,6 @@
     }
     [elements addObject:tmp];
     [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
-    [tmp release];
     [self ouputResult];
 }
 
@@ -144,7 +143,6 @@
     
     [elements addObject:tmp];
     [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
-    [tmp release];
     [self ouputResult];
 }
 
@@ -176,7 +174,6 @@
     
     [elements addObject:tmp];
     [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
-    [tmp release];
     [self ouputResult];
 }
 
@@ -211,7 +208,6 @@
         [elements addObject:@"("];
         [transferredElements addObject:[NSNumber numberWithInteger:Token_LeftParentheses]];
     }
-    [tmp release];
     [self ouputResult];
 }
 
@@ -241,7 +237,6 @@
         [elements addObject:tmp];
         [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
     }
-    [tmp release];
     [self ouputResult];
 }
 
@@ -313,7 +308,6 @@
         [nontransferredResult setTextColor:[UIColor blackColor]];
     }
     [nontransferredResult setText:result];
-    [result release];
 }
 
 - (IBAction)pressPartitionBtn:(id)sender {
@@ -348,21 +342,9 @@
             break;
     }
     [elements addObject:tmp];
-    [tmp release];
     [self ouputResult];
 }
 
-- (void)dealloc {
-    [patternName release];
-    [transferredResult release];
-    [nontransferredResult release];
-    [elements release];
-    [transferredElements release];
-    [patternStr release];
-    [preState release];
-    [fnSwitcher release];
-    [super dealloc];
-}
 
 - (void)transfer {
     if ([elements count] > 0) {
@@ -381,7 +363,6 @@
             [transferredResult setText:patternStr];
             [self setTestPattern:nil];
         }
-        [result release];
     } else {
         [transferredResult setText:@""];
     }

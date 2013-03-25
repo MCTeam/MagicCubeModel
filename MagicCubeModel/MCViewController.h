@@ -13,28 +13,28 @@
 
 @interface MCViewController : UIViewController  <UIPickerViewDataSource, UIPickerViewDelegate>
 
-@property (retain, nonatomic) NSArray *axisArray;
-@property (retain, nonatomic) NSArray *layerArray;
-@property (retain, nonatomic) NSArray *directionArray;
+@property (strong, nonatomic) NSArray *axisArray;
+@property (strong, nonatomic) NSArray *layerArray;
+@property (strong, nonatomic) NSArray *directionArray;
 
 @property (nonatomic) AxisType currentAxis;
 @property (nonatomic) LayerRotationDirectionType currentDirection;
 @property (nonatomic) int currentLayer;
 
 //helper and magci cube
-@property (retain, nonatomic) MCMagicCube *magicCube;
-@property (retain, nonatomic) MCPlayHelper *playHelper;
+@property (strong, nonatomic) MCMagicCube *magicCube;
+@property (strong, nonatomic) MCPlayHelper *playHelper;
 
-@property (retain, nonatomic) IBOutlet UITextView *backFaceTextView;
-@property (retain, nonatomic) IBOutlet UITextView *upFaceTextView;
-@property (retain, nonatomic) IBOutlet UITextView *leftFaceTextView;
-@property (retain, nonatomic) IBOutlet UITextView *frontFaceTextView;
-@property (retain, nonatomic) IBOutlet UITextView *rightFaceTextView;
-@property (retain, nonatomic) IBOutlet UITextView *downFaceTextView;
+@property (strong, nonatomic) IBOutlet UITextView *backFaceTextView;
+@property (strong, nonatomic) IBOutlet UITextView *upFaceTextView;
+@property (strong, nonatomic) IBOutlet UITextView *leftFaceTextView;
+@property (strong, nonatomic) IBOutlet UITextView *frontFaceTextView;
+@property (strong, nonatomic) IBOutlet UITextView *rightFaceTextView;
+@property (strong, nonatomic) IBOutlet UITextView *downFaceTextView;
 
-@property (retain, nonatomic) IBOutlet UIPickerView *axisPicker;
-@property (retain, nonatomic) IBOutlet UIPickerView *layerPicker;
-@property (retain, nonatomic) IBOutlet UIPickerView *directionPicker;
+@property (strong, nonatomic) IBOutlet UIPickerView *axisPicker;
+@property (strong, nonatomic) IBOutlet UIPickerView *layerPicker;
+@property (strong, nonatomic) IBOutlet UIPickerView *directionPicker;
 
 
 - (IBAction)rotateBtnClicked:(id)sender;

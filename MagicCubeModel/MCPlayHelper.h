@@ -16,11 +16,11 @@
 
 @interface MCPlayHelper : NSObject
 
-@property (nonatomic, retain)MCMagicCube *magicCube;
-@property (nonatomic, retain)NSDictionary *patterns;
-@property (nonatomic, retain)NSDictionary *rules;
-@property (nonatomic, retain)NSDictionary *states;
-@property (nonatomic, retain)NSString *state;
+@property (nonatomic, strong)MCMagicCube *magicCube;
+@property (nonatomic, strong)NSDictionary *patterns;
+@property (nonatomic, strong)NSDictionary *rules;
+@property (nonatomic, strong)NSDictionary *states;
+@property (nonatomic, strong)NSString *state;
 
 + (MCPlayHelper *)playerHelperWithMagicCube:(MCMagicCube *)mc;
 

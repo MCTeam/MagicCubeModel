@@ -13,16 +13,16 @@
 
 @interface MCInsertRuleContorller : UIViewController
 
-@property (retain, nonatomic) IBOutlet UITextField *patternName;
-@property (retain, nonatomic) IBOutlet UITextField *preStateName;
-@property (retain, nonatomic) IBOutlet UILabel *resultActions;
-@property (retain, nonatomic) IBOutlet UILabel *transferredResultActions;
-@property (retain, nonatomic) IBOutlet UISwitch *fnSwitcher;
-@property (retain, nonatomic) NSMutableArray *elements;
-@property (retain, nonatomic) NSMutableArray *transferredElements;
-@property (retain, nonatomic) MCKnowledgeBase *knowledgeBase;
-@property (retain, nonatomic) NSString *actionStr;
-@property (retain, nonatomic) MCRule *testRule;
+@property (strong, nonatomic) IBOutlet UITextField *patternName;
+@property (strong, nonatomic) IBOutlet UITextField *preStateName;
+@property (strong, nonatomic) IBOutlet UILabel *resultActions;
+@property (strong, nonatomic) IBOutlet UILabel *transferredResultActions;
+@property (strong, nonatomic) IBOutlet UISwitch *fnSwitcher;
+@property (strong, nonatomic) NSMutableArray *elements;
+@property (strong, nonatomic) NSMutableArray *transferredElements;
+@property (strong, nonatomic) MCKnowledgeBase *knowledgeBase;
+@property (strong, nonatomic) NSString *actionStr;
+@property (strong, nonatomic) MCRule *testRule;
 
 - (IBAction)pressActionBtn:(id)sender;
 

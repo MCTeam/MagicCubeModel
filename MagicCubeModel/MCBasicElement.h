@@ -12,7 +12,7 @@
 //the tree node
 @interface MCTreeNode : NSObject
 
-@property (retain, nonatomic)NSMutableArray *children;
+@property (strong, nonatomic)NSMutableArray *children;
 @property (nonatomic)NodeType type;
 @property (nonatomic)NSInteger value;
 
@@ -26,7 +26,7 @@
 //pattern
 @interface MCPattern : NSObject
 
-@property(retain, nonatomic)MCTreeNode *root;
+@property(strong, nonatomic)MCTreeNode *root;
 @property(nonatomic)BOOL errorFlag;
 @property(nonatomic)NSInteger errorPosition;
 
@@ -37,7 +37,7 @@
 //state
 @interface MCState : MCPattern
 
-@property(retain, nonatomic)NSString *afterState;
+@property(strong, nonatomic)NSString *afterState;
 
 - (id)initWithPatternStr:(NSString *)patternStr andAfterState:(NSString *)state;
 
@@ -46,7 +46,7 @@
 //rule
 @interface MCRule : NSObject
 
-@property(retain, nonatomic)MCTreeNode *root;
+@property(strong, nonatomic)MCTreeNode *root;
 @property(nonatomic)BOOL errorFlag;
 @property(nonatomic)NSInteger errorPosition;
 

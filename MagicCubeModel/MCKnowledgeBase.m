@@ -170,9 +170,6 @@
                 NSString *patternStr = [[NSString alloc] initWithUTF8String:pattern];
                 MCPattern *mcPattern = [[MCPattern alloc] initWithString:patternStr];
                 [patterns setObject:mcPattern forKey:patternName];
-                [patternName release];
-                [patternStr release];
-                [mcPattern release];
             }
         }
         sqlite3_finalize(stmt);
@@ -204,10 +201,6 @@
                 NSString *afterStateStr = [[NSString alloc] initWithUTF8String:afterState];
                 MCState *mcState = [[MCState alloc] initWithPatternStr:patternStr andAfterState:afterStateStr];
                 [states setObject:mcState forKey:preStateStr];
-                [preStateStr release];
-                [patternStr release];
-                [afterStateStr release];
-                [mcState release];
             }
         }
         sqlite3_finalize(stmt);
@@ -236,9 +229,6 @@
                 NSString *ruleThenStr = [[NSString alloc] initWithUTF8String:ruleThen];
                 MCRule *mcRule = [[MCRule alloc] initWithString:ruleThenStr];
                 [rules setObject:mcRule forKey:ruleIfStr];
-                [ruleIfStr release];
-                [ruleThenStr release];
-                [mcRule release];
             }
         }
         sqlite3_finalize(stmt);

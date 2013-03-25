@@ -58,13 +58,9 @@ static CGFloat defaultTriangleHypotenuse_,
   centerButtonBackgroundImageName = centerButtonBackgroundImageName_;
 
 -(void)dealloc {
-  self.buttonImageNameFormat =
-    self.centerButtonImageName =
-    self.centerButtonBackgroundImageName = nil;
   // Release subvies & remove notification observer
   [self _releaseSubviews];
   [[NSNotificationCenter defaultCenter] removeObserver:self name:kKYNCircleMenuClose object:nil];
-  [super dealloc];
 }
 
 - (void)_releaseSubviews {
@@ -147,7 +143,6 @@ centerButtonBackgroundImageName:kKYICircleMenuCenterButtonBackground];
                 forState:UIControlStateNormal];
         [button addTarget:self action:@selector(runButtonActions:) forControlEvents:UIControlEventTouchUpInside];
         [self.menu addSubview:button];
-        [button release];
     }
 }
 

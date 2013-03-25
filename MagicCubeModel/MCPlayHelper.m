@@ -21,7 +21,7 @@
 @synthesize state;
 
 + (MCPlayHelper *)playerHelperWithMagicCube:(MCMagicCube *)mc{
-    return [[[MCPlayHelper alloc] initWithMagicCube:mc] autorelease];
+    return [[MCPlayHelper alloc] initWithMagicCube:mc];
 }
 
 - (id)initWithMagicCube:(MCMagicCube *)mc{
@@ -49,8 +49,6 @@
 //the magic cube setter has been rewritten
 //once you set the magic cube object, state and rules will be refreshed
 - (void)setMagicCube:(MCMagicCube *)mc{
-    [mc retain];
-    [magicCube release];
     magicCube = mc;
     //refresh state and rules
     self.state = START_STATE;
@@ -63,12 +61,7 @@
 }
 
 - (void)dealloc{
-    [patterns release];
-    [rules release];
-    [states release];
-    [state release];
     [self setMagicCube:nil];
-    [super dealloc];
 }
 
 - (BOOL)isCubieAtHomeWithIdentity:(ColorCombinationType)identity{

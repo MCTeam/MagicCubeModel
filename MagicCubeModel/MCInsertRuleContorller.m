@@ -20,17 +20,6 @@
 @synthesize actionStr;
 @synthesize testRule;
 
-- (void)dealloc {
-    [patternName release];
-    [resultActions release];
-    [transferredResultActions release];
-    [elements release];
-    [transferredElements release];
-    [actionStr release];
-    [preStateName release];
-    [fnSwitcher release];
-    [super dealloc];
-}
 
 - (void)viewDidUnload {
     [self setPatternName:nil];
@@ -80,7 +69,6 @@
     }
     [elements addObject:@"("];
     [transferredElements addObject:[NSNumber numberWithInteger:Token_LeftParentheses]];
-    [tmp release];
     [self ouputResult];
 }
 
@@ -110,7 +98,6 @@
         [elements addObject:tmp];
         [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
     }
-    [tmp release];
     [self ouputResult];
 }
 
@@ -280,7 +267,6 @@
     } else {
         [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
     }
-    [tmp release];
     [self ouputResult];
 }
 
@@ -375,7 +361,6 @@
     }
     [elements addObject:tmp];
     [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
-    [tmp release];
     [self ouputResult];
 }
 
@@ -428,7 +413,6 @@
             break;
     }
     [elements addObject:tmp];
-    [tmp release];
     [self ouputResult];
 }
 
@@ -460,7 +444,6 @@
     
     [elements addObject:tmp];
     [transferredElements addObject:[NSNumber numberWithInteger:pressedBtn.tag]];
-    [tmp release];
     [self ouputResult];
 }
 
@@ -481,7 +464,6 @@
             [transferredResultActions setText:actionStr];
             [self setTestRule:nil];
         }
-        [result release];
     } else {
         [transferredResultActions setText:@""];
     }
@@ -493,7 +475,6 @@
         [result appendString:obj];
     }
     [resultActions setText:result];
-    [result release];
 }
 
 @end

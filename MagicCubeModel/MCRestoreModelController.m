@@ -17,9 +17,6 @@
     [super viewDidLoad];
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 
 - (void)viewDidUnload {

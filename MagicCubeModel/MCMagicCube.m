@@ -18,7 +18,7 @@
 }
 
 + (MCMagicCube *)magicCube{
-    return [[[MCMagicCube alloc] init] autorelease];
+    return [[MCMagicCube alloc] init];
 }
 
 + (MCMagicCube *)unarchiveMagicCubeWithFile:(NSString *)path{
@@ -37,9 +37,8 @@
                             magicCubies3D[x][y][z] = [MCCubie alloc];
                             isReatin = YES;
                         }
-                        [magicCubies3D[x][y][z] initRightCubeWithCoordinate:coordinateValue];
+                        magicCubies3D[x][y][z] = [magicCubies3D[x][y][z] initRightCubeWithCoordinate:coordinateValue];
                         magicCubiesList[x+y*3+z*9] = magicCubies3D[x][y][z];
-                        if (isReatin) [magicCubiesList[x+y*3+z*9] retain];
                     }
                 }
             }
@@ -55,10 +54,7 @@
 - (void)dealloc{
     for (int i = 0; i < 27; i++) {
         //release twice
-        [magicCubiesList[i] release];
-        [magicCubiesList[i] release];
     }
-    [super dealloc];
 }
 
 - (void)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction{
@@ -413,11 +409,9 @@
                     if (x != 1 || y != 1 || z != 1) {
                         //get the cubie object
                         magicCubies3D[x][y][z] = [aDecoder decodeObjectForKey:[NSString stringWithFormat:kSingleCubieKeyFormat, x+3*y+9*z]];
-                        [magicCubies3D[x][y][z] retain];
                         //set the right pointer
                         NSInteger listIndex = magicCubies3D[x][y][z].identity;
                         magicCubiesList[listIndex] = magicCubies3D[x][y][z];
-                        [magicCubiesList[listIndex] retain];
                     }
                 }
             }
