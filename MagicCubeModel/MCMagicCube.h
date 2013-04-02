@@ -22,6 +22,9 @@
 //rotate operation with axis, layer, direction
 - (void)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction;
 
+//rotate with Singmaster Notation
+- (void)rotateWithSingmasterNotation:(SingmasterNotation)notation;
+
 //get coordinate of cube having the colors combination
 - (struct Point3i)coordinateValueOfCubieWithColorCombination:(ColorCombinationType)combination;
 
@@ -32,8 +35,6 @@
 - (MCCubie *)cubieAtCoordinateX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z;
 - (MCCubie *)cubieAtCoordinatePoint3i:(struct Point3i)point;
 
-//rotate with Singmaster Notation
-- (void)rotateWithSingmasterNotation:(SingmasterNotation)notation;
 
 - (FaceOrientationType)magicCubeFaceInOrientation:(FaceOrientationType)orientation;
 

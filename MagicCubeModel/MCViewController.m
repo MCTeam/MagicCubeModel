@@ -218,9 +218,7 @@
                 SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
                 [self.magicCube rotateWithSingmasterNotation:rotate];
             }
-            [playHelper setCheckStateFromInit:YES];
-            [playHelper checkState];
-            [playHelper setCheckStateFromInit:NO];
+            [playHelper checkState:YES];
             break;
         case 1:
             [playHelper applyRules];
@@ -247,9 +245,7 @@
 - (IBAction)newMagicCube:(id)sender {
     self.magicCube = [magicCube init];
     //refresh state and rules
-    [playHelper setCheckStateFromInit:YES];
-    [playHelper checkState];
-    [playHelper setCheckStateFromInit:NO];
+    [playHelper checkState:YES];
     [self showFaces];
 }
 

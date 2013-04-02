@@ -98,7 +98,7 @@ typedef enum _ActionType {
 typedef enum _InformationType {
     getCombinationFromOrientation = 0,
     getFaceColorFromOrientation = 1,
-    LockedCubie = 2,
+    lockedCubie = 2,
     getCombinationFromColor = 3
 } InformationType;
 
@@ -130,18 +130,35 @@ typedef enum _SingmasterNotation {
     x, xi, x2,
     y, yi, y2,
     z, zi, z2,
-    f, fi, f2,
-    b, bi, b2,
-    r, ri, r2,
-    l, li, l2,
-    u, ui, u2,
-    d, di, d2,
-    SingmasterNotation_DoNothing
+    Fw,Fwi,Fw2,
+    Bw,Bwi,Bw2,
+    Rw,Rwi,Rw2,
+    Lw,Lwi,Lw2,
+    Uw,Uwi,Uw2,
+    Dw,Dwi,Dw2,
+    M, Mi, M2,
+    E, Ei, E2,
+    S, Si, S2,
+    NoneNotation
 } SingmasterNotation;
 
+//the result indicates whether the current rotation accords the required rotation
+typedef enum _RotationResult{
+    Accord,
+    Disaccord,
+    StayForATime,
+    Finished,
+    NoneResult
+} RotationResult;
+
 #define ETFF 0  //method 0, 8355
+//every method's first and last state name
 #define START_STATE @"Init"
+#define END_STATE @"End"
+//the temprorary file store the unfinished magic cube's status
 #define TmpMagicCubeData @"tmpMagicCube"
+//the keys that get actions
+#define RotationQueueKey @"RotationQueue"
 
 
 //--------------------------------------------------------------------------------------------
@@ -156,5 +173,13 @@ typedef enum _FaceColor{
 } FaceColor;
 //--------------------------------------------------------------------------------------------
 
+//#define ONLY_TEST
+
+//an encapsulation 
+struct RotationStruct {
+    AxisType axis;
+    int layer;
+    LayerRotationDirectionType direction;
+};
 
 #endif

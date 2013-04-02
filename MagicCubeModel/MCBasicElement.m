@@ -449,9 +449,9 @@
             [self getToken];
         }
             break;
-        case LockedCubie:
+        case lockedCubie:
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
-            node.value = LockedCubie;
+            node.value = lockedCubie;
             [self getToken];
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
@@ -770,9 +770,9 @@
             [self getToken];
         }
             break;
-        case LockedCubie:
+        case lockedCubie:
             node = [[MCTreeNode alloc] initNodeWithType:InformationNode];
-            node.value = LockedCubie;
+            node.value = lockedCubie;
             [self getToken];
             //test if '(' has been lost
             if (token != Token_LeftParentheses) {
