@@ -24,6 +24,7 @@
 @synthesize state;
 @synthesize helperState;
 @synthesize rotationQueue;
+@synthesize extraOperations;
 
 + (MCPlayHelper *)playerHelperWithMagicCube:(MCMagicCube *)mc{
     return [[MCPlayHelper alloc] initWithMagicCube:mc];
@@ -784,8 +785,18 @@
                     }
                     else{
                         previousResult = Disaccord;
-                        [self.rotationQueue insertObject:[NSNumber numberWithInteger:previousRotation] atIndex:currentRotationQueuePosition];
-                        [self.rotationQueue insertObject:[NSNumber numberWithInteger:currentRotation] atIndex:currentRotationQueuePosition];
+                        //insert extra operations
+                        [self.rotationQueue insertObject:[NSNumber numberWithInteger:
+                                                          [MCTransformUtil getContrarySingmasterNotation:previousRotation]]
+                                                 atIndex:currentRotationQueuePosition];
+                        [self.rotationQueue insertObject:[NSNumber numberWithInteger:
+                                                          [MCTransformUtil getContrarySingmasterNotation:currentRotation]]
+                                                 atIndex:currentRotationQueuePosition];
+                        //save extra operations
+                        self.extraOperations = [NSArray arrayWithObjects:
+                                                [MCTransformUtil getRotationTagFromSingmasterNotation:[MCTransformUtil getContrarySingmasterNotation:previousRotation]],
+                                                [MCTransformUtil getRotationTagFromSingmasterNotation:[MCTransformUtil getContrarySingmasterNotation:currentRotation]],
+                                                nil];
                     }
                 } else {
                     if ([MCTransformUtil isSingmasterNotation:currentRotation PossiblePartOfSingmasterNotation:targetRotation]) {
@@ -793,7 +804,14 @@
                     }
                     else{
                         previousResult = Disaccord;
-                        [self.rotationQueue insertObject:[NSNumber numberWithInteger:previousRotation] atIndex:currentRotationQueuePosition];
+                        //insert extra operations
+                        [self.rotationQueue insertObject:[NSNumber numberWithInteger:
+                                                          [MCTransformUtil getContrarySingmasterNotation:currentRotation]]
+                                                 atIndex:currentRotationQueuePosition];
+                        //save extra operations
+                        self.extraOperations = [NSArray arrayWithObjects:
+                                                [MCTransformUtil getRotationTagFromSingmasterNotation:[MCTransformUtil getContrarySingmasterNotation:currentRotation]],
+                                                nil];
                     }
                 }
             }
@@ -806,7 +824,6 @@
         previousRotation = currentRotation;
     }
 }
-
 
 - (RotationResult)getResultOfTheLastRotation{
     return previousResult;

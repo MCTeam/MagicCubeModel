@@ -28,6 +28,7 @@ typedef enum _HelperStateMachine {
 @property (nonatomic, strong)NSString *state;
 @property (nonatomic, strong)NSMutableArray *rotationQueue;
 @property (nonatomic)HelperStateMachine helperState;
+@property (nonatomic, strong)NSArray *extraOperations;
 
 + (MCPlayHelper *)playerHelperWithMagicCube:(MCMagicCube *)mc;
 
