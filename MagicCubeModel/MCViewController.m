@@ -241,12 +241,28 @@
                 SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
                 [self.magicCube rotateWithSingmasterNotation:rotate];
             }
-            [playHelper setCheckStateFromInit:YES];
-            [playHelper checkState];
-            [playHelper setCheckStateFromInit:NO];
+            [playHelper checkStateFromInit:YES];
             break;
         case 1:
-            [playHelper applyRules];
+        {
+            int count = 0;
+            while ([playHelper applyRules] != nil) {
+                
+                if ([[playHelper state] compare:END_STATE] == NSOrderedSame) {
+                    srand(clock());
+                    for (int i = 0; i < 40; i++) {
+                        SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
+                        [self.magicCube rotateWithSingmasterNotation:rotate];
+                    }
+                    [playHelper checkStateFromInit:YES];
+                    NSLog(@"%@", @"------------------------------------------------------------------------");
+                    count++;
+                    if (count == 20) {
+                        break;
+                    }
+                }
+            }
+        }
             break;
         case 2:
         {
@@ -270,9 +286,7 @@
 - (IBAction)newMagicCube:(id)sender {
     [magicCube init];
     //refresh state and rules
-    [playHelper setCheckStateFromInit:YES];
-    [playHelper checkState];
-    [playHelper setCheckStateFromInit:NO];
+    [playHelper checkStateFromInit:YES];
     [self showFaces];
 }
 

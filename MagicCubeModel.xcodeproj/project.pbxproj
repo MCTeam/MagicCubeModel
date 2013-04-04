@@ -41,26 +41,11 @@
 		E0EC976E1615836A00EBFE79 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC976D1615836A00EBFE79 /* MCAppDelegate.m */; };
 		E0EC97711615836A00EBFE79 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0EC976F1615836A00EBFE79 /* MainStoryboard.storyboard */; };
 		E0EC97741615836A00EBFE79 /* MCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC97731615836A00EBFE79 /* MCViewController.m */; };
-		E0EC977C1615836A00EBFE79 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0EC977B1615836A00EBFE79 /* SenTestingKit.framework */; };
-		E0EC977D1615836A00EBFE79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0EC975D1615836A00EBFE79 /* UIKit.framework */; };
-		E0EC977E1615836A00EBFE79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0EC975F1615836A00EBFE79 /* Foundation.framework */; };
-		E0EC97861615836A00EBFE79 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E0EC97841615836A00EBFE79 /* InfoPlist.strings */; };
-		E0EC97891615836B00EBFE79 /* MagicCubeModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC97881615836B00EBFE79 /* MagicCubeModelTests.m */; };
 		E0EC9797161583B100EBFE79 /* MCCube.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC9794161583B100EBFE79 /* MCCube.m */; };
 		E0EC9798161583B100EBFE79 /* MCMagicCube.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC9796161583B100EBFE79 /* MCMagicCube.m */; };
 		E0F6BDF5168E8AC300D857BC /* MCKnowledgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F6BDF4168E8AC300D857BC /* MCKnowledgeBase.m */; };
 		E0F6BDF7168E8BC000D857BC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F6BDF6168E8BC000D857BC /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		E0EC977F1615836A00EBFE79 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E0EC97501615836A00EBFE79 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E0EC97581615836A00EBFE79;
-			remoteInfo = MagicCubeModel;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E00F55C716CA896C005FA455 /* Down_CrossToEInETFF规则(20130202更新).docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Down_CrossToEInETFF规则(20130202更新).docx"; path = "Document/Down_CrossToEInETFF规则(20130202更新).docx"; sourceTree = "<group>"; };
@@ -110,7 +95,6 @@
 		E0EC97701615836A00EBFE79 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		E0EC97721615836A00EBFE79 /* MCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCViewController.h; sourceTree = "<group>"; };
 		E0EC97731615836A00EBFE79 /* MCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCViewController.m; sourceTree = "<group>"; };
-		E0EC977A1615836A00EBFE79 /* MagicCubeModelTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MagicCubeModelTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0EC977B1615836A00EBFE79 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		E0EC97831615836A00EBFE79 /* MagicCubeModelTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MagicCubeModelTests-Info.plist"; sourceTree = "<group>"; };
 		E0EC97851615836A00EBFE79 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -135,16 +119,6 @@
 				E0EC975E1615836A00EBFE79 /* UIKit.framework in Frameworks */,
 				E0EC97601615836A00EBFE79 /* Foundation.framework in Frameworks */,
 				E0EC97621615836A00EBFE79 /* CoreGraphics.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E0EC97761615836A00EBFE79 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E0EC977C1615836A00EBFE79 /* SenTestingKit.framework in Frameworks */,
-				E0EC977D1615836A00EBFE79 /* UIKit.framework in Frameworks */,
-				E0EC977E1615836A00EBFE79 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,7 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				E0EC97591615836A00EBFE79 /* MagicCubeModel.app */,
-				E0EC977A1615836A00EBFE79 /* MagicCubeModelTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -325,7 +298,7 @@
 				E0EC97551615836A00EBFE79 /* Sources */,
 				E0EC97561615836A00EBFE79 /* Frameworks */,
 				E0EC97571615836A00EBFE79 /* Resources */,
-				E0472BE916B2270E005DCA21 /* ShellScript */,
+				E0E21066170C887100B765C6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -335,25 +308,6 @@
 			productName = MagicCubeModel;
 			productReference = E0EC97591615836A00EBFE79 /* MagicCubeModel.app */;
 			productType = "com.apple.product-type.application";
-		};
-		E0EC97791615836A00EBFE79 /* MagicCubeModelTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E0EC978F1615836B00EBFE79 /* Build configuration list for PBXNativeTarget "MagicCubeModelTests" */;
-			buildPhases = (
-				E0EC97751615836A00EBFE79 /* Sources */,
-				E0EC97761615836A00EBFE79 /* Frameworks */,
-				E0EC97771615836A00EBFE79 /* Resources */,
-				E0EC97781615836A00EBFE79 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E0EC97801615836A00EBFE79 /* PBXTargetDependency */,
-			);
-			name = MagicCubeModelTests;
-			productName = MagicCubeModelTests;
-			productReference = E0EC977A1615836A00EBFE79 /* MagicCubeModelTests.octest */;
-			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -378,7 +332,6 @@
 			projectRoot = "";
 			targets = (
 				E0EC97581615836A00EBFE79 /* MagicCubeModel */,
-				E0EC97791615836A00EBFE79 /* MagicCubeModelTests */,
 			);
 		};
 /* End PBXProject section */
@@ -412,18 +365,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E0EC97771615836A00EBFE79 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E0EC97861615836A00EBFE79 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E0472BE916B2270E005DCA21 /* ShellScript */ = {
+		E0E21066170C887100B765C6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -435,19 +380,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nif [ \"${PLATFORM_NAME}\" == \"iphoneos\" ] || [ \"${PLATFORM_NAME}\" == \"ipados\" ]; then\n/Applications/Xcode.app/Contents/Developer/iphoneentitlements/gen_entitlements.py \"my.company.${PROJECT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\";\ncodesign -f -s \"iPhone Developer\" --entitlements \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\nfi";
-		};
-		E0EC97781615836A00EBFE79 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -472,23 +404,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E0EC97751615836A00EBFE79 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E0EC97891615836B00EBFE79 /* MagicCubeModelTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E0EC97801615836A00EBFE79 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E0EC97581615836A00EBFE79 /* MagicCubeModel */;
-			targetProxy = E0EC977F1615836A00EBFE79 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E0EC97661615836A00EBFE79 /* InfoPlist.strings */ = {
@@ -524,6 +440,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
@@ -556,6 +473,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
@@ -580,6 +498,8 @@
 		E0EC978D1615836B00EBFE79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_OBJC_RETAIN_COUNT = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MagicCubeModel/MagicCubeModel-Prefix.pch";
 				INFOPLIST_FILE = "MagicCubeModel/MagicCubeModel-Info.plist";
@@ -593,6 +513,8 @@
 		E0EC978E1615836B00EBFE79 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_OBJC_RETAIN_COUNT = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MagicCubeModel/MagicCubeModel-Prefix.pch";
 				INFOPLIST_FILE = "MagicCubeModel/MagicCubeModel-Info.plist";
@@ -600,40 +522,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		E0EC97901615836B00EBFE79 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MagicCubeModel.app/MagicCubeModel";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MagicCubeModel/MagicCubeModel-Prefix.pch";
-				INFOPLIST_FILE = "MagicCubeModelTests/MagicCubeModelTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		E0EC97911615836B00EBFE79 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MagicCubeModel.app/MagicCubeModel";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MagicCubeModel/MagicCubeModel-Prefix.pch";
-				INFOPLIST_FILE = "MagicCubeModelTests/MagicCubeModelTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
@@ -654,15 +542,6 @@
 			buildConfigurations = (
 				E0EC978D1615836B00EBFE79 /* Debug */,
 				E0EC978E1615836B00EBFE79 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E0EC978F1615836B00EBFE79 /* Build configuration list for PBXNativeTarget "MagicCubeModelTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E0EC97901615836B00EBFE79 /* Debug */,
-				E0EC97911615836B00EBFE79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

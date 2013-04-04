@@ -14,6 +14,13 @@
 
 #define CubieCouldBeLockMaxNum 26
 
+
+typedef enum _HelperStateMachine {
+    Normal,
+    ApplyingRotationQueue
+} HelperStateMachine;
+
+
 @interface MCPlayHelper : NSObject
 
 @property (nonatomic, retain)MCMagicCube *magicCube;
@@ -21,6 +28,8 @@
 @property (nonatomic, retain)NSDictionary *rules;
 @property (nonatomic, retain)NSDictionary *states;
 @property (nonatomic, retain)NSString *state;
+@property (nonatomic, strong)NSMutableArray *rotationQueue;
+@property (nonatomic)HelperStateMachine helperState;
 
 + (MCPlayHelper *)playerHelperWithMagicCube:(MCMagicCube *)mc;
 
@@ -32,12 +41,23 @@
 //apply the pattern and return result
 - (BOOL)applyPatternWihtName:(NSString *)name;
 
+//rotate operation with axis, layer, direction
+- (void)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction;
+
+//get the result of the last rotation
+- (RotationResult)getResultOfTheLastRotation;
+
 - (void)refreshRules;
 
-- (void)checkState;
+//check the current state and return it
+- (NSString *)checkStateFromInit:(BOOL)isCheckStateFromInit;
 
-- (void)applyRules;
+//apply rules and return actions
+//the result is directory:
+//"RotationQueue"——the rotation queue in array
+//"LockingAt"——
+//"Tips"——the string showing tips
+- (NSDictionary *)applyRules;
 
-- (void)setCheckStateFromInit:(BOOL)is;
 
 @end
