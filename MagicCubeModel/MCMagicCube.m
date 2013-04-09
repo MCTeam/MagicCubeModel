@@ -483,7 +483,7 @@
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++) {
                 if (x != 1 || y != 1 || z != 1) {
-                    [states addObject:[magicCubies3D[x][y][z] getCubieOrientationOfAxis]];
+                    [states addObject:[magicCubies3D[x][y][z] getCubieColorInOrientations]];
                 }
                 else{
                     [states addObject:[NSDictionary dictionary]];
