@@ -174,7 +174,7 @@ typedef enum _FaceColor{
 } FaceColor;
 //--------------------------------------------------------------------------------------------
 
-#define ONLY_TEST
+//#define ONLY_TEST
 
 //an encapsulation
 struct RotationStruct {

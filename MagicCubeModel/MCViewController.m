@@ -9,7 +9,10 @@
 #import "MCViewController.h"
 #import "MCPlayHelper.h"
 
-@implementation MCViewController
+@implementation MCViewController{
+    NSArray *tmpArr;
+    int current;
+}
 
 
 @synthesize axisArray;
@@ -45,6 +48,9 @@
     self.currentLayer = 0;
     
     [self showFaces];
+    
+    //----------------------------
+    tmpArr = nil;
 }
 
 - (void)showFaces{
@@ -245,22 +251,62 @@
             break;
         case 1:
         {
-            int count = 0;
-            while ([playHelper applyRules] != nil) {
-                
-                if ([[playHelper state] compare:END_STATE] == NSOrderedSame) {
-                    srand(clock());
-                    for (int i = 0; i < 40; i++) {
-                        SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
-                        [self.magicCube rotateWithSingmasterNotation:rotate];
-                    }
-                    [playHelper checkStateFromInit:YES];
-                    NSLog(@"%@", @"------------------------------------------------------------------------");
-                    count++;
-                    if (count == 20) {
-                        break;
+//            int count = 0;
+//            while ([playHelper applyRules] != nil) {
+//                
+//                if ([[playHelper state] compare:END_STATE] == NSOrderedSame) {
+//                    srand(clock());
+//                    if (count == 20) {
+//                        break;
+//                    }
+//                    for (int i = 0; i < 40; i++) {
+//                        SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
+//                        [self.magicCube rotateWithSingmasterNotation:rotate];
+//                    }
+//                    [playHelper checkStateFromInit:YES];
+//                    NSLog(@"%@", @"------------------------------------------------------------------------");
+//                    count++;
+//                    
+//                }
+//            }
+            
+            if (tmpArr == nil) {
+                [playHelper applyRules];
+                tmpArr = playHelper.applyQueue.rotationQueue;
+                NSLog(@"%@", [tmpArr description]);
+                current = 0;
+            } else {
+                if (current < [tmpArr count]) {
+                    SingmasterNotation rotation = (SingmasterNotation)[[tmpArr objectAtIndex:current] integerValue];
+                    NSLog(@"%d", rotation);
+                    [playHelper rotateWithSingmasterNotation:rotation];
+                    RotationResult result = [playHelper getResultOfTheLastRotation];
+                    
+                    switch (result) {
+                        case Accord:
+                            current++;
+                            NSLog(@"Accord");
+                            break;
+                        case Disaccord:
+                            NSLog(@"Disaccord");
+                            break;
+                        case StayForATime:
+                            NSLog(@"StayForATime");
+                            break;
+                        case Finished:
+                            NSLog(@"Finished");
+                            current++;
+                            [playHelper clearResidualActions];
+                            tmpArr = nil;
+                            break;
+                        default:
+                            break;
                     }
                 }
+                else{
+                    tmpArr = nil;
+                }
+                
             }
         }
             break;
