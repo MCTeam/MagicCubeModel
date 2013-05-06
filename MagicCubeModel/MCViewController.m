@@ -8,6 +8,7 @@
 
 #import "MCViewController.h"
 #import "MCPlayHelper.h"
+#import <time.h>
 
 @implementation MCViewController{
     NSArray *tmpArr;
@@ -36,9 +37,9 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.axisArray = [[NSArray alloc] initWithObjects:@"x", @"y", @"z", nil];
-    self.layerArray = [[NSArray alloc] initWithObjects:@"0", @"1", @"2", nil];
-    self.directionArray = [[NSArray alloc] initWithObjects:@"CW", @"CCW", nil];
+    self.axisArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+    self.layerArray = [NSArray arrayWithObjects:@"0", @"1", @"2", nil];
+    self.directionArray = [NSArray arrayWithObjects:@"CW", @"CCW", nil];
     
     self.magicCube = [MCMagicCube magicCube];
     self.playHelper = [MCPlayHelper playerHelperWithMagicCube:self.magicCube];
@@ -51,6 +52,7 @@
     
     //----------------------------
     tmpArr = nil;
+    srand(time(0));
 }
 
 - (void)showFaces{
@@ -251,50 +253,73 @@
             break;
         case 1:
         {
-//            int count = 0;
-//            while ([playHelper applyRules] != nil) {
-//                
-//                if ([[playHelper state] compare:END_STATE] == NSOrderedSame) {
-//                    srand(clock());
-//                    if (count == 20) {
-//                        break;
-//                    }
-//                    for (int i = 0; i < 40; i++) {
-//                        SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
-//                        [self.magicCube rotateWithSingmasterNotation:rotate];
-//                    }
-//                    [playHelper checkStateFromInit:YES];
-//                    NSLog(@"%@", @"------------------------------------------------------------------------");
-//                    count++;
-//                    
-//                }
-//            }
-            
+#ifdef ONLY_TEST
+            int count = 0;
+            while ([playHelper applyRules] != nil) {
+                if ([[playHelper state] compare:END_STATE] == NSOrderedSame) {
+                    srand(clock());
+                    if (count == 80) {
+                        break;
+                    }
+                    for (int i = 0; i < 40; i++) {
+                        SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
+                        [self.magicCube rotateWithSingmasterNotation:rotate];
+                    }
+                    [playHelper checkStateFromInit:YES];
+                    NSLog(@"%@%d", @"------------------------------------------------------------------------", count);
+                    count++;
+                }
+            }
+#else
             if (tmpArr == nil) {
                 [playHelper applyRules];
                 tmpArr = playHelper.applyQueue.rotationQueue;
-                NSLog(@"%@", [tmpArr description]);
+                NSMutableString *strQueue = [NSMutableString string];
+                for (NSNumber *rotation in tmpArr) {
+                    [strQueue appendFormat:@" %@", [MCTransformUtil getRotationTagFromSingmasterNotation:(SingmasterNotation)[rotation integerValue]]];
+                }
+                NSLog(@"The new queue :%@", strQueue);
                 current = 0;
             } else {
                 if (current < [tmpArr count]) {
                     SingmasterNotation rotation = (SingmasterNotation)[[tmpArr objectAtIndex:current] integerValue];
-                    NSLog(@"%d", rotation);
+                    if (rand() < RAND_MAX/3) {
+                        //incorrect step
+                        SingmasterNotation incorrectRotation = (SingmasterNotation)(rand() % (int)(D2+1));
+                        incorrectRotation = (SingmasterNotation)(rotation == incorrectRotation ? (incorrectRotation + 1) % (int)(D2+1)
+                                    : incorrectRotation);
+                        NSLog(@"Incorrect step : %@!!!  Target step : %@",
+                              [MCTransformUtil getRotationTagFromSingmasterNotation:incorrectRotation],
+                              [MCTransformUtil getRotationTagFromSingmasterNotation:rotation]);
+                        rotation = incorrectRotation;
+                    }
+                    else{
+                        NSLog(@"Correct step : %@", [MCTransformUtil getRotationTagFromSingmasterNotation:rotation]);
+                    }
                     [playHelper rotateWithSingmasterNotation:rotation];
                     RotationResult result = [playHelper getResultOfTheLastRotation];
-                    
                     switch (result) {
                         case Accord:
+                        {
                             current++;
-                            NSLog(@"Accord");
+                            NSLog(@"Result : Accord");
+                        }
                             break;
                         case Disaccord:
-                            NSLog(@"Disaccord");
+                        {
+                            NSLog(@"Result : Disaccord");
+                            NSMutableString *strQueue = [NSMutableString string];
+                            for (NSNumber *rotation in playHelper.applyQueue.extraRotations) {
+                                [strQueue appendFormat:@" %@", [MCTransformUtil getRotationTagFromSingmasterNotation:(SingmasterNotation)[rotation integerValue]]];
+                            }
+                            NSLog(@"Extra queue : %@", strQueue);
+                        }
                             break;
                         case StayForATime:
-                            NSLog(@"StayForATime");
+                            NSLog(@"Result : StayForATime");
                             break;
                         case Finished:
-                            NSLog(@"Finished");
+                            NSLog(@"Result : Finished");
                             current++;
                             [playHelper clearResidualActions];
                             tmpArr = nil;
@@ -306,8 +331,9 @@
                 else{
                     tmpArr = nil;
                 }
-                
             }
+            NSLog(@"------------------------------------------------------");
+#endif
         }
             break;
         case 2:
