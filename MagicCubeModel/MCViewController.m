@@ -53,7 +53,7 @@
     //----------------------------
     tmpArr = nil;
     srand(time(0));
-}
+} 
 
 - (void)showFaces{
     //show the rubik cube face
@@ -237,6 +237,12 @@
 //rotate the model and how to rotate is decided by three picker
 - (IBAction)rotateBtnClicked:(id)sender {
     [magicCube rotateOnAxis:currentAxis onLayer:currentLayer inDirection:currentDirection];
+    
+    //the first you apply rules
+    //you need to verify the current state
+    //checking state from 'init' will clear all locked cubies
+    [playHelper checkStateFromInit:YES];
+    
     [self showFaces];
 }
 
@@ -283,7 +289,7 @@
             } else {
                 if (current < [tmpArr count]) {
                     SingmasterNotation rotation = (SingmasterNotation)[[tmpArr objectAtIndex:current] integerValue];
-                    if (rand() < RAND_MAX/3) {
+                    if (rand() < RAND_MAX/8) {
                         //incorrect step
                         SingmasterNotation incorrectRotation = (SingmasterNotation)(rand() % (int)(D2+1));
                         incorrectRotation = (SingmasterNotation)(rotation == incorrectRotation ? (incorrectRotation + 1) % (int)(D2+1)
