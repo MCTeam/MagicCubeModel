@@ -289,7 +289,7 @@
             } else {
                 if (current < [tmpArr count]) {
                     SingmasterNotation rotation = (SingmasterNotation)[[tmpArr objectAtIndex:current] integerValue];
-                    if (rand() < RAND_MAX/8) {
+                    if (false) {
                         //incorrect step
                         SingmasterNotation incorrectRotation = (SingmasterNotation)(rand() % (int)(D2+1));
                         incorrectRotation = (SingmasterNotation)(rotation == incorrectRotation ? (incorrectRotation + 1) % (int)(D2+1)

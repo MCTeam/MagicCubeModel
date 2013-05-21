@@ -10,10 +10,14 @@
 #import "MCKnowledgeBase.h"
 #import "MCPlayHelper.h"
 #import "CircleMenuController.h"
+#import "Global.h"
 
 @interface MCRestoreModelController : CircleMenuController
 
+@property(nonatomic, retain)NSArray *cubieArray;
+
 - (IBAction)selectOne:(id)sender;
 
+- (IBAction)saveState:(id)sender;
 
 @end

@@ -32,7 +32,7 @@
 // Image
 #define kKYICircleMenuCenterButton           @"DefaultButton.png"
 #define kKYICircleMenuCenterButtonBackground @"DefaultButtonBg.png"
-#define kKYICircleMenuButtonImageNameFormat  @"Color%.2d.png" // %.2d: 1 - 6
+#define kKYICircleMenuButtonImageNameFormat  @"Color%.2d.png" // 1-6
 
 @interface Constants : NSObject
 

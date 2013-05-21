@@ -20,11 +20,11 @@
 @synthesize magicCube;
 
 
-+ (id)applyQueueWithRotationAction:(MCTreeNode *)action withMagicCube:(MCMagicCube *)mc{
++ (id)applyQueueWithRotationAction:(MCTreeNode *)action withMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
     return [[[MCApplyQueue alloc] initWithRotationAction:action withMagicCube:mc] autorelease];
 }
 
-- (id)initWithRotationAction:(MCTreeNode *)action withMagicCube:(MCMagicCube *)mc{
+- (id)initWithRotationAction:(MCTreeNode *)action withMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
     if (self = [super init]) {
         currentRotationQueuePosition = 0;
         previousResult = NoneResult;
@@ -90,7 +90,7 @@
         //if they are same, accord
         SingmasterNotation targetRotation = (SingmasterNotation)[[self.rotationQueue objectAtIndex:currentRotationQueuePosition] integerValue];
         if (previousResult == StayForATime) {
-            if ([MCTransformUtil isSingmasterNotation:previousRotation andSingmasterNotation:currentRotation equalTo:targetRotation]) {
+            if ([MCCompositeRotationUtil isSingmasterNotation:previousRotation andSingmasterNotation:currentRotation equalTo:targetRotation]) {
                 previousResult = Accord;
                 currentRotationQueuePosition++;
             }
@@ -111,7 +111,7 @@
                 if ([self isFinished]) previousResult = Finished;
             }
             else{
-                if ([MCTransformUtil isSingmasterNotation:currentRotation PossiblePartOfSingmasterNotation:targetRotation]) {
+                if ([MCCompositeRotationUtil isSingmasterNotation:currentRotation PossiblePartOfSingmasterNotation:targetRotation]) {
                     previousResult = StayForATime;
                 }
                 else{

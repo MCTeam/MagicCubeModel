@@ -19,15 +19,16 @@
 		E00F55E116CA89C9005FA455 /* Icon_min.png in Resources */ = {isa = PBXBuildFile; fileRef = E00F55DE16CA89C9005FA455 /* Icon_min.png */; };
 		E00F55E216CA89C9005FA455 /* KnowledgeBase.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = E00F55DF16CA89C9005FA455 /* KnowledgeBase.sqlite3 */; };
 		E04108B316EF4290002118E7 /* MCTransformUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E04108B216EF4290002118E7 /* MCTransformUtil.m */; };
-		E04221BC16E492E8003602F8 /* Color06.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B416E492E8003602F8 /* Color06.png */; };
-		E04221BD16E492E8003602F8 /* Color05.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B516E492E8003602F8 /* Color05.png */; };
-		E04221BE16E492E8003602F8 /* Color02.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B616E492E8003602F8 /* Color02.png */; };
-		E04221BF16E492E8003602F8 /* Color03.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B716E492E8003602F8 /* Color03.png */; };
-		E04221C016E492E8003602F8 /* Color01.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221B816E492E8003602F8 /* Color01.png */; };
 		E04221C216E492E8003602F8 /* DefaultButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221BA16E492E8003602F8 /* DefaultButton.png */; };
 		E04221C316E492E8003602F8 /* DefaultButtonBg.png in Resources */ = {isa = PBXBuildFile; fileRef = E04221BB16E492E8003602F8 /* DefaultButtonBg.png */; };
-		E04221C716E49490003602F8 /* CircleMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = E04221C616E49490003602F8 /* CircleMenuController.m */; };
-		E070AF6C16E4CAE9004BEB2E /* Color04.png in Resources */ = {isa = PBXBuildFile; fileRef = E070AF6B16E4CAE9004BEB2E /* Color04.png */; };
+		E0440E6B17454801008A4FC6 /* MCCompositeRotationUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E0440E6617454800008A4FC6 /* MCCompositeRotationUtil.m */; };
+		E087718A1749298C0025F572 /* Color00.png in Resources */ = {isa = PBXBuildFile; fileRef = E08771841749298C0025F572 /* Color00.png */; };
+		E087718B1749298C0025F572 /* Color01.png in Resources */ = {isa = PBXBuildFile; fileRef = E08771851749298C0025F572 /* Color01.png */; };
+		E087718C1749298C0025F572 /* Color02.png in Resources */ = {isa = PBXBuildFile; fileRef = E08771861749298C0025F572 /* Color02.png */; };
+		E087718D1749298C0025F572 /* Color03.png in Resources */ = {isa = PBXBuildFile; fileRef = E08771871749298C0025F572 /* Color03.png */; };
+		E087718E1749298C0025F572 /* Color04.png in Resources */ = {isa = PBXBuildFile; fileRef = E08771881749298C0025F572 /* Color04.png */; };
+		E087718F1749298C0025F572 /* Color05.png in Resources */ = {isa = PBXBuildFile; fileRef = E08771891749298C0025F572 /* Color05.png */; };
+		E087719217492A010025F572 /* CircleMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = E087719117492A010025F572 /* CircleMenuController.m */; };
 		E08CFA9617165EE300BA5046 /* MCApplyQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = E08CFA9517165EE300BA5046 /* MCApplyQueue.m */; };
 		E0B0FB7F168EC97900DBBF49 /* MCPlayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB7E168EC97800DBBF49 /* MCPlayHelper.m */; };
 		E0B0FB83168EDC7200DBBF49 /* MCBasicElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B0FB82168EDC7200DBBF49 /* MCBasicElement.m */; };
@@ -62,17 +63,21 @@
 		E00F55DF16CA89C9005FA455 /* KnowledgeBase.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = KnowledgeBase.sqlite3; sourceTree = "<group>"; };
 		E04108B116EF4290002118E7 /* MCTransformUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTransformUtil.h; sourceTree = "<group>"; };
 		E04108B216EF4290002118E7 /* MCTransformUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTransformUtil.m; sourceTree = "<group>"; };
-		E04221B416E492E8003602F8 /* Color06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color06.png; sourceTree = "<group>"; };
-		E04221B516E492E8003602F8 /* Color05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color05.png; sourceTree = "<group>"; };
-		E04221B616E492E8003602F8 /* Color02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color02.png; sourceTree = "<group>"; };
-		E04221B716E492E8003602F8 /* Color03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color03.png; sourceTree = "<group>"; };
-		E04221B816E492E8003602F8 /* Color01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color01.png; sourceTree = "<group>"; };
 		E04221BA16E492E8003602F8 /* DefaultButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultButton.png; sourceTree = "<group>"; };
 		E04221BB16E492E8003602F8 /* DefaultButtonBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultButtonBg.png; sourceTree = "<group>"; };
-		E04221C516E49490003602F8 /* CircleMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleMenuController.h; sourceTree = "<group>"; };
-		E04221C616E49490003602F8 /* CircleMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleMenuController.m; sourceTree = "<group>"; };
 		E04221C816E494F3003602F8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		E070AF6B16E4CAE9004BEB2E /* Color04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color04.png; sourceTree = "<group>"; };
+		E0440E6517454800008A4FC6 /* MCCompositeRotationUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCompositeRotationUtil.h; sourceTree = "<group>"; };
+		E0440E6617454800008A4FC6 /* MCCompositeRotationUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCompositeRotationUtil.m; sourceTree = "<group>"; };
+		E0440E6717454801008A4FC6 /* MCCubieDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCubieDelegate.h; sourceTree = "<group>"; };
+		E0440E6817454801008A4FC6 /* MCMagicCubeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMagicCubeDelegate.h; sourceTree = "<group>"; };
+		E08771841749298C0025F572 /* Color00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color00.png; sourceTree = "<group>"; };
+		E08771851749298C0025F572 /* Color01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color01.png; sourceTree = "<group>"; };
+		E08771861749298C0025F572 /* Color02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color02.png; sourceTree = "<group>"; };
+		E08771871749298C0025F572 /* Color03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color03.png; sourceTree = "<group>"; };
+		E08771881749298C0025F572 /* Color04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color04.png; sourceTree = "<group>"; };
+		E08771891749298C0025F572 /* Color05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Color05.png; sourceTree = "<group>"; };
+		E087719017492A010025F572 /* CircleMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleMenuController.h; sourceTree = "<group>"; };
+		E087719117492A010025F572 /* CircleMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleMenuController.m; sourceTree = "<group>"; };
 		E08CFA9417165EE300BA5046 /* MCApplyQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCApplyQueue.h; sourceTree = "<group>"; };
 		E08CFA9517165EE300BA5046 /* MCApplyQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCApplyQueue.m; sourceTree = "<group>"; };
 		E0B0FB7D168EC97800DBBF49 /* MCPlayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPlayHelper.h; sourceTree = "<group>"; };
@@ -147,6 +152,8 @@
 		E04108B016EF4209002118E7 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				E0440E6517454800008A4FC6 /* MCCompositeRotationUtil.h */,
+				E0440E6617454800008A4FC6 /* MCCompositeRotationUtil.m */,
 				E04108B116EF4290002118E7 /* MCTransformUtil.h */,
 				E04108B216EF4290002118E7 /* MCTransformUtil.m */,
 			);
@@ -156,12 +163,12 @@
 		E04221B316E4928F003602F8 /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				E04221B416E492E8003602F8 /* Color06.png */,
-				E04221B516E492E8003602F8 /* Color05.png */,
-				E04221B616E492E8003602F8 /* Color02.png */,
-				E04221B716E492E8003602F8 /* Color03.png */,
-				E04221B816E492E8003602F8 /* Color01.png */,
-				E070AF6B16E4CAE9004BEB2E /* Color04.png */,
+				E08771841749298C0025F572 /* Color00.png */,
+				E08771851749298C0025F572 /* Color01.png */,
+				E08771861749298C0025F572 /* Color02.png */,
+				E08771871749298C0025F572 /* Color03.png */,
+				E08771881749298C0025F572 /* Color04.png */,
+				E08771891749298C0025F572 /* Color05.png */,
 				E04221BA16E492E8003602F8 /* DefaultButton.png */,
 				E04221BB16E492E8003602F8 /* DefaultButtonBg.png */,
 			);
@@ -171,9 +178,9 @@
 		E04221C416E4946D003602F8 /* PopUpView */ = {
 			isa = PBXGroup;
 			children = (
+				E087719017492A010025F572 /* CircleMenuController.h */,
+				E087719117492A010025F572 /* CircleMenuController.m */,
 				E04221C816E494F3003602F8 /* Constants.h */,
-				E04221C516E49490003602F8 /* CircleMenuController.h */,
-				E04221C616E49490003602F8 /* CircleMenuController.m */,
 			);
 			name = PopUpView;
 			sourceTree = "<group>";
@@ -239,6 +246,8 @@
 				E0EC97721615836A00EBFE79 /* MCViewController.h */,
 				E0EC97731615836A00EBFE79 /* MCViewController.m */,
 				E0EC9792161583B100EBFE79 /* Global.h */,
+				E0440E6717454801008A4FC6 /* MCCubieDelegate.h */,
+				E0440E6817454801008A4FC6 /* MCMagicCubeDelegate.h */,
 				E0EC9793161583B100EBFE79 /* MCCubie.h */,
 				E0EC9794161583B100EBFE79 /* MCCube.m */,
 				E0EC9795161583B100EBFE79 /* MCMagicCube.h */,
@@ -359,14 +368,14 @@
 				E00F55E016CA89C9005FA455 /* Icon_max.png in Resources */,
 				E00F55E116CA89C9005FA455 /* Icon_min.png in Resources */,
 				E00F55E216CA89C9005FA455 /* KnowledgeBase.sqlite3 in Resources */,
-				E04221BC16E492E8003602F8 /* Color06.png in Resources */,
-				E04221BD16E492E8003602F8 /* Color05.png in Resources */,
-				E04221BE16E492E8003602F8 /* Color02.png in Resources */,
-				E04221BF16E492E8003602F8 /* Color03.png in Resources */,
-				E04221C016E492E8003602F8 /* Color01.png in Resources */,
 				E04221C216E492E8003602F8 /* DefaultButton.png in Resources */,
 				E04221C316E492E8003602F8 /* DefaultButtonBg.png in Resources */,
-				E070AF6C16E4CAE9004BEB2E /* Color04.png in Resources */,
+				E087718A1749298C0025F572 /* Color00.png in Resources */,
+				E087718B1749298C0025F572 /* Color01.png in Resources */,
+				E087718C1749298C0025F572 /* Color02.png in Resources */,
+				E087718D1749298C0025F572 /* Color03.png in Resources */,
+				E087718E1749298C0025F572 /* Color04.png in Resources */,
+				E087718F1749298C0025F572 /* Color05.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,9 +413,10 @@
 				E0EB17281690972A00B5A827 /* MCInsertPatternController.m in Sources */,
 				E0E737DF1694651600E48BD0 /* MCRestoreModelController.m in Sources */,
 				E0E75E83169567130002AF38 /* MCInsertRuleContorller.m in Sources */,
-				E04221C716E49490003602F8 /* CircleMenuController.m in Sources */,
 				E04108B316EF4290002118E7 /* MCTransformUtil.m in Sources */,
 				E08CFA9617165EE300BA5046 /* MCApplyQueue.m in Sources */,
+				E0440E6B17454801008A4FC6 /* MCCompositeRotationUtil.m in Sources */,
+				E087719217492A010025F572 /* CircleMenuController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

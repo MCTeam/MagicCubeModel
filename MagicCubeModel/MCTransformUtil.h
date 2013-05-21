@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Global.h"
+#import "MCBasicElement.h"
+#import "MCMagicCube.h"
 
 @interface MCTransformUtil : NSObject
 
@@ -19,11 +21,35 @@
 
 + (SingmasterNotation)getContrarySingmasterNotation:(SingmasterNotation)notation;
 
-//all situations but not Bw+Bw=Bw2...
-+ (BOOL)isSingmasterNotation:(SingmasterNotation)first andSingmasterNotation:(SingmasterNotation)second equalTo:(SingmasterNotation)target;
-
-//all situations but not Bw+Bw=Bw2...
-+ (BOOL)isSingmasterNotation:(SingmasterNotation)part PossiblePartOfSingmasterNotation:(SingmasterNotation)target;
-
 + (SingmasterNotation)getPathToMakeCenterCubieAtPosition:(struct Point3i)coordinate inOrientation:(FaceOrientationType)orientation;
+
+//By delivering pattern node to this function,
+//we can get the node content.
+//Notice! The type of this node must be 'PatternNode'.
++ (NSString *)getContenFromPatternNode:(MCTreeNode *)node accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
+
+//Return the negative sentence of the string returned by
+//"+ (NSString *)getContenFromPatternNode:(MCTreeNode *)node"
++ (NSString *)getNegativeSentenceOfContentFromPatternNode:(MCTreeNode *)node accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
+
+//Expand the tree node at three occasions:
+//@1     not                    or
+//        |                    /  \
+//       and        ->       not   not
+//      /   \                 |     |
+//  child  child            child  child
+//-----------------------------------------
+//@2     not                    and
+//        |                    /  \
+//       or        ->        not   not
+//      /   \                 |     |
+//  child  child            child  child
+//-----------------------------------------
+//@3 not-not-child  ->  child
++ (void)convertToTreeByExpandingNotSentence:(MCTreeNode *)node;
+
+
+//E.g BColor transfer to XXX(where)XXX colors cubie
++ (NSString *)getConcreteDescriptionOfCubie:(ColorCombinationType)identity fromMgaicCube:(NSObject<MCMagicCubeDelegate> *)mc;
+
 @end

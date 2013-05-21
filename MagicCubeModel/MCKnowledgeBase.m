@@ -7,6 +7,7 @@
 //
 
 #import "MCKnowledgeBase.h"
+#import "MCTransformUtil.h"
 
 
 @implementation MCKnowledgeBase
@@ -54,8 +55,7 @@
 }
 
 - (NSString *)knowledgeBaseFilePath{
-    NSString *documentsDirectory  = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    return [documentsDirectory stringByAppendingPathComponent:KNOWLEDGE_DB_FILE_NAME];
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:KNOWLEDGE_DB_FILE_NAME];
 }
 
 - (BOOL)insertPattern:(NSString *)pattern withKey:(NSString *)key withPreState:(NSString *)state{
@@ -169,6 +169,7 @@
                 NSString *patternName = [[NSString alloc] initWithUTF8String:key];
                 NSString *patternStr = [[NSString alloc] initWithUTF8String:pattern];
                 MCPattern *mcPattern = [[MCPattern alloc] initWithString:patternStr];
+                [MCTransformUtil convertToTreeByExpandingNotSentence:mcPattern.root];
                 [patterns setObject:mcPattern forKey:patternName];
                 [patternName release];
                 [patternStr release];

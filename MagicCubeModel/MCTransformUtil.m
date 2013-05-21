@@ -195,106 +195,6 @@
     return result;
 }
 
-+ (BOOL)isSingmasterNotation:(SingmasterNotation)first andSingmasterNotation:(SingmasterNotation)second equalTo:(SingmasterNotation)target{
-    //F+F / F'+F' == F2...
-    if (first == second && first/3*3+2 == target) {
-        return YES;
-    }
-    //two layers rotation as single SingmasterNotation
-    BOOL result = NO;
-    switch (target) {
-        case Fw:
-            if ((first == F && second == S) || (first == S && second == F)) result = YES;
-            break;
-        case Fwi:
-            if ((first == Fi && second == Si) || (first == Si && second == Fi)) result = YES;
-            break;
-        case Bw:
-            if ((first == B && second == Si) || (first == Si && second == B)) result = YES;
-            break;
-        case Bwi:
-            if ((first == Bi && second == S) || (first == S && second == Bi)) result = YES;
-            break;
-        case Rw:
-            if ((first == R && second == Mi) || (first == Mi && second == R)) result = YES;
-            break;
-        case Rwi:
-            if ((first == Ri && second == M) || (first == M && second == Ri)) result = YES;
-            break;
-        case Lw:
-            if ((first == L && second == M) || (first == M && second == L)) result = YES;
-            break;
-        case Lwi:
-            if ((first == Li && second == Mi) || (first == Mi && second == Li)) result = YES;
-            break;
-        case Uw:
-            if ((first == U && second == Ei) || (first == Ei && second == U)) result = YES;
-            break;
-        case Uwi:
-            if ((first == Ui && second == E) || (first == E && second == Ui)) result = YES;
-            break;
-        case Dw:
-            if ((first == D && second == E) || (first == E && second == F)) result = YES;
-            break;
-        case Dwi:
-            if ((first == Di && second == Ei) || (first == Ei && second == F)) result = YES;
-            break;
-        default:
-            break;
-    }
-    return result;
-}
-
-+ (BOOL)isSingmasterNotation:(SingmasterNotation)part PossiblePartOfSingmasterNotation:(SingmasterNotation)target{
-    //F / F' is part of F2...
-    if (part != target && target/3 == part/3) {
-        return YES;
-    }
-    //
-    BOOL result = NO;
-    switch (target) {
-        case Fw:
-            if (part == F || part == S) result = YES;
-            break;
-        case Fwi:
-            if (part == Fi || part == Si) result = YES;
-            break;
-        case Bw:
-            if (part == B || part == Si) result = YES;
-            break;
-        case Bwi:
-            if (part == Bi || part == S) result = YES;
-            break;
-        case Rw:
-            if (part == R || part == Mi) result = YES;
-            break;
-        case Rwi:
-            if (part == Ri || part == M) result = YES;
-            break;
-        case Lw:
-            if (part == L || part == M) result = YES;
-            break;
-        case Lwi:
-            if (part == Li || part == Mi) result = YES;
-            break;
-        case Uw:
-            if (part == U || part == Ei) result = YES;
-            break;
-        case Uwi:
-            if (part == Ui || part == E) result = YES;
-            break;
-        case Dw:
-            if (part == D || part == E) result = YES;
-            break;
-        case Dwi:
-            if (part == Di || part == Ei) result = YES;
-            break;
-        default:
-            break;
-    }
-    return result;
-}
-
 + (SingmasterNotation)getPathToMakeCenterCubieAtPosition:(struct Point3i)coordinate inOrientation:(FaceOrientationType)orientation{
     SingmasterNotation result = NoneNotation;
     switch (orientation) {
@@ -482,6 +382,150 @@
             result = NoneNotation;
             break;
     }
+    return result;
+}
+
++ (NSString *)getContenFromPatternNode:(MCTreeNode *)node accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
+    NSString *result = nil;
+    //Before generate the content,
+    //detect the wrong type.
+    if ([node type] != PatternNode) {
+        return nil;
+    }
+    
+    //Generate the content of pattern node
+    switch ([node value]) {
+        case Home:
+        {
+            result = @"Home Message";
+        }
+            break;
+        case Check:
+            result = @"Check Message";
+            break;
+        case ColorBindOrientation:
+            
+            break;
+        case At:
+            
+            break;
+        case NotAt:
+            
+            break;
+        case CubiedBeLocked:
+            result = @"CubieBeLocked Message";
+            break;
+        default:
+            result = @"Unrecongized pattern node!!!";
+            break;
+    }
+    return result;
+}
+
++ (NSString *)getNegativeSentenceOfContentFromPatternNode:(MCTreeNode *)node accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
+    return [NSString stringWithFormat:@"%@ 不符合", [MCTransformUtil getContenFromPatternNode:node accordingToMagicCube:mc]];
+}
+
+
++ (void)convertToTreeByExpandingNotSentence:(MCTreeNode *)node{
+    //Just expand 'ExpNode' node
+    if (node.type != ExpNode) return;
+    
+    switch (node.value) {
+        //Expand 'And' or 'Or' node's children.
+        case And | Or:
+            for (MCTreeNode *child in node.children) {
+                [MCTransformUtil convertToTreeByExpandingNotSentence:child];
+            }
+            break;
+        //Expand 'Not' Node
+        case Not:
+        {
+            //Get its child(only one)
+            MCTreeNode *child = [node.children objectAtIndex:0];
+            [child retain];
+            
+            //Before expanding, avoid unexpected node type.
+            if (child.type != ExpNode){
+                [child release];
+                return;
+            }
+            
+            //Process three occasions
+            switch (child.value) {
+                //Occasion @1 and @2
+                case And | Or:
+                {
+                    //Ancestor node transfer to 'Or' or 'And' node
+                    [node setValue:(child.value == And ? Or : And)];
+                    
+                    //break the relationship not-and or not-or
+                    [node.children removeAllObjects];
+                    
+                    //add new ancestor node's children
+                    for (MCTreeNode *andsChild in child.children) {
+                        //Construct new 'Not' node.
+                        MCTreeNode *newChild = [[MCTreeNode alloc] initNodeWithType:ExpNode];
+                        [newChild setValue:Not];
+                        
+                        [newChild.children addObject:andsChild];
+                        //Attach the new node to ancestor node.
+                        [node.children addObject:newChild];
+                        
+                        //count--
+                        [newChild release];
+                    }
+                    break;
+                }
+                //Occasion @3
+                case Not:
+                {
+                    //Get the node's grandchild
+                    MCTreeNode *grandChild = [child.children objectAtIndex:0];
+                    [grandChild retain];
+                    
+                    //Eliminate not-not
+                    [node setType:grandChild.type];
+                    [node setValue:grandChild.value];
+                    [node setChildren:grandChild.children];
+                    
+                    //Release the hold of grandchild object
+                    [grandChild release];
+                    
+                }
+                    break;
+                default:
+                    break;
+            }
+            
+            //Release the hold of child object
+            [child release];
+            
+            //Deeper Expanding
+            [MCTransformUtil convertToTreeByExpandingNotSentence:node];
+        }
+        default:
+            break;
+    }
+}
+
+
++ (NSString *)getConcreteDescriptionOfCubie:(ColorCombinationType)identity fromMgaicCube:(NSObject<MCMagicCubeDelegate> *)mc{
+    //Cubie description length
+    const NSInteger cubieDescriptionLength = 12;
+    
+    //Description result
+    NSMutableString *result = [NSMutableString stringWithCapacity:cubieDescriptionLength];
+    
+    //Get the target cubie by identity(retain once) and get the position, skin num, and skin colors
+//    MCCubie *targetCubie = [[mc cubieWithColorCombination:identity] retain];
+//    Point3i position = targetCubie.coordinateValue;
+//    NSInteger skinNum = targetCubie.skinNum;
+//    FaceColorType *faceColors = targetCubie.faceColors;
+    
+    //release once
+    //[targetCubie release];
+    
     return result;
 }
 

@@ -11,6 +11,7 @@
 #import "Global.h"
 #import "MCMagicCube.h"
 #import "MCTransformUtil.h"
+#import "MCCompositeRotationUtil.h"
 
 
 @interface MCApplyQueue : NSObject
@@ -20,11 +21,11 @@
 @property (nonatomic)NSInteger currentRotationQueuePosition;
 @property (nonatomic)SingmasterNotation previousRotation;
 @property (nonatomic)RotationResult previousResult;
-@property (nonatomic, retain)MCMagicCube *magicCube;
+@property (nonatomic, retain)NSObject<MCMagicCubeDelegate> *magicCube;
 
-+ (id)applyQueueWithRotationAction:(MCTreeNode *)action withMagicCube:(MCMagicCube *)mc;
++ (id)applyQueueWithRotationAction:(MCTreeNode *)action withMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
 
-- (id)initWithRotationAction:(MCTreeNode *)action withMagicCube:(MCMagicCube *)mc;
+- (id)initWithRotationAction:(MCTreeNode *)action withMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
 
 //reset the current position
 - (void)reset;
