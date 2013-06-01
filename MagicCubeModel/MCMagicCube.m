@@ -24,7 +24,9 @@
 }
 
 + (MCMagicCube *)unarchiveMagicCubeWithFile:(NSString *)path{
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    MCMagicCube *newMagicCube = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    [newMagicCube reloadColorMappingDictionary];
+    return newMagicCube;
 }
 
 + (MCMagicCube *)magicCubeWithCubiesData:(NSArray *)dataArray{
@@ -475,7 +477,7 @@
 }   //get coordinate of cube having the color combination
 
 - (NSObject<MCCubieDelegate> *)cubieWithColorCombination:(ColorCombinationType)combination{
-    return magicCubiesList[combination];
+    return (combination >= 0 && combination < ColorCombinationTypeBound)? magicCubiesList[combination] : nil;
 }
 
 - (NSObject<MCCubieDelegate> *)cubieAtCoordinateX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z{
@@ -592,7 +594,7 @@
             return [self.faceColorKeyMappingToRealColor objectForKey:KEY_RIGHT_FACE_COLOR];
             break;
         default:
-            return nil;
+            return @"";
     }
 }
 

@@ -392,7 +392,28 @@
             break;
         case 2:
             if ([patternName.text compare:@""] != NSOrderedSame) {
-                if (![knowledgeBase insertRullOfMethod:ETFF withState:preStateName.text ifContent:patternName.text thenContent:actionStr]) {
+                if (![knowledgeBase insertRullOfMethod:ETFF
+                                             withState:preStateName.text
+                                             ifContent:patternName.text
+                                           thenContent:actionStr
+                                               inTable:DB_RULE_TABLE_NAME]) {
+                    NSLog(@"Insert Failded.");
+                }
+                else{
+                    NSLog(@"Insert Successed.");
+                }
+            }
+            else{
+                NSLog(@"Input pattern name frist.");
+            }
+            break;
+        case 3:
+            if ([patternName.text compare:@""] != NSOrderedSame) {
+                if (![knowledgeBase insertRullOfMethod:ETFF
+                                             withState:preStateName.text
+                                             ifContent:patternName.text
+                                           thenContent:actionStr
+                                               inTable:DB_SPECIAL_RULE_TABLE_NAME]) {
                     NSLog(@"Insert Failded.");
                 }
                 else{

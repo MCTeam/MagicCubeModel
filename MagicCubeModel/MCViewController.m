@@ -364,7 +364,7 @@
 - (IBAction)newMagicCube:(id)sender {
     [magicCube init];
     //refresh state and rules
-    [playHelper checkStateFromInit:YES];
+    //[playHelper checkStateFromInit:YES];
     [self showFaces];
 }
 

@@ -15,7 +15,7 @@
 - (void) shiftOnAxis: (AxisType)axis  inDirection: (LayerRotationDirectionType)direction;
 
 //get the faceColor in specified orientation
-- (FaceColorType) faceColorInOrientation: (FaceOrientationType)orientation;
+- (FaceColorType)faceColorInOrientation: (FaceOrientationType)orientation;
 
 //return wheather the face color on the specified orientation is the specified color
 - (BOOL)isFaceColor:(FaceColorType)color inOrientation:(FaceOrientationType)orientation;
@@ -25,6 +25,9 @@
 
 //Return the identity of the cubie
 - (ColorCombinationType)identity;
+
+//Return the coordinate of the cubie
+- (Point3i)coordinateValue;
 
 //Return state in the "format" orientation-facecolor
 //No reutrn 6 faces but skinNum faces.

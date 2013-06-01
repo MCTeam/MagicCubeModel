@@ -30,4 +30,8 @@
 
 - (FaceOrientationType)centerMagicCubeFaceInOrientation:(FaceOrientationType)orientation;
 
+//Using color mapping dictionary,
+//you can get the real color corresponding to face color type.
+- (NSString *)getRealColor:(FaceColorType)color;
+
 @end

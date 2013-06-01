@@ -23,11 +23,13 @@
 //get a saved magic cube from an archived file
 + (MCMagicCube *)unarchiveMagicCubeWithFile:(NSString *)path;
 
+
 //Get the magic cube by appointed all face colors.
 //All face color is stored in 27 dictionaries contained in an array.
 //Every dictionary: key=FaceOrientationType and value=FaceColorType.
 //The dictionary of centre cubie whose identity is 9(coordinate[0, 0, 0]) has empty content.
 + (MCMagicCube *)magicCubeWithCubiesData:(NSArray *)dataArray;
+
 
 //get the state of cubies
 //every state in the "format" axis-orientation
@@ -41,8 +43,6 @@
 //you can applying it in the data model by invoking this method.
 - (void)reloadColorMappingDictionary;
 
-//Using color mapping dictionary,
-//you can get the real color corresponding to face color type.
-- (NSString *)getRealColor:(FaceColorType)color;
+
 
 @end

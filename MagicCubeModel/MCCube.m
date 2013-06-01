@@ -458,13 +458,6 @@
     return [NSDictionary dictionaryWithDictionary:state];
 }
 
-- (NSInteger)skinNum{
-    return skinNum;
-}
-
-- (ColorCombinationType)identity{
-    return identity;
-}
 
 - (NSDictionary *)getCubieColorInOrientationsWithoutNoColor{
     NSMutableDictionary *state = [NSMutableDictionary dictionaryWithCapacity:self.skinNum];
@@ -473,5 +466,6 @@
     }
     return [NSDictionary dictionaryWithDictionary:state];
 }
+
 
 @end

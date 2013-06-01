@@ -38,7 +38,7 @@
 }
 
 + (NSString *)getRotationTagFromSingmasterNotation:(SingmasterNotation)notation{
-    NSString *names[45] = {
+    NSString *names[54] = {
         @"frontCW",     @"frontCCW",    @"front2CW",
         @"backCW",      @"backCCW",     @"back2CW",
         @"rightCW",     @"rightCCW",    @"right2CW",
@@ -53,7 +53,11 @@
         @"rightTwoCW",  @"rightTwoCCW", @"rightTwo2CW",
         @"leftTwoCW",   @"leftTwoCCW",  @"leftTwo2CW",
         @"upTwoCW",     @"upTwoCCW",    @"upTwo2CW",
-        @"downTwoCW",   @"downTwoCCW",  @"downTwo2CW"};
+        @"downTwoCW",   @"downTwoCCW",  @"downTwo2CW"
+        @"mxCW",        @"mxCCW",       @"mx2CW",
+        @"myCW",        @"myCCW",       @"my2CW",
+        @"mzCW",        @"mzCCW",       @"mz2CW"
+    };
     return names[notation];
 }
 
@@ -169,6 +173,7 @@
         default:
             break;
     }
+    
     return notation;
 }
 
@@ -385,8 +390,11 @@
     return result;
 }
 
-+ (NSString *)getContenFromPatternNode:(MCTreeNode *)node accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
++ (NSString *)getContenFromPatternNode:(MCTreeNode *)node
+                  accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc
+                       andLockedCubies:(NSObject<MCCubieDelegate> **)lockedCubies{
     NSString *result = nil;
+    
     //Before generate the content,
     //detect the wrong type.
     if ([node type] != PatternNode) {
@@ -397,23 +405,178 @@
     switch ([node value]) {
         case Home:
         {
-            result = @"Home Message";
+            NSMutableString *tmpResult = [NSMutableString stringWithCapacity:24];
+            ColorCombinationType identity = ColorCombinationTypeBound;
+            MCTreeNode *child;
+            for (int i = 0; i < [node.children count]; i++) {
+                //Get the child
+                child = [node.children objectAtIndex:i];
+                
+                //The target value varies by type of child
+                if (child.type == ElementNode) {
+                    identity = (ColorCombinationType)[child value];
+                }
+                else if (child.type == InformationNode){
+                    identity = (ColorCombinationType)[child result];
+                }
+                
+                //Add target cubie description
+                [tmpResult appendString:[MCTransformUtil getConcreteDescriptionOfCubie:identity fromMgaicCube:mc]];
+                
+                if (i < [node.children count] - 1) {
+                    [tmpResult appendFormat:@","];
+                }
+            }
+            
+            //Add suffix
+            [tmpResult appendFormat:@"已经归位。"];
+            
+            result = [NSString stringWithString:tmpResult];
         }
             break;
         case Check:
-            result = @"Check Message";
-            break;
-        case ColorBindOrientation:
-            
-            break;
-        case At:
-            
-            break;
-        case NotAt:
-            
+        {
+            NSMutableString *tmpResult = [NSMutableString stringWithCapacity:24];
+            ColorCombinationType targetCubie = ColorCombinationTypeBound;
+            for (MCTreeNode *subPattern in node.children) {
+                switch (subPattern.value) {
+                    case At:
+                    {
+                        Point3i targetPosition;
+                        
+                        //First child node - target cubie
+                        MCTreeNode *child = [subPattern.children objectAtIndex:0];
+                        //The target value varies by type of child
+                        if (child.type == ElementNode) {
+                            targetCubie = (ColorCombinationType)[child value];
+                        }
+                        else if (child.type == InformationNode){
+                            targetCubie = (ColorCombinationType)[child result];
+                        }
+                        
+                        //Second child node - target position
+                        child = [subPattern.children objectAtIndex:1];
+                        //The target value varies by type of child
+                        if (child.type == ElementNode) {
+                            targetPosition.x = [child value]%3-1;
+                            targetPosition.y = [child value]%9/3-1;
+                            targetPosition.z = [child value]/9-1;
+                        }
+                        else if (child.type == InformationNode){
+                            targetPosition.x = [child result]%3-1;
+                            targetPosition.y = [child result]%9/3-1;
+                            targetPosition.z = [child result]/9-1;
+                        }
+                        
+                        [tmpResult appendFormat:@"%@在%@",
+                                     [MCTransformUtil getConcreteDescriptionOfCubie:targetCubie fromMgaicCube:mc],
+                                     [MCTransformUtil getPositionDescription:targetPosition]];
+                        
+                        result = [NSString stringWithString:tmpResult];
+                    }
+                        break;
+                    case ColorBindOrientation:
+                    {
+                        FaceOrientationType targetOrientation = WrongOrientation;
+                        FaceColorType targetColor = NoColor;
+                        
+                        //First child node - target cubie
+                        MCTreeNode *child = [subPattern.children objectAtIndex:0];
+                        if (child.type == ElementNode) {
+                            targetOrientation = (FaceOrientationType)[child value];
+                        }
+                        else if (child.type == InformationNode){
+                            targetOrientation = (FaceOrientationType)[child result];
+                        }
+                        
+                        //Second child node - target position
+                        child = [subPattern.children objectAtIndex:1];
+                        //The target value varies by type of child
+                        if (child.type == ElementNode) {
+                            targetColor = (FaceColorType)[child value];
+                        }
+                        else if (child.type == InformationNode){
+                            targetColor = (FaceColorType)[child result];
+                        }
+                        
+                        //If need, add conjunction
+                        if ([subPattern.children count] > 2) {
+                            ColorCombinationType targetCubieIdentity = (ColorCombinationType)[(MCTreeNode *)[subPattern.children objectAtIndex:2] value];
+                            [tmpResult appendFormat:@"%@%@色面朝%@",
+                             [MCTransformUtil getConcreteDescriptionOfCubie:targetCubieIdentity fromMgaicCube:mc],
+                             [MCTransformUtil getDescriptionOfFaceColorType:targetColor accordingToMagicCube:mc],
+                             [MCTransformUtil getDescriptionOfFaceOrientationType:targetOrientation]];
+                        }
+                        else{
+                            [tmpResult appendFormat:@"且%@色面朝%@",
+                                [MCTransformUtil getDescriptionOfFaceColorType:targetColor accordingToMagicCube:mc],
+                                [MCTransformUtil getDescriptionOfFaceOrientationType:targetOrientation]];
+                            
+                        }
+                        
+                        result = [NSString stringWithString:tmpResult];;
+                    }
+                        break;
+                    case NotAt:
+                    {
+                        Point3i targetPosition;
+                        
+                        //First child node - target cubie
+                        MCTreeNode *child = [subPattern.children objectAtIndex:0];
+                        //The target value varies by type of child
+                        if (child.type == ElementNode) {
+                            targetCubie = (ColorCombinationType)[child value];
+                        }
+                        else if (child.type == InformationNode){
+                            targetCubie = (ColorCombinationType)[child result];
+                        }
+                        
+                        //Second child node - target position
+                        child = [subPattern.children objectAtIndex:1];
+                        //The target value varies by type of child
+                        if (child.type == ElementNode) {
+                            targetPosition.x = [child value]%3-1;
+                            targetPosition.y = [child value]%9/3-1;
+                            targetPosition.z = [child value]/9-1;
+                        }
+                        else if (child.type == InformationNode){
+                            targetPosition.x = [child result]%3-1;
+                            targetPosition.y = [child result]%9/3-1;
+                            targetPosition.z = [child result]/9-1;
+                        }
+                        
+                        [tmpResult appendFormat:@"%@不在%@",
+                         [MCTransformUtil getConcreteDescriptionOfCubie:targetCubie fromMgaicCube:mc],
+                         [MCTransformUtil getPositionDescription:targetPosition]];
+                        
+                        result = [NSString stringWithString:tmpResult];
+                    }
+                        break;
+                }
+            }
+        }
             break;
         case CubiedBeLocked:
-            result = @"CubieBeLocked Message";
+        {
+            
+            if ([node.children count] == 0 ||
+                [(MCTreeNode *)[node.children objectAtIndex:0] value] == 0) {
+                
+                //Avoid no cubie locked
+                if (lockedCubies[0] == nil) return nil;
+                
+                //Get the description of target cubie
+                NSString *targetCubie = [MCTransformUtil getConcreteDescriptionOfCubie:[lockedCubies[0] identity] fromMgaicCube:mc];
+                
+                //If no nil, return message
+                if (targetCubie != nil) {
+                    result = [NSString stringWithFormat:@"锁定目标小块:%@", targetCubie];
+                }
+            }
+            else{
+                return nil;
+            }
+        }
             break;
         default:
             result = @"Unrecongized pattern node!!!";
@@ -422,8 +585,13 @@
     return result;
 }
 
-+ (NSString *)getNegativeSentenceOfContentFromPatternNode:(MCTreeNode *)node accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
-    return [NSString stringWithFormat:@"%@ 不符合", [MCTransformUtil getContenFromPatternNode:node accordingToMagicCube:mc]];
++ (NSString *)getNegativeSentenceOfContentFromPatternNode:(MCTreeNode *)node
+                                     accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc
+                                          andLockedCubies:(NSObject<MCCubieDelegate> **)lockedCubies{
+    NSString *positiveSentence = [MCTransformUtil getContenFromPatternNode:node
+                                                      accordingToMagicCube:mc
+                                                           andLockedCubies:lockedCubies];
+    return positiveSentence == nil ? nil : [NSString stringWithFormat:@"%@ 不符合", positiveSentence];
 }
 
 
@@ -511,22 +679,198 @@
 
 
 + (NSString *)getConcreteDescriptionOfCubie:(ColorCombinationType)identity fromMgaicCube:(NSObject<MCMagicCubeDelegate> *)mc{
+    //Check bounds
+    if (identity >= ColorCombinationTypeBound || identity < 0) return @"";
+    
     //Cubie description length
     const NSInteger cubieDescriptionLength = 12;
     
     //Description result
     NSMutableString *result = [NSMutableString stringWithCapacity:cubieDescriptionLength];
     
-    //Get the target cubie by identity(retain once) and get the position, skin num, and skin colors
-//    MCCubie *targetCubie = [[mc cubieWithColorCombination:identity] retain];
-//    Point3i position = targetCubie.coordinateValue;
-//    NSInteger skinNum = targetCubie.skinNum;
-//    FaceColorType *faceColors = targetCubie.faceColors;
+    //Get the target cubie by identity(retain once) and skin colors
+    NSArray *faceColors = [[[[mc cubieWithColorCombination:identity] getCubieColorInOrientationsWithoutNoColor] allValues] retain];
+    
+    //Transfer face color type to real color
+    for (NSNumber *faceColor in faceColors) {
+        [result appendString:[MCTransformUtil getDescriptionOfFaceColorType:(FaceColorType)[faceColor integerValue]
+                                                       accordingToMagicCube:mc]];
+    }
+    
+    //Append suffix
+    switch ([faceColors count]) {
+        case 1:
+            [result appendString:@"色中心块"];
+            break;
+        case 2:
+            [result appendString:@"色棱块"];
+            break;
+        case 3:
+            [result appendString:@"色角块"];
+            break;
+    }
+    
     
     //release once
-    //[targetCubie release];
+    [faceColors release];
     
     return result;
+}
+
+
++ (NSString *)getPositionDescription:(Point3i)position{
+    switch (position.z) {
+        case 1:
+            switch (position.y) {
+                case 1:
+                    switch (position.x) {
+                        case 1:
+                            return @"前右上角";
+                        case 0:
+                            return @"前上方";
+                        case -1:
+                            return @"前左上角";
+                    }
+                    break;
+                case 0:
+                    switch (position.x) {
+                        case 1:
+                            return @"前面右边";
+                        case 0:
+                            return @"前正中央";
+                        case -1:
+                            return @"前面左边";
+                    }
+                    break;
+                case -1:
+                    switch (position.x) {
+                        case 1:
+                            return @"前右下角";
+                        case 0:
+                            return @"前下方";
+                        case -1:
+                            return @"前左下角";
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case 0:
+            switch (position.y) {
+                case 1:
+                    switch (position.x) {
+                        case 1:
+                            return @"中间右上角";
+                        case 0:
+                            return @"顶面中心";
+                        case -1:
+                            return @"中间左上角";
+                    }
+                    break;
+                case 0:
+                    switch (position.x) {
+                        case 1:
+                            return @"右面中心";
+                        case -1:
+                            return @"左面中心";
+                    }
+                    break;
+                case -1:
+                    switch (position.x) {
+                        case 1:
+                            return @"中间右下角";
+                        case 0:
+                            return @"底面中心";
+                        case -1:
+                            return @"中间左下角";
+                    }
+                    break;
+            }
+            break;
+        case -1:
+            switch (position.y) {
+                case 1:
+                    switch (position.x) {
+                        case 1:
+                            return @"背面右上角";
+                        case 0:
+                            return @"背面上方";
+                        case -1:
+                            return @"背面左上角";
+                    }
+                    break;
+                case 0:
+                    switch (position.x) {
+                        case 1:
+                            return @"背面右边";
+                        case 0:
+                            return @"背面中央";
+                        case -1:
+                            return @"背面左边";
+                    }
+                    break;
+                case -1:
+                    switch (position.x) {
+                        case 1:
+                            return @"背面右下角";
+                        case 0:
+                            return @"背面下方";
+                        case -1:
+                            return @"背面左下角";
+                    }
+                    break;
+            }
+            break;
+    }
+    return @"";
+}
+
+//Internal method
+//FaceColorType to real color string(Chinese)
++ (NSString *)getDescriptionOfFaceColorType:(FaceColorType)faceColor
+                       accordingToMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
+    NSString *realColor = [mc getRealColor:faceColor];
+    if ([realColor compare:@"Yellow"] == NSOrderedSame) {
+        return @"黄";
+    }
+    else if ([realColor compare:@"White"] == NSOrderedSame){
+        return @"白";
+    }
+    else if ([realColor compare:@"Red"] == NSOrderedSame){
+        return @"红";
+    }
+    else if ([realColor compare:@"Orange"] == NSOrderedSame){
+        return @"橙";
+    }
+    else if ([realColor compare:@"Blue"] == NSOrderedSame){
+        return @"蓝";
+    }
+    else if ([realColor compare:@"Green"] == NSOrderedSame){
+        return @"绿";
+    }
+    else{
+        return @"";
+    }
+}
+
++ (NSString *)getDescriptionOfFaceOrientationType:(FaceOrientationType)orientation{
+    switch (orientation) {
+        case Up:
+            return @"上";
+        case Down:
+            return @"下";
+        case Front:
+            return @"前";
+        case Back:
+            return @"后";
+        case Left:
+            return @"左";
+        case Right:
+            return @"右";
+        default:
+            return @"";
+    }
 }
 
 @end

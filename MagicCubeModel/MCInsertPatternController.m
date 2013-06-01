@@ -258,7 +258,10 @@
             break;
         case 2:
             if ([patternName.text compare:@""] != NSOrderedSame && [preState.text compare:@""] != NSOrderedSame) {
-                if (![knowledgeBase insertPattern:patternStr withKey:patternName.text withPreState:preState.text]) {
+                if (![knowledgeBase insertPattern:patternStr
+                                          withKey:patternName.text
+                                     withPreState:preState.text
+                                          inTable:DB_PATTERN_TABLE_NAME]) {
                     NSLog(@"Insert Failded.");
                 }
                 else{
@@ -272,6 +275,22 @@
         case 4:
             if ([patternName.text compare:@""] != NSOrderedSame && [preState.text compare:@""] != NSOrderedSame) {
                 if (![knowledgeBase insertStateOfMethod:ETFF withPattern:patternStr preState:preState.text afterState:patternName.text]) {
+                    NSLog(@"Insert Failded.");
+                }
+                else{
+                    NSLog(@"Insert Successed.");
+                }
+            }
+            else{
+                NSLog(@"input pattern name/after state and pre state.");
+            }
+            break;
+        case 5:
+            if ([patternName.text compare:@""] != NSOrderedSame && [preState.text compare:@""] != NSOrderedSame) {
+                if (![knowledgeBase insertPattern:patternStr
+                                          withKey:patternName.text
+                                     withPreState:preState.text
+                                          inTable:DB_SPECIAL_PATTERN_TABLE_NAME]) {
                     NSLog(@"Insert Failded.");
                 }
                 else{
