@@ -10,20 +10,17 @@
 
 @implementation MCActionPerformer
 
-@synthesize magicCube;
-@synthesize cubieLocker;
+@synthesize workingMemory;
 
-+ (MCActionPerformer *)actionPerformerWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc
-                                     andCubieLocker:(NSObject<MCCubieLockerDelegate> *)locker{
-    return [[[MCActionPerformer alloc] initActionPerformerWithMagicCube:mc andCubieLocker:locker] autorelease];
++ (MCActionPerformer *)actionPerformerWithWorkingMemory:(MCWorkingMemory *)wm{
+    return [[[MCActionPerformer alloc] initActionPerformerWithWorkingMemory:wm] autorelease];
 }
 
 
-- (id)initActionPerformerWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc
-                        andCubieLocker:(NSObject<MCCubieLockerDelegate> *)locker{
+- (id)initActionPerformerWithWorkingMemory:(MCWorkingMemory *)wm{
     if (self = [super init]) {
-        self.magicCube = mc;
-        self.cubieLocker = locker;
+        self.workingMemory = wm;
+        self.workingMemory.applyQueue.queueCompleteDelegate = self;
     }
     return self;
 }
@@ -31,12 +28,49 @@
 
 - (void)dealloc{
     [super dealloc];
-    self.cubieLocker = nil;
-    self.magicCube = nil;
+    [workingMemory release];
+}
+
+// Rotate operation with axis, layer, direction
+- (BOOL)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction{
+    NSObject<MCMagicCubeOperationDelegate> *magicCube = self.workingMemory.magicCube;
+    if (magicCube != nil) {
+        return [magicCube rotateOnAxis:axis onLayer:layer inDirection:direction];
+    }
+    return NO;
+}
+
+// Rotate operation with parameter SingmasterNotation
+- (BOOL)rotateWithSingmasterNotation:(SingmasterNotation)notation{
+    NSObject<MCMagicCubeOperationDelegate> *magicCube = self.workingMemory.magicCube;
+    if (magicCube != nil) {
+        return [magicCube rotateWithSingmasterNotation:notation];
+    }
+    return NO;
+}
+
+- (BOOL)isQueueEmpty{
+    return self.workingMemory.applyQueue == nil;
 }
 
 
+- (NSArray *)queueStrings{
+    return [self.workingMemory.applyQueue getQueueWithStringFormat];
+}
+
+
+- (void)applyRotationInQueue:(SingmasterNotation)currentRotation{
+    [self.workingMemory.applyQueue applyRotation:currentRotation];
+}
+
+
+- (RotationResult)queueRotationResult{
+    return self.workingMemory.applyQueue.previousResult;
+}
+
 - (NSInteger)treeNodesApply:(MCTreeNode *)root{
+    NSObject<MCMagicCubeDelegate> *magicCube = self.workingMemory.magicCube;
+    
     switch (root.type) {
         case ExpNode:
         {
@@ -50,7 +84,7 @@
             switch (root.value) {
                 case Rotate:
                     for (MCTreeNode *child in root.children) {
-                        [self.magicCube rotateWithSingmasterNotation:(SingmasterNotation)child.value];
+                        [magicCube rotateWithSingmasterNotation:(SingmasterNotation)child.value];
                     }
                     break;
                 case FaceToOrientation:
@@ -58,10 +92,10 @@
                     MCTreeNode *elementNode;
                     elementNode = [root.children objectAtIndex:0];
                     ColorCombinationType targetCombination = (ColorCombinationType)elementNode.value;
-                    struct Point3i targetCoor = [self.magicCube coordinateValueOfCubieWithColorCombination:targetCombination];
+                    struct Point3i targetCoor = [magicCube coordinateValueOfCubieWithColorCombination:targetCombination];
                     elementNode = [root.children objectAtIndex:1];
                     FaceOrientationType targetOrientation = (FaceOrientationType)elementNode.value;
-                    [self.magicCube rotateWithSingmasterNotation:[MCTransformUtil getPathToMakeCenterCubieAtPosition:targetCoor inOrientation:targetOrientation]];
+                    [magicCube rotateWithSingmasterNotation:[MCTransformUtil getPathToMakeCenterCubieAtPosition:targetCoor inOrientation:targetOrientation]];
                 }
                     break;
                 case LockCubie:
@@ -73,10 +107,10 @@
                     }
                     int identity = [self treeNodesApply:elementNode];
                     if (identity == -1) {
-                        [self.cubieLocker unlockCubieAtIndex:index];
+                        [self.workingMemory unlockCubieAtIndex:index];
                     }
                     else{
-                        [self.cubieLocker lockCubie:[self.magicCube cubieWithColorCombination:(ColorCombinationType)identity]
+                        [self.workingMemory lockCubie:[magicCube cubieWithColorCombination:(ColorCombinationType)identity]
                                 atIndex:index];
                     }
                 }
@@ -87,7 +121,7 @@
                     if ([root.children count] != 0) {
                         index = [(MCTreeNode *)[root.children objectAtIndex:0] value];
                     }
-                    [self.cubieLocker unlockCubieAtIndex:index];
+                    [self.workingMemory unlockCubieAtIndex:index];
                 }
                     break;
                 default:
@@ -101,7 +135,7 @@
                 {
                     int x=1, y=1, z=1;
                     for (MCTreeNode *child in root.children) {
-                        switch ([self.magicCube centerMagicCubeFaceInOrientation:(FaceOrientationType)child.value]) {
+                        switch ([magicCube centerMagicCubeFaceInOrientation:(FaceOrientationType)child.value]) {
                             case Up:
                                 y = 2;
                                 break;
@@ -166,7 +200,7 @@
                     FaceColorType color;
                     FaceOrientationType orientation = (FaceOrientationType)[(MCTreeNode *)[root.children objectAtIndex:0] value];
                     if ([root.children count] == 1) {
-                        switch ([self.magicCube centerMagicCubeFaceInOrientation:orientation]) {
+                        switch ([magicCube centerMagicCubeFaceInOrientation:orientation]) {
                             case Up:
                                 color = UpColor;
                                 break;
@@ -193,7 +227,7 @@
                     else{
                         int value = [(MCTreeNode *)[root.children objectAtIndex:1] value];
                         struct Point3i coordinate = {value%3-1, value%9/3-1, value/9-1};
-                        color = [[self.magicCube cubieAtCoordinatePoint3i:coordinate] faceColorInOrientation:orientation];
+                        color = [[magicCube cubieAtCoordinatePoint3i:coordinate] faceColorInOrientation:orientation];
                     }
                     
                     //Store the result at the node
@@ -207,11 +241,11 @@
                         index = [(MCTreeNode *)[root.children objectAtIndex:0] value];
                     }
                     
-                    if ([self.cubieLocker emptyAtIndex:index]) {
+                    if ([self.workingMemory lockerEmptyAtIndex:index]) {
                         root.result = -1;
                     }
                     else{
-                        root.result = [[self.cubieLocker cubieLockedInLockerAtIndex:index] identity];
+                        root.result = [[self.workingMemory cubieLockedInLockerAtIndex:index] identity];
                     }
                     
                     return root.result;
@@ -235,5 +269,55 @@
     return YES;
 }
 
+- (BOOL)decomposeRule:(MCRule *)rule{
+    // Get the tree of the action according to the pattern name
+    MCTreeNode *actionTree = [rule root];
+    
+    // Analyse the action and return the result
+    switch (actionTree.type) {
+        case ExpNode:
+        {
+            BOOL flag = YES;
+            for (MCTreeNode *node in actionTree.children) {
+                if (flag) {
+                    if (node.type == ActionNode && (node.value == Rotate|| node.value == FaceToOrientation)) {
+                        self.workingMemory.applyQueue = [MCApplyQueue applyQueueWithRotationAction:node withMagicCube:self.workingMemory.magicCube];
+                        self.workingMemory.applyQueue.queueCompleteDelegate = self;
+                        flag = NO;
+                    }
+                    else{
+                        [self treeNodesApply:node];
+                    }
+                } else {
+                    [self.workingMemory.residualActions addObject:node];
+                }
+            }
+        }
+            break;
+        case ActionNode:
+            switch (actionTree.value) {
+                case Rotate:
+                case FaceToOrientation:
+                    self.workingMemory.applyQueue = [MCApplyQueue applyQueueWithRotationAction:actionTree withMagicCube:self.workingMemory.magicCube];
+                    self.workingMemory.applyQueue.queueCompleteDelegate = self;
+                    break;
+                default:
+                    [self treeNodesApply:actionTree];
+                    break;
+            }
+            break;
+        default:
+            return NO;
+    }
+    return YES;
+}
+
+- (void)onQueueComplete{
+    //do the clear thing for next rotation queue
+    for (MCTreeNode *node in self.workingMemory.residualActions) {
+        [self treeNodesApply:node];
+    }
+    [self.workingMemory.residualActions removeAllObjects];
+}
 
 @end

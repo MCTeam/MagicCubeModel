@@ -49,6 +49,7 @@
 		E0EC97741615836A00EBFE79 /* MCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC97731615836A00EBFE79 /* MCViewController.m */; };
 		E0EC9797161583B100EBFE79 /* MCCube.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC9794161583B100EBFE79 /* MCCube.m */; };
 		E0EC9798161583B100EBFE79 /* MCMagicCube.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EC9796161583B100EBFE79 /* MCMagicCube.m */; };
+		E0EE30C2175C3A0B009BE7AD /* MCWorkingMemory.m in Sources */ = {isa = PBXBuildFile; fileRef = E0EE30C1175C3A0B009BE7AD /* MCWorkingMemory.m */; };
 		E0F104BF17538D1700931523 /* FaceColorMapping.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0F104BE17538D1700931523 /* FaceColorMapping.plist */; };
 		E0F6BDF5168E8AC300D857BC /* MCKnowledgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F6BDF4168E8AC300D857BC /* MCKnowledgeBase.m */; };
 		E0F6BDF7168E8BC000D857BC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F6BDF6168E8BC000D857BC /* libsqlite3.dylib */; };
@@ -94,9 +95,10 @@
 		E0B0FB82168EDC7200DBBF49 /* MCBasicElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCBasicElement.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E0B5EB1E175A16AB00C693D5 /* MCActionPerformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCActionPerformer.h; sourceTree = "<group>"; };
 		E0B5EB1F175A16AB00C693D5 /* MCActionPerformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCActionPerformer.m; sourceTree = "<group>"; };
-		E0B5EB21175A349F00C693D5 /* MCCubieLockerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCCubieLockerDelegate.h; sourceTree = "<group>"; };
 		E0B5EB22175A4A8B00C693D5 /* MCExplanationSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCExplanationSystem.h; sourceTree = "<group>"; };
 		E0B5EB23175A4A8B00C693D5 /* MCExplanationSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCExplanationSystem.m; sourceTree = "<group>"; };
+		E0CD0E78175B3D6D0083C30E /* MCMagicCubeDataSouceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCMagicCubeDataSouceDelegate.h; sourceTree = "<group>"; };
+		E0CD0E79175B3E760083C30E /* MCMagicCubeOperationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCMagicCubeOperationDelegate.h; sourceTree = "<group>"; };
 		E0E737DD1694651600E48BD0 /* MCRestoreModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRestoreModelController.h; sourceTree = "<group>"; };
 		E0E737DE1694651600E48BD0 /* MCRestoreModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCRestoreModelController.m; sourceTree = "<group>"; };
 		E0E75E81169567130002AF38 /* MCInsertRuleContorller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCInsertRuleContorller.h; sourceTree = "<group>"; };
@@ -126,6 +128,8 @@
 		E0EC9794161583B100EBFE79 /* MCCube.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCube.m; sourceTree = "<group>"; };
 		E0EC9795161583B100EBFE79 /* MCMagicCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMagicCube.h; sourceTree = "<group>"; };
 		E0EC9796161583B100EBFE79 /* MCMagicCube.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMagicCube.m; sourceTree = "<group>"; };
+		E0EE30C0175C3A0B009BE7AD /* MCWorkingMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorkingMemory.h; sourceTree = "<group>"; };
+		E0EE30C1175C3A0B009BE7AD /* MCWorkingMemory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCWorkingMemory.m; sourceTree = "<group>"; };
 		E0F104BE17538D1700931523 /* FaceColorMapping.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FaceColorMapping.plist; sourceTree = "<group>"; };
 		E0F6BDF3168E8AC300D857BC /* MCKnowledgeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKnowledgeBase.h; sourceTree = "<group>"; };
 		E0F6BDF4168E8AC300D857BC /* MCKnowledgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKnowledgeBase.m; sourceTree = "<group>"; };
@@ -320,7 +324,10 @@
 				E0B5EB1F175A16AB00C693D5 /* MCActionPerformer.m */,
 				E0B5EB22175A4A8B00C693D5 /* MCExplanationSystem.h */,
 				E0B5EB23175A4A8B00C693D5 /* MCExplanationSystem.m */,
-				E0B5EB21175A349F00C693D5 /* MCCubieLockerDelegate.h */,
+				E0EE30C0175C3A0B009BE7AD /* MCWorkingMemory.h */,
+				E0EE30C1175C3A0B009BE7AD /* MCWorkingMemory.m */,
+				E0CD0E78175B3D6D0083C30E /* MCMagicCubeDataSouceDelegate.h */,
+				E0CD0E79175B3E760083C30E /* MCMagicCubeOperationDelegate.h */,
 			);
 			name = MCTechingSystem;
 			sourceTree = "<group>";
@@ -445,6 +452,7 @@
 				E037B9B91759A40E00AC5598 /* MCInferenceEngine.m in Sources */,
 				E0B5EB20175A16AB00C693D5 /* MCActionPerformer.m in Sources */,
 				E0B5EB24175A4A8B00C693D5 /* MCExplanationSystem.m in Sources */,
+				E0EE30C2175C3A0B009BE7AD /* MCWorkingMemory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

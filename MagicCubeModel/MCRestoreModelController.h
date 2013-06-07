@@ -11,6 +11,7 @@
 #import "MCPlayHelper.h"
 #import "CircleMenuController.h"
 #import "Global.h"
+#import "MCMagicCube.h"
 
 @interface MCRestoreModelController : CircleMenuController
 

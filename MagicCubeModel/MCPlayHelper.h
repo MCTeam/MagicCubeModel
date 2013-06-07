@@ -15,9 +15,6 @@
 #import "MCExplanationSystem.h"
 
 
-#define DEFAULT_RESIDUAL_ACTION_NUM 3
-
-
 //rotation queue, locked cubies, tips
 #define DEFAULT_ACTION_INFOMATION_NUM 3
 
@@ -29,40 +26,40 @@ typedef enum _HelperStateMachine {
 
 @interface MCPlayHelper : NSObject
 
-@property (nonatomic, retain) NSObject<MCMagicCubeDelegate> *magicCube;
 @property (nonatomic) HelperStateMachine helperState;
-@property (nonatomic, retain) MCApplyQueue *applyQueue;
-@property (nonatomic) RotationResult rotationResult;
-@property (nonatomic, retain) NSMutableArray *residualActions;
 @property (nonatomic, retain) MCInferenceEngine *inferenceEngine;
 @property (nonatomic, retain) MCExplanationSystem *explanationSystem;
+@property (nonatomic, retain) MCActionPerformer *actionPerformer;
+
 
 
 + (MCPlayHelper *)playerHelperWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
 
 
-- (id)initWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
+- (id)initPlayerHelperWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
 
 
-//rotate operation with axis, layer, direction
-- (void)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction;
+// Rotate operation with axis, layer, direction
+- (BOOL)rotateOnAxis:(AxisType)axis onLayer:(int)layer inDirection:(LayerRotationDirectionType)direction;
 
-//rotate operation with parameter SingmasterNotation
-- (void)rotateWithSingmasterNotation:(SingmasterNotation)notation;
+// Rotate operation with parameter SingmasterNotation
+- (BOOL)rotateWithSingmasterNotation:(SingmasterNotation)notation;
 
-//get the result of the last rotation
+// Get the result of the last rotation
 - (RotationResult)getResultOfTheLastRotation;
 
+// Do some preparation work before inference.
+- (void)prepare;
 
-//apply rules and return actions
-//the result is directory:
-//"RotationQueue"——the rotation queue in array
-//"LockingAt"——an array contains identities(ColorCombinationType) of cubies
-//"Tips"——the strings showing tips
-//      ——the NSArray with several NSString objects
+// Apply rules and return actions
+// the result is directory:
+// "RotationQueue"——the rotation queue in array
+// "LockingAt"——an array contains identities(ColorCombinationType) of cubies
+// "Tips"——the strings showing tips
+//       ——the NSArray with several NSString objects
 - (NSDictionary *)applyRules;
 
-//do the clear thing for next rotation queue
-- (void)clearResidualActions;
+
+- (void)setMagicCube:(NSObject<MCMagicCubeDelegate > *)mc;
 
 @end

@@ -10,34 +10,33 @@
 
 @implementation MCInferenceEngine
 
-@synthesize magicCubeDataSource;
-@synthesize actionPerformer;
+
+@synthesize workingMemory;
 @synthesize patterns;
 @synthesize rules;
 @synthesize specialPatterns;
 @synthesize specialRules;
 @synthesize states;
 @synthesize magicCubeState;
+@synthesize actionPerformer;
 
 
-+ (MCInferenceEngine *)inferenceEngineWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
-    return [[[MCInferenceEngine alloc] initWithMagicCube:mc] autorelease];
++ (MCInferenceEngine *)inferenceEngineWithWorkingMemory:(MCWorkingMemory *)wm{
+    return [[[MCInferenceEngine alloc] iniInferenceEngineWithWorkingMemory:wm] autorelease];
 }
 
 //refresh state and rules
-- (id)initWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc{
+- (id)iniInferenceEngineWithWorkingMemory:(MCWorkingMemory *)wm{
     if (self = [super init]) {
-        // Set the magic cube object
-        self.magicCubeDataSource = mc;
+        // Set the working memory
+        self.workingMemory = wm;
         
-        // Clear locked cubie list
-        [self unlockAllCubies];
+        // Create the action performer to perform action to working memory
+        // This actions boundary contaions locker, magic cube, etc.
+        self.actionPerformer = [MCActionPerformer actionPerformerWithWorkingMemory:self.workingMemory];
         
         // Load the state list.
         self.states = [NSDictionary dictionaryWithDictionary:[[MCKnowledgeBase getSharedKnowledgeBase] getStatesOfMethod:ETFF]];
-        
-        // Create the action performer.
-        self.actionPerformer = [MCActionPerformer actionPerformerWithMagicCube:mc andCubieLocker:self];
     }
     return self;
 }
@@ -47,47 +46,31 @@
     [super dealloc];
     
     // release all
-    self.patterns = nil;
-    self.rules = nil;
-    self.specialPatterns = nil;
-    self.specialRules = nil;
-    self.states = nil;
-    self.magicCubeState = nil;
-    self.magicCubeDataSource = nil;
-    self.actionPerformer = nil;
-}
-
-// the magic cube setter has been rewritten
-// once you set the magic cube object, state and rules will be refreshed
-- (void)setMagicCubeDataSource:(NSObject<MCMagicCubeDelegate> *)mc{
-    [mc retain];
-    [self.magicCubeDataSource release];
-    self.magicCubeDataSource = mc;
-    
-    // While the action performer is created, replace the magic cube object
-    if (self.actionPerformer != nil) {
-        self.actionPerformer.magicCube = mc;
-    }
-    
-    // To begin with, check the state from 'Init' state
-    // and load the rules.
-    self.magicCubeState = UNKNOWN_STATE;
-    [self checkStateFromInit:YES];
+    [workingMemory release];
+    [patterns release];
+    [rules release];
+    [specialPatterns release];
+    [specialRules release];
+    [states release];
+    [magicCubeState release];
+    [actionPerformer release];
 }
 
 
 - (BOOL)isCubieAtHomeWithIdentity:(ColorCombinationType)identity{
-    if (self.magicCubeDataSource == nil) {
+    NSObject<MCMagicCubeDataSouceDelegate> *mcDataSource = self.workingMemory.magicCube;
+    
+    if (mcDataSource == nil) {
         NSLog(@"set the magic cube object first.");
         return NO;
     }
     else{
-        NSObject<MCCubieDelegate> *targetCubie = [self.magicCubeDataSource cubieWithColorCombination:identity];
+        NSObject<MCCubieDelegate> *targetCubie = [mcDataSource cubieWithColorCombination:identity];
         BOOL isHome = YES;
         NSDictionary *colorOrientationMapping = [targetCubie getCubieColorInOrientationsWithoutNoColor];
         NSArray *orientations = [colorOrientationMapping allKeys];
         for (NSNumber *orientation in orientations) {
-            switch ([self.magicCubeDataSource centerMagicCubeFaceInOrientation:(FaceOrientationType)[orientation integerValue]]) {
+            switch ([mcDataSource centerMagicCubeFaceInOrientation:(FaceOrientationType)[orientation integerValue]]) {
                 case Up:
                     if ([[colorOrientationMapping objectForKey:orientation] integerValue] != UpColor) {
                         isHome = NO;
@@ -140,14 +123,14 @@
                                                                                inTable:DB_PATTERN_TABLE_NAME]];
     self.rules = [NSDictionary dictionaryWithDictionary:
                   [[MCKnowledgeBase getSharedKnowledgeBase] getRulesOfMethod:ETFF
-                                                                   withState:magicCubeState
+                                                                   withState:self.magicCubeState
                                                                      inTable:DB_RULE_TABLE_NAME]];
     self.specialPatterns = [NSDictionary dictionaryWithDictionary:
-                            [[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:magicCubeState
+                            [[MCKnowledgeBase getSharedKnowledgeBase] getPatternsWithPreState:self.magicCubeState
                                                                                       inTable:DB_SPECIAL_PATTERN_TABLE_NAME]];
     self.specialRules = [NSDictionary dictionaryWithDictionary:
                          [[MCKnowledgeBase getSharedKnowledgeBase] getRulesOfMethod:ETFF
-                                                                          withState:magicCubeState
+                                                                          withState:self.magicCubeState
                                                                             inTable:DB_SPECIAL_RULE_TABLE_NAME]];
     [loopPool release];
 }
@@ -178,33 +161,10 @@
     }
 }
 
-//Apply the action and return result
-- (BOOL)applyActionWithPatternName:(NSString *)name ofType:(AppliedRuleType)type{
-    // Get the rule name 'name'.
-    MCRule *rule = nil;
-    switch (type) {
-        case Special:
-            rule = [self.specialRules objectForKey:name];
-            break;
-        case General:
-            rule = [self.rules objectForKey:name];
-            break;
-        default:
-            break;
-    }
-    
-    // apply
-    if (rule != nil) {
-        return [self treeNodesApply:rule.root withDeep:0];
-    }
-    else{
-        NSLog(@"Can't find the action, the pattern name is wrong");
-        return NO;
-    }
-}
-
 
 - (NSInteger)treeNodesApply:(MCTreeNode *)root withDeep:(NSInteger)deep{
+    NSObject<MCMagicCubeDataSouceDelegate> *mcDataSource = self.workingMemory.magicCube;
+    
     switch (root.type) {
         case ExpNode:
         {
@@ -253,7 +213,7 @@
                             {
                                 targetCubie = (ColorCombinationType)[self treeNodesApply:[subPattern.children objectAtIndex:0] withDeep:deep+1];
                                 ColorCombinationType targetPosition = (ColorCombinationType)[self treeNodesApply:[subPattern.children objectAtIndex:1] withDeep:deep+1];
-                                struct Point3i coorValue = [self.magicCubeDataSource coordinateValueOfCubieWithColorCombination:(ColorCombinationType)targetCubie];
+                                struct Point3i coorValue = [mcDataSource coordinateValueOfCubieWithColorCombination:(ColorCombinationType)targetCubie];
                                 if (coorValue.x + coorValue.y*3 + coorValue.z * 9 + 13 != targetPosition) {
                                     root.result = NO;
                                     return root.result;
@@ -267,9 +227,9 @@
                                 FaceColorType targetColor = (FaceColorType)[self treeNodesApply:[subPattern.children objectAtIndex:1] withDeep:deep+1];
                                 if ([subPattern.children count] > 2) {
                                     NSInteger position = [(MCTreeNode *)[subPattern.children objectAtIndex:2] value];
-                                    cubie = [self.magicCubeDataSource cubieAtCoordinateX:(position%3-1) Y:(position%9/3-1) Z:(position/9-1)];
+                                    cubie = [mcDataSource cubieAtCoordinateX:(position%3-1) Y:(position%9/3-1) Z:(position/9-1)];
                                 } else {
-                                    cubie = [self.magicCubeDataSource cubieWithColorCombination:(ColorCombinationType)targetCubie];
+                                    cubie = [mcDataSource cubieWithColorCombination:(ColorCombinationType)targetCubie];
                                 }
                                 root.result = [cubie isFaceColor:targetColor inOrientation:targetOrientation];
                                 return root.result;
@@ -278,7 +238,7 @@
                             {
                                 targetCubie = (ColorCombinationType)[self treeNodesApply:[subPattern.children objectAtIndex:0] withDeep:deep+1];
                                 ColorCombinationType targetPosition = (ColorCombinationType)[self treeNodesApply:[subPattern.children objectAtIndex:1] withDeep:deep+1];
-                                struct Point3i coorValue = [self.magicCubeDataSource coordinateValueOfCubieWithColorCombination:(ColorCombinationType)targetCubie];
+                                struct Point3i coorValue = [mcDataSource coordinateValueOfCubieWithColorCombination:(ColorCombinationType)targetCubie];
                                 if (coorValue.x + coorValue.y*3 + coorValue.z * 9 + 13 == targetPosition) {
                                     root.result = NO;
                                     return root.result;
@@ -301,7 +261,7 @@
                         index = [(MCTreeNode *)[root.children objectAtIndex:0] value];
                     }
                     
-                    if ([self emptyAtIndex:index]) {
+                    if ([self.workingMemory lockerEmptyAtIndex:index]) {
                         root.result = NO;
                         return root.result;
                     }
@@ -321,7 +281,7 @@
                 {
                     int x=1, y=1, z=1;
                     for (MCTreeNode *child in root.children) {
-                        switch ([self.magicCubeDataSource centerMagicCubeFaceInOrientation:(FaceOrientationType)child.value]) {
+                        switch ([mcDataSource centerMagicCubeFaceInOrientation:(FaceOrientationType)child.value]) {
                             case Up:
                                 y = 2;
                                 break;
@@ -386,7 +346,7 @@
                     FaceColorType color;
                     FaceOrientationType orientation = (FaceOrientationType)[(MCTreeNode *)[root.children objectAtIndex:0] value];
                     if ([root.children count] == 1) {
-                        switch ([self.magicCubeDataSource centerMagicCubeFaceInOrientation:orientation]) {
+                        switch ([mcDataSource centerMagicCubeFaceInOrientation:orientation]) {
                             case Up:
                                 color = UpColor;
                                 break;
@@ -413,7 +373,7 @@
                     else{
                         int value = [(MCTreeNode *)[root.children objectAtIndex:1] value];
                         struct Point3i coordinate = {value%3-1, value%9/3-1, value/9-1};
-                        color = [[self.magicCubeDataSource cubieAtCoordinatePoint3i:coordinate] faceColorInOrientation:orientation];
+                        color = [[mcDataSource cubieAtCoordinatePoint3i:coordinate] faceColorInOrientation:orientation];
                     }
                     
                     //Store the result at the node
@@ -427,11 +387,11 @@
                         index = [(MCTreeNode *)[root.children objectAtIndex:0] value];
                     }
                     
-                    if ([self emptyAtIndex:index]) {
+                    if ([self.workingMemory lockerEmptyAtIndex:index]) {
                         root.result = -1;
                     }
                     else{
-                        root.result = [[self cubieLockedInLockerAtIndex:index] identity];
+                        root.result = [[self.workingMemory cubieLockedInLockerAtIndex:index] identity];
                     }
                     
                     return root.result;
@@ -491,7 +451,7 @@
     //to check from init or not
     if (isCheckStateFromInit) {
         goStr = START_STATE;
-        [self unlockAllCubies];
+        [self.workingMemory unlockAllCubies];
     }
     else{
         goStr = self.magicCubeState;
@@ -503,8 +463,8 @@
     }
     if ([goStr compare:self.magicCubeState] != NSOrderedSame) {
         self.magicCubeState = goStr;
-        [self unlockCubieAtIndex:0];
-        [self unlockCubiesInRange:NSMakeRange(4, CubieCouldBeLockMaxNum-4)];
+        [self.workingMemory unlockCubieAtIndex:0];
+        [self.workingMemory unlockCubiesInRange:NSMakeRange(4, CubieCouldBeLockMaxNum-4)];
         [self reloadRulesAccordingToCurrentStateOfRubiksCube];
     }
     
@@ -512,39 +472,41 @@
 }
 
 
-- (void)unlockAllCubies{
-    for (int i = 0; i < CubieCouldBeLockMaxNum; i++) {
-        lockedCubies[i] = nil;
+- (void)prepareReasoning{
+    // To begin with, check the state from 'Init' state
+    // and load the rules.
+    [self checkStateFromInit:YES];
+}
+
+
+- (MCRule *)reasoning{
+    [self checkStateFromInit:NO];
+    
+    NSLog(@"State:%@", self.magicCubeState);
+    
+    // Check special rules firstly.
+    for (NSString *key in [self.specialRules allKeys])
+    {
+        if ([self applyPatternWihtPatternName:key ofType:Special]) {
+            //--------------------------
+            NSLog(@"Rules:%@", key);
+            self.workingMemory.agendaPattern = [self.specialPatterns objectForKey:key];
+            return [self.specialRules objectForKey:key];
+        }
     }
-}
-
-
-- (void)unlockCubieAtIndex:(NSInteger)index{
-    lockedCubies[index] = nil;
-}
-
-
-- (void)unlockCubiesInRange:(NSRange)range{
-    int i = 0;
-    int position = range.location;
-    for (; i < range.length; i++, position++) {
-        lockedCubies[position] = nil;
+    
+    // If no special rules match the state, check general rules.
+    for (NSString *key in [self.rules allKeys])
+    {
+        if ([self applyPatternWihtPatternName:key ofType:General]) {
+            //--------------------------
+            NSLog(@"Rules:%@", key);
+            self.workingMemory.agendaPattern = [self.patterns objectForKey:key];
+            return [self.rules objectForKey:key];
+        }
     }
+    return nil;
 }
 
-
-- (BOOL)emptyAtIndex:(NSInteger)index{
-    return lockedCubies[index] == nil;
-}
-
-
-- (void)lockCubie:(NSObject<MCCubieDelegate> *)cubie atIndex:(NSInteger)index{
-    lockedCubies[index] = cubie;
-}
-
-
-- (NSObject<MCCubieDelegate> *)cubieLockedInLockerAtIndex:(NSInteger)index{
-    return lockedCubies[index];
-}
 
 @end

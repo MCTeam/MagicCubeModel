@@ -27,6 +27,7 @@
 }
 
 - (void)dealloc {
+    [cubieArray release];
     [super dealloc];
 }
 

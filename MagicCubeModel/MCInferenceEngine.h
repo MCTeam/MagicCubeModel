@@ -8,17 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "Global.h"
-#import "MCMagicCubeDelegate.h"
+#import "MCMagicCubeDataSouceDelegate.h"
 #import "MCKnowledgeBase.h"
 #import "MCTransformUtil.h"
-#import "MCCubieLockerDelegate.h"
+#import "MCWorkingMemory.h"
 #import "MCActionPerformer.h"
 
-@interface MCInferenceEngine : NSObject<MCCubieLockerDelegate>{
-    NSObject<MCCubieDelegate>* lockedCubies[CubieCouldBeLockMaxNum];
-}
+@interface MCInferenceEngine : NSObject
 
-@property (nonatomic, retain) NSObject<MCMagicCubeDelegate> *magicCubeDataSource;
+@property (nonatomic, retain) MCWorkingMemory *workingMemory;
 @property (nonatomic, retain) MCActionPerformer *actionPerformer;
 @property (nonatomic, retain) NSDictionary *patterns;
 @property (nonatomic, retain) NSDictionary *rules;
@@ -28,10 +26,10 @@
 @property (nonatomic, retain) NSString *magicCubeState;
 
 
-+ (MCInferenceEngine *)inferenceEngineWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
++ (MCInferenceEngine *)inferenceEngineWithWorkingMemory:(MCWorkingMemory *)wm;
 
 
-- (id)initWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc;
+- (id)iniInferenceEngineWithWorkingMemory:(MCWorkingMemory *)wm;
 
 // Check whether the target cubie is at home
 - (BOOL)isCubieAtHomeWithIdentity:(ColorCombinationType)identity;
@@ -44,17 +42,16 @@
 // Apply the pattern and return result
 - (BOOL)applyPatternWihtPatternName:(NSString *)name ofType:(AppliedRuleType)type;
 
-// Apply the action and return result
-- (BOOL)applyActionWithPatternName:(NSString *)name ofType:(AppliedRuleType)type;
 
 - (NSInteger)treeNodesApply:(MCTreeNode *)root withDeep:(NSInteger)deep;
 
 // Check the current state and return it
 - (NSString *)checkStateFromInit:(BOOL)isCheckStateFromInit;
 
-//
-- (void)prepareForInference;
+// Do some preparation work for reasoning.
+- (void)prepareReasoning;
 
-- (void)
+// Begin the inference and return appropriate result.
+- (MCRule *)reasoning;
 
 @end

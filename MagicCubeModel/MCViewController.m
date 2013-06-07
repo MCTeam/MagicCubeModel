@@ -241,7 +241,7 @@
     //the first you apply rules
     //you need to verify the current state
     //checking state from 'init' will clear all locked cubies
-    [playHelper checkStateFromInit:YES];
+    [self.playHelper prepare];
     
     [self showFaces];
 }
@@ -255,14 +255,15 @@
                 SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
                 [self.magicCube rotateWithSingmasterNotation:rotate];
             }
-            [playHelper checkStateFromInit:YES];
+            [self.playHelper prepare];
             break;
         case 1:
         {
 #ifdef ONLY_TEST
             int count = 0;
+            [self.playHelper prepare];
             while ([playHelper applyRules] != nil) {
-                if ([[playHelper state] compare:END_STATE] == NSOrderedSame) {
+                if ([[self.playHelper.inferenceEngine magicCubeState] compare:END_STATE] == NSOrderedSame) {
                     srand(clock());
                     if (count == 80) {
                         break;
@@ -271,15 +272,15 @@
                         SingmasterNotation rotate = (SingmasterNotation)(rand()%27);
                         [self.magicCube rotateWithSingmasterNotation:rotate];
                     }
-                    [playHelper checkStateFromInit:YES];
+                    [self.playHelper prepare];
                     NSLog(@"%@%d", @"------------------------------------------------------------------------", count);
                     count++;
                 }
             }
 #else
             if (tmpArr == nil) {
-                [playHelper applyRules];
-                tmpArr = playHelper.applyQueue.rotationQueue;
+                [self.playHelper applyRules];
+                tmpArr = playHelper.inferenceEngine.workingMemory.applyQueue.rotationQueue;
                 NSMutableString *strQueue = [NSMutableString string];
                 for (NSNumber *rotation in tmpArr) {
                     [strQueue appendFormat:@" %@", [MCTransformUtil getRotationTagFromSingmasterNotation:(SingmasterNotation)[rotation integerValue]]];
@@ -315,7 +316,7 @@
                         {
                             NSLog(@"Result : Disaccord");
                             NSMutableString *strQueue = [NSMutableString string];
-                            for (NSNumber *rotation in playHelper.applyQueue.extraRotations) {
+                            for (NSNumber *rotation in self.playHelper.inferenceEngine.workingMemory.applyQueue.extraRotations) {
                                 [strQueue appendFormat:@" %@", [MCTransformUtil getRotationTagFromSingmasterNotation:(SingmasterNotation)[rotation integerValue]]];
                             }
                             NSLog(@"Extra queue : %@", strQueue);
@@ -327,7 +328,6 @@
                         case Finished:
                             NSLog(@"Result : Finished");
                             current++;
-                            [playHelper clearResidualActions];
                             tmpArr = nil;
                             break;
                         default:
@@ -363,8 +363,9 @@
 
 - (IBAction)newMagicCube:(id)sender {
     [magicCube init];
-    //refresh state and rules
-    //[playHelper checkStateFromInit:YES];
+    
+    [self.playHelper prepare];
+    
     [self showFaces];
 }
 
@@ -383,6 +384,7 @@
     //associate magic cube with playhelper
     [self.playHelper setMagicCube:magicCube];
     [self showFaces];
+    [self.playHelper prepare];
 }
 
 

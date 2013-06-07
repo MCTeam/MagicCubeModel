@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MCMagicCubeDelegate.h"
-#import "MCCubieLockerDelegate.h"
+#import "MCMagicCubeDataSouceDelegate.h"
+#import "MCWorkingMemory.h"
 #import "MCBasicElement.h"
 #import "MCTransformUtil.h"
 
@@ -22,17 +22,14 @@
 //However, these informations are those accordant condictions beacuse
 //this pattern maybe not completely corresponding to current state of the rubik's cube.
 @property (nonatomic, retain) NSMutableArray *accordanceMsgs;
-@property (nonatomic, retain) NSObject<MCMagicCubeDelegate> *magicCubeDataSource;
-@property (nonatomic, retain) NSObject<MCCubieLockerDelegate> *cubieLocker;
+@property (nonatomic, retain) MCWorkingMemory *workingMemory;
 
-+ (MCExplanationSystem *)explanationSystemWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc
-                                         andCubieLocker:(NSObject<MCCubieLockerDelegate> *)locker;
++ (MCExplanationSystem *)explanationSystemWithWorkingMemory:(MCWorkingMemory *)wm;
 
 
-- (id)initExplanationSystemWithMagicCube:(NSObject<MCMagicCubeDelegate> *)mc
-                          andCubieLocker:(NSObject<MCCubieLockerDelegate> *)locker;
+- (id)initExplanationSystemWithWorkingMemory:(MCWorkingMemory *)wm;
 
 
-- (id)translateAppliedPattern:(MCPattern *)pattern;
+- (NSArray *)translateAgendaPattern;
 
 @end
